@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Algeria’s Memories and Colors — الأرشيف</title>
+<style>
+:root{--bg:#f4f1ea;--ink:#202a2c;--muted:#687174;--card:#fff;--accent:#8b6f47}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Tahoma,sans-serif}
+header{background:var(--ink);color:#fff;text-align:center;padding:34px 16px}header h1{margin:0 0 8px;font-size:31px}header p{margin:0;color:#dce1df;font-size:17px}
+.fb{display:inline-block;margin-top:15px;background:#fff;color:var(--ink);text-decoration:none;padding:9px 15px;border-radius:9px;font-weight:bold}
+main{max-width:1150px;margin:auto;padding:22px}.panel{background:var(--card);padding:19px;border-radius:16px;box-shadow:0 3px 16px #0001;margin-bottom:20px}
+.searchline{display:flex;gap:9px;margin-top:10px}input,select{border:1px solid #ccc;border-radius:10px;padding:13px;font-size:16px;background:#fff}input{flex:1}button{border:0;border-radius:10px;padding:13px 18px;background:var(--ink);color:#fff;font-size:16px;cursor:pointer}.filters{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.filters select{min-width:170px}
+#count{margin-top:12px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 3px 16px #0001}.card img{display:block;width:100%;height:350px;object-fit:contain;background:#e9e9e9}.body{padding:15px}.body h2{margin:0 0 8px;font-size:20px}.meta{color:var(--muted);line-height:1.8}.actions{margin-top:12px}.actions a{display:inline-block;background:var(--ink);color:#fff;text-decoration:none;padding:9px 12px;border-radius:8px}.empty{text-align:center;background:#fff;border-radius:16px;padding:50px;color:var(--muted)}footer{text-align:center;color:#777;padding:28px}
+@media(max-width:600px){header h1{font-size:23px}.searchline{flex-direction:column}.card img{height:300px}}
+</style>
+</head>
+<body>
+<header>
+<h1>Algeria’s Memories and Colors</h1>
+<p>أرشيف الصور والذاكرة الجزائرية</p>
+<a class="fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener">صفحة المجموعة على Facebook</a>
+</header>
+<main>
+<section class="panel">
+<strong>🔎 البحث في الأرشيف</strong>
+<div class="searchline"><input id="q" placeholder="اكتب الاسم، اللقب، الاسم بالعربية أو كلمة مفتاحية..." autocomplete="off"><button id="clear">مسح</button></div>
+<div class="filters"><select id="year"><option value="">كل السنوات</option></select><select id="place"><option value="">كل الأماكن</option></select></div>
+<div id="count"></div>
+</section>
+<section id="results" class="grid"></section>
+</main>
+<footer>النسخة التجريبية — تحتوي حاليًا على 3 صور، ومهيأة للتوسعة إلى 3000 صورة وأكثر.</footer>
+<script src="data.js"></script><script>
+const q=document.getElementById('q'),year=document.getElementById('year'),place=document.getElementById('place'),results=document.getElementById('results'),count=document.getElementById('count');
+[...new Set(ARCHIVE.map(x=>x.year).filter(Boolean))].sort().forEach(v=>year.insertAdjacentHTML('beforeend',`<option>${v}</option>`));
+[...new Set(ARCHIVE.map(x=>x.place).filter(Boolean))].sort().forEach(v=>place.insertAdjacentHTML('beforeend',`<option>${v}</option>`));
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){const t=q.value.trim().toLowerCase(),y=year.value,p=place.value;const a=ARCHIVE.filter(x=>{const hay=Object.values(x).join(' ').toLowerCase();return(!t||hay.includes(t))&&(!y||String(x.year)===y)&&(!p||x.place===p)});count.textContent=`عرض ${a.length} من ${ARCHIVE.length} صورة`;results.innerHTML=a.length?a.map(x=>`<article class="card"><img src="${esc(x.image)}" alt="${esc(x.name)}"><div class="body"><h2>${esc(x.name)}</h2><div class="meta">${x.arabic_name?esc(x.arabic_name)+'<br>':''}${x.document?'الوثيقة: '+esc(x.document)+'<br>':''}${x.year?'السنة: '+esc(x.year)+'<br>':''}${x.place?'المكان: '+esc(x.place):''}</div><div class="actions"><a href="${esc(x.image)}" target="_blank" rel="noopener">عرض الصورة كاملة</a></div></div></article>`).join(''):'<div class="empty">لم يتم العثور على نتيجة.</div>'}
+q.oninput=render;year.onchange=render;place.onchange=render;document.getElementById('clear').onclick=()=>{q.value='';year.value='';place.value='';render()};render();
+</script></body></html>
