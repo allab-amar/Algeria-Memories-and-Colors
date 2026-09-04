@@ -3,6 +3,15 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Algeria’s Memories and Colors — الأرشيف</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C78NKFY91N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-C78NKFY91N');
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
 :root { --bg: #f8f9fa; --ink: #1a1a1a; --muted: #6c757d; --card: #ffffff; --accent: #d4af37; --accent-hover: #b5952f; --fb: #1877f2; --fb-hover: #166fe5; }
@@ -10,7 +19,7 @@
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Cairo', sans-serif; }
 header { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%); color: #fff; padding: 12px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
 header .logo-container { display: flex; align-items: center; gap: 12px; }
-header img { width: 140px; height: 140px; border-radius: 16px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+header img { width: 280px; height: 140px; border-radius: 16px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
 header h1 { margin: 0; font-size: 26px; font-weight: 700; }
 main { max-width: 1200px; margin: auto; padding: 30px 20px; }
 .about-section { background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px; text-align: center; border-top: 4px solid var(--accent); }
@@ -43,14 +52,18 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 </head>
 <body>
 <header>
-  <div class="logo-container">
+  <div style="flex: 1;">
     <img src="images/header-image.jpg" alt="أرشيف الصور">
+  </div>
+  <div style="flex: 2; text-align: center;">
     <h1>Algeria’s Memories and Colors</h1>
   </div>
-  <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" style="padding: 8px 16px; font-size: 14px;">
-    <svg style="width:18px;height:18px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
-    زيارة المجموعة
-  </a>
+  <div style="flex: 1; display: flex; justify-content: flex-end;">
+    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" style="padding: 8px 16px; font-size: 14px;">
+      <svg style="width:18px;height:18px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+      صفحتنا في الفيسبوك
+    </a>
+  </div>
 </header>
 <main>
 <section class="panel">
@@ -59,7 +72,7 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 <div class="searchline">
   <input id="lastName" placeholder="اللقب (Nom)..." autocomplete="off">
   <input id="firstName" placeholder="الاسم (Prénom)..." autocomplete="off">
-  <button id="showAllBtn" title="عرض جميع الصور" style="background:var(--accent); color:#fff; border:none; border-radius:12px; padding:16px 20px; font-family:'Cairo', sans-serif; cursor:pointer; font-weight:bold; font-size:16px; transition:0.3s; white-space:nowrap;">عرض الكل</button>
+  <button id="showAllBtn" title="عرض جميع الأسماء" style="background:var(--accent); color:#fff; border:none; border-radius:12px; padding:16px 20px; font-family:'Cairo', sans-serif; cursor:pointer; font-weight:bold; font-size:16px; transition:0.3s; white-space:nowrap;">عرض كل الأسماء</button>
 </div>
 <div id="count"></div>
 </section>
@@ -67,10 +80,6 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 </main>
 <footer>
   <div style="margin-bottom:10px;">الأرشيف — يحتوي حاليًا على <span id="footerCount"></span> صورة.</div>
-  <div title="عدد زوار الصفحة">
-    👁️ زوار الموقع: 
-    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=algeria.memories.colors&count_bg=%23d4af37&title_bg=%231a1a1a&title=Visits&edge_flat=true" alt="Visitors Counter" style="vertical-align: middle; border-radius: 5px;">
-  </div>
 </footer>
 <script src="data.js"></script><script>
 const firstName=document.getElementById('firstName'),lastName=document.getElementById('lastName'),results=document.getElementById('results'),count=document.getElementById('count');
