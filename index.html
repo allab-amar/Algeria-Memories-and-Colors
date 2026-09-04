@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Algeria’s Memories and Colors — الأرشيف</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C78NKFY91N"></script>
+<script>
+
+window.currentViewerImages = [];
+window.currentViewerTitle = '';
+window.currentViewerDownloadName = '';
+window.currentViewerIndex = 0;
+
+window.showInViewer = function(imgsStr, title, downloadName, startIndex = 0) {
+    const viewer = document.getElementById('imageViewer');
+    if (!viewer) return;
+    
+    window.currentViewerImages = imgsStr.split('|||');
+    window.currentViewerTitle = title;
+    window.currentViewerDownloadName = downloadName;
+    window.currentViewerIndex = startIndex || 0;
+    
+    window.renderViewerPage();
+    
+    if (window.innerWidth <= 900) {
+        viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};
+
+window.renderViewerPage = function() {
+    const viewer = document.getElementById('imageViewer');
+    if (!viewer) return;
+    
+    const imgs = window.currentViewerImages;
+    const idx = window.currentViewerIndex;
+    const img = imgs[idx];
+    const title = window.currentViewerTitle;
+    const ext = img.split('.').pop();
+    const dn = window.currentViewerDownloadName + (imgs.length > 1 ? `_صفحة_${idx+1}` : '') + '.' + ext;
+    
+    let paginationHtml = '';
+    if (imgs.length > 1) {
+        paginationHtml = `
+          <div style="display:flex; justify-content:center; align-items:center; gap: 15px; margin-bottom: 20px;">
+            <button onclick="window.nextPage()" title="الصفحة التالية" style="width:32px; height:32px; border-radius: 50%; border:none; background: #2563eb; color: white; cursor: pointer; font-size:12px; transition:0.3s; display:flex; align-items:center; justify-content:center; ${idx === imgs.length-1 ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${idx === imgs.length-1 ? 'disabled' : ''}>❮</button>
+            <span style="font-weight:bold; font-size: 14px; color:#555; background:#f8f9fa; padding:4px 12px; border-radius:15px; border:1px solid #eee;">${idx+1} / ${imgs.length}</span>
+            <button onclick="window.prevPage()" title="الصفحة السابقة" style="width:32px; height:32px; border-radius: 50%; border:none; background: #2563eb; color: white; cursor: pointer; font-size:12px; transition:0.3s; display:flex; align-items:center; justify-content:center; ${idx === 0 ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${idx === 0 ? 'disabled' : ''}>❯</button>
+          </div>
+        `;
+    }
+    
+    let html = `
+      <img src="${img}" alt="${title}" onclick="window.openLightbox('${img}')" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة">
+      
+      ${paginationHtml}
+      
+      <div class="actions" style="display:flex; justify-content:center; gap:10px; margin-bottom: 10px;">
+        <button onclick="window.openLightbox('${img}')" class="download-btn" style="background:#1a1a1a; color:white; border:none; padding: 6px 15px; font-size: 13px; font-weight: normal; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo';">👁️ تكبير الصورة</button>
+        
+      </div>
+    `;
+    
+    viewer.style.overflowY = 'visible';
+    viewer.style.justifyContent = 'center';
+    viewer.style.paddingTop = '10px';
+    
+    viewer.innerHTML = html;
+};
+
+window.prevPage = function() {
+    if (window.currentViewerIndex > 0) {
+        window.currentViewerIndex--;
+        window.renderViewerPage();
+    }
+};
+
+window.nextPage = function() {
+    if (window.currentViewerIndex < window.currentViewerImages.length - 1) {
+        window.currentViewerIndex++;
+        window.renderViewerPage();
+    }
+};
+
+
+window.toggleAccordion = function(id) {
+    const c = document.getElementById(id);
+    const wasOpen = c.style.display === 'block';
+    
+    // Close all other togglable cards
+    document.querySelectorAll('.card').forEach(card => {
+        if (card.id && (card.id.startsWith('card-') || card.id.startsWith('all-card-') || card.id.startsWith('name-card-'))) {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Open the clicked one if it wasn't already open
+    if (!wasOpen) {
+        c.style.display = 'block';
+    }
+}
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-C78NKFY91N');
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+:root { --bg: #f8f9fa; --ink: #1a1a1a; --muted: #6c757d; --card: #ffffff; --accent: #d4af37; --accent-hover: #b5952f; --fb: #1877f2; --fb-hover: #166fe5; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Cairo', sans-serif; }
+header { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%); color: #fff; padding: 12px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; transition: all 0.3s ease; }
+header .logo-container { display: flex; align-items: center; gap: 12px; }
+header img { width: 200px; height: 100px; border-radius: 16px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: all 0.3s ease; }
+header h1 { margin: 0; font-size: 26px; font-weight: 700; transition: all 0.3s ease; }
+
+/* Small Header Styles */
+header.header-small { padding: 5px 20px; }
+header.header-small img { width: 100px; height: 50px; border-radius: 8px; }
+header.header-small h1 { font-size: 18px; }
+header.header-small .btn-fb { padding: 6px 12px; font-size: 13px; }
+main { max-width: 1200px; margin: auto; padding: 15px 20px; }
+.about-section { background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px; text-align: center; border-top: 4px solid var(--accent); }
+.about-section h2 { margin-top: 0; color: var(--ink); }
+.about-section p { color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 20px; }
+.btn-fb { display: inline-flex; align-items: center; gap: 8px; background: var(--fb); color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 30px; font-weight: 700; transition: all 0.3s; box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4); }
+.btn-fb:hover { background: var(--fb-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(24, 119, 242, 0.6); }
+.panel { background: var(--card); padding: 15px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 15px; }
+.searchline { display: flex; gap: 15px; margin-top: 15px; }
+input { flex: 1; border: 2px solid #e9ecef; border-radius: 12px; padding: 12px 15px; font-size: 15px; font-family: 'Cairo', sans-serif; background: #f8f9fa; transition: all 0.3s; }
+input:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1); }
+#count { margin-top: 15px; color: var(--muted); font-weight: bold; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+.card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.3s; border: 1px solid #f1f3f5; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+.card img { display: block; width: 100%; height: 350px; object-fit: contain; background: #f8f9fa; border-bottom: 1px solid #f1f3f5; }
+.body { padding: 20px; }
+.body h2 { margin: 0 0 10px; font-size: 22px; color: var(--ink); }
+.meta { color: var(--muted); line-height: 1.8; font-size: 15px; margin-bottom: 15px; }
+.actions { display: flex; gap: 10px; }
+.actions a { flex: 1; text-align: center; background: var(--ink); color: #fff; text-decoration: none; padding: 10px 15px; border-radius: 10px; font-weight: bold; transition: all 0.3s; font-size: 15px; }
+.actions a:hover { background: #343a40; }
+.actions a.download-btn { background: var(--accent); color: #fff; }
+.actions a.download-btn:hover { background: var(--accent-hover); }
+.empty { text-align: center; background: var(--card); border-radius: 20px; padding: 60px 20px; color: var(--muted); font-size: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 2px dashed #e9ecef; }
+footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px; border-top: 1px solid #e9ecef; background: var(--card); margin-top: 40px; }
+
+.nav-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+.nav-tabs a { flex: 1; text-align: center; background: #e9ecef; color: var(--ink); text-decoration: none; padding: 10px; border-radius: 12px; font-weight: bold; font-size: 16px; transition: all 0.3s; }
+.nav-tabs a.active { background: var(--accent); color: #fff; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+.nav-tabs a:hover:not(.active) { background: #dee2e6; }
+
+/* Split View Styles */
+.split-view { display: flex; flex-direction: row-reverse; gap: 30px; align-items: flex-start; flex-wrap: nowrap; }
+.list-pane { flex: 1.5; min-width: 300px; max-height: 85vh; overflow-y: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
+.viewer-pane { flex: 2; position: sticky; top: 100px; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+@media(max-width: 900px) {
+  .split-view { flex-direction: column; gap: 15px; display: flex; }
+  .list-pane { display: contents; }
+  .list-header { order: 1; position: relative; top: 0; padding: 12px 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; border-bottom: 2px solid #2563eb; }
+  .viewer-pane { order: 2; width: 100%; position: static; min-height: 400px; margin-bottom: 10px; }
+  .list-pane > ul { order: 3; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; max-height: 60vh; overflow-y: auto; }
+}
+
+@media(max-width:600px){ header { justify-content: center; } .searchline{flex-direction:column} .card img{height:250px} header h1 { font-size: 18px; } }
+
+.list-header { display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; position: sticky; top: -20px; background: #fff; z-index: 10; gap: 5px; }
+.list-header h3 { margin:0; font-size: 18px; }
+.list-header button { background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:5px 10px; cursor:pointer; white-space: nowrap; font-size: 14px; }
+@media(max-width:600px) {
+  .list-header { padding-bottom: 5px; top: 0; }
+  .list-header h3 { font-size: 14px; }
+  .list-header button { font-size: 12px; padding: 4px 6px; }
+}
+</style>
+</head>
+<body>
+
+<div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; flex-direction:column;" onclick="if(event.target === this) this.style.display='none'">
+    <span onclick="document.getElementById('lightbox').style.display='none'" style="position:absolute; top:20px; right:30px; font-size:40px; color:white; cursor:pointer; font-weight:bold; transition: 0.3s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='white'">&times;</span>
+    <img id="lightboxImg" style="max-width:95%; max-height:85%; object-fit:contain; border-radius:10px; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+    <div style="position:absolute; bottom:30px; color:#fff; background:rgba(0,0,0,0.7); padding:10px 20px; border-radius:20px; font-size:15px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.3); direction:rtl;">💡 <b>ملاحظة:</b> لحفظ هذه الصورة، اضغط عليها <b>بزر الماوس الأيمن</b> واختر "حفظ الصورة باسم" (Save image as).</div>
+</div>
+<script>
+window.openLightbox = function(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').style.display = 'flex';
+};
+</script>
+
+<header>
+  <div style="flex: 1;">
+    <img src="images/header-image.jpg" alt="أرشيف الصور">
+  </div>
+  <div style="flex: 2; text-align: center;">
+    <h1>Algeria’s Memories and Colors</h1>
+  </div>
+  <div style="flex: 1; display: flex; justify-content: flex-end;">
+    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" style="padding: 8px 16px; font-size: 14px;">
+      <svg style="width:18px;height:18px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+      صفحتنا في الفيسبوك
+    </a>
+  </div>
+</header>
+<main>
+<nav class="nav-tabs">
+  <a href="index.html" class="active">📸 الأرشيف (الصور)</a>
+  <a href="documents.html">📄 أرشيف الوثائق</a>
+</nav>
+</nav>
+<section class="panel" id="searchPanel">
+<strong>🔎 البحث عن صور من ملف «المبحوث عنهم» خلال الفترة الاستعمارية.</strong>
+<p id="langWarning" style="color:#ef4444; font-size:14px; margin: 8px 0; display:none; font-weight:bold;">⚠️ يرجى كتابة الاسم واللقب باللغة الفرنسية فقط (الأرقام واللغة العربية غير مقبولة).</p>
+<div class="searchline">
+  <input id="lastName" placeholder="اللقب (Nom)..." autocomplete="off">
+  <input id="firstName" placeholder="الاسم (Prénom)..." autocomplete="off">
+  <button id="showAllBtn" title="عرض جميع الأسماء" style="background:#34d399; color:#111827; border:none; border-radius:10px; padding:10px 20px; font-family:\'Cairo\', sans-serif; cursor:pointer; font-weight:bold; font-size:15px; transition:0.3s; white-space:nowrap; box-shadow: 0 4px 10px rgba(16,185,129,0.3);">عرض كل الأسماء</button>
+</div>
+<div id="count"></div>
+</section>
+<section id="results" class="grid"></section>
+</main>
+<footer>
+  <div style="margin-bottom:10px;">الأرشيف — يحتوي حاليًا على <span id="footerCount"></span> صورة.</div>
+</footer>
+<script src="data.js"></script><script>
+
+
+
+
+window.toggleAccordion = function(id) {
+    const c = document.getElementById(id);
+    const wasOpen = c.style.display === 'block';
+    
+    // Close all other togglable cards
+    document.querySelectorAll('.card').forEach(card => {
+        if (card.id && (card.id.startsWith('card-') || card.id.startsWith('all-card-') || card.id.startsWith('name-card-'))) {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Open the clicked one if it wasn't already open
+    if (!wasOpen) {
+        c.style.display = 'block';
+    }
+}
+
+const firstName=document.getElementById('firstName'),lastName=document.getElementById('lastName'),results=document.getElementById('results'),count=document.getElementById('count');
+document.getElementById('footerCount').textContent = ARCHIVE.length;
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+  const f = firstName.value.trim().toLowerCase(), l = lastName.value.trim().toLowerCase();
+  if (!f && !l) {
+    document.querySelector('header').classList.remove('header-small');
+    count.textContent = '';
+    results.innerHTML = '<div class="empty">الرجاء إدخال كلمة بحث لعرض الصور.</div>';
+    return;
+  }
+  document.querySelector('header').classList.add('header-small');
+  if ((f && f.length < 3) || (l && l.length < 3)) {
+    count.textContent = '';
+    results.innerHTML = '<div class="empty">الرجاء كتابة 3 أحرف على الأقل للبحث.</div>';
+    return;
+  }
+  let a = [], message = '';
+  if (f && l) {
+    a = ARCHIVE.filter(x => Object.values(x).join(' ').toLowerCase().includes(f) && Object.values(x).join(' ').toLowerCase().includes(l));
+    if (a.length === 0) {
+      const byLastName = ARCHIVE.filter(x => Object.values(x).join(' ').toLowerCase().includes(l));
+      if (byLastName.length > 0) {
+        a = byLastName;
+        message = '<div class="panel" style="background:#ffecd2; color:#856404; padding:15px; border-radius:12px; margin-bottom:20px;">للأسف هذا الاسم واللقب غير موجود، لكن هناك أسماء أخرى بنفس اللقب:</div>';
+      }
+    }
+  } else if (l && !f) {
+    a = ARCHIVE.filter(x => Object.values(x).join(' ').toLowerCase().includes(l));
+  } else if (f && !l) {
+    a = ARCHIVE.filter(x => Object.values(x).join(' ').toLowerCase().includes(f));
+    count.textContent = `عرض ${a.length} من ${ARCHIVE.length} صورة`;
+    if (a.length > 0) {
+      let html = '<div class="panel"><h3>قائمة الأسماء المطابقة:</h3><ul style="line-height:2; list-style:none; padding:0;">';
+      a.forEach((x, i) => {
+        html += `<li>
+          <a href="#" style="color:var(--ink); text-decoration:none; font-weight:bold; font-size:18px;" onclick="event.preventDefault(); window.toggleAccordion(\'card-${i}\');">
+            🔻 ${esc(x.name)} ${x.arabic_name ? ' - ' + esc(x.arabic_name) : ''}
+          </a>
+          <div id="card-${i}" class="card" style="display:none; margin:15px 0; max-width:400px;">
+            <img src="${esc(x.image)}" alt="${esc(x.name)}">
+            <div class="body">
+              <div class="actions">
+                <a href="${esc(x.image)}" target="_blank" rel="noopener">👁️ عرض</a>
+                
+              </div>
+            </div>
+          </div>
+        </li>`;
+      });
+      results.innerHTML = html + '</ul></div>';
+    } else {
+      results.innerHTML = '<div class="empty">نتأسف لعدم وجود الاسم في هاته القائمة.</div>';
+    }
+    return;
+  }
+  
+  count.textContent = `عرض ${a.length} من ${ARCHIVE.length} صورة`;
+  let cardsHtml = a.length ? a.map(x => `<article class="card">
+    <img src="${esc(x.image)}" alt="${esc(x.name)}">
+    <div class="body">
+      <h2>${esc(x.name)}</h2>
+      <div class="meta">
+        ${x.arabic_name ? esc(x.arabic_name)+'<br>' : ''}
+        ${x.document ? 'الوثيقة: '+esc(x.document)+'<br>' : ''}
+        ${x.year ? 'السنة: '+esc(x.year)+'<br>' : ''}
+        ${x.place ? 'المكان: '+esc(x.place) : ''}
+      </div>
+      <div class="actions">
+        <a href="${esc(x.image)}" target="_blank" rel="noopener">عرض</a>
+        <a href="${esc(x.image)}" download="${esc(x.name)}" class="download-btn">تحميل</a>
+      </div>
+    </div>
+  </article>`).join('') : '<div class="empty">نتأسف لعدم وجود الاسم في هاته القائمة.</div>';
+  
+  results.innerHTML = message + (a.length ? '<div class="grid">' + cardsHtml + '</div>' : cardsHtml);
+}
+const filterFn=function(){this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); document.querySelector('main').style.maxWidth = '1200px'; render()};firstName.oninput=filterFn;lastName.oninput=filterFn;render();
+document.getElementById('showAllBtn').onclick = () => {
+  firstName.value = ''; lastName.value = '';
+  document.getElementById('searchPanel').style.display = 'none'; // Hide search panel
+  document.querySelector('header').classList.add('header-small'); // Shrink header
+  count.textContent = `عرض ${ARCHIVE.length} من ${ARCHIVE.length} صورة`;
+  
+  let html = `
+  <div class="panel" style="padding:0; background:transparent; box-shadow:none; grid-column: 1 / -1;">
+    <div class="split-view">
+      
+      <!-- List Pane (Right in RTL) -->
+      <div id="listPane" class="list-pane">
+        <div class="list-header">
+          <h3>القائمة الكاملة للأسماء:</h3>
+          <button onclick="document.getElementById('searchPanel').style.display='block'; render();">🔙 رجوع للبحث</button>
+        </div>
+        <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
+  `;
+  
+  ARCHIVE.forEach((x, i) => {
+    const dispName = esc(x.name) + (x.arabic_name ? ' - ' + esc(x.arabic_name) : '');
+    html += `
+      <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0; transition: 0.2s;">
+        <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
+           onclick="event.preventDefault(); window.showInViewer('${esc((x.images || [x.image]).join('|||'))}', '${dispName}', '${esc(x.name)}');">
+          👤 ${dispName}
+        </a>
+      </li>`;
+  });
+  
+  html += `</ul></div>
+      <!-- Viewer Pane (Left in RTL) -->
+      <div id="imageViewer" class="viewer-pane">
+        <h3 style="color: #999;">👈 اضغط على اسم من القائمة الجانبية لعرض الصورة هنا</h3>
+      </div>
+  </div></div>`;
+  
+  document.querySelector('main').style.maxWidth = '95%';
+  results.innerHTML = html;
+};
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const fnInput = document.getElementById('firstName');
+    const lnInput = document.getElementById('lastName');
+    const warning = document.getElementById('langWarning');
+    
+    function validateInput(e) {
+        const input = e.target;
+        // Regex allows French letters, spaces, hyphens, and apostrophes.
+        // It matches anything that is NOT these characters (like numbers, Arabic letters, symbols)
+        const invalidRegex = /[^a-zA-ZÀ-ÿ\s\-']/g;
+        
+        if (invalidRegex.test(input.value)) {
+            // Show warning
+            warning.style.display = 'block';
+            // Remove the invalid characters immediately
+            input.value = input.value.replace(invalidRegex, '');
+            
+            // Hide the warning after 3 seconds if they stop typing invalid chars
+            clearTimeout(window.warningTimeout);
+            window.warningTimeout = setTimeout(() => {
+                warning.style.display = 'none';
+            }, 3000);
+        }
+    }
+
+    if (fnInput) fnInput.addEventListener('input', validateInput);
+    if (lnInput) lnInput.addEventListener('input', validateInput);
+});
+</script>
+
+
+<script>
+window.forceDownload = function(e, url, filename) {
+    e.preventDefault();
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(blobUrl);
+      })
+      .catch(err => {
+        // Fallback for file:// protocol
+        alert("يبدو أن متصفحك يمنع التحميل المباشر للملفات المحلية للأمان. الرجاء الضغط بزر الماوس الأيمن على الصورة واختيار 'حفظ الصورة باسم' (Save image as).");
+        window.open(url, '_blank');
+      });
+};
+</script>
+
+</body></html>
+
+The above content shows the entire, complete file contents of the requested file.
