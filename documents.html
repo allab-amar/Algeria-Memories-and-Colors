@@ -158,6 +158,7 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 .viewer-pane { flex: 2; position: sticky; top: 100px; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 
 @media(max-width: 900px) {
+  header.header-small { display: none !important; }
   .split-view { flex-direction: column; gap: 15px; display: flex; }
   .list-pane { display: contents; }
   .list-header { order: 1; position: relative; top: 0; padding: 12px 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; border-bottom: 2px solid #2563eb; }
@@ -285,58 +286,49 @@ function render(){
     a = DOCUMENTS_ARCHIVE.filter(doc => match(doc, l));
   } else if (f && !l) {
     a = DOCUMENTS_ARCHIVE.filter(doc => match(doc, f));
-    count.textContent = `عرض ${a.length} من ${DOCUMENTS_ARCHIVE.length} وثيقة`;
-    if (a.length > 0) {
-      let html = '<div class="panel"><h3>قائمة الوثائق المطابقة:</h3><ul style="line-height:2; list-style:none; padding:0;">';
-      a.forEach((x, i) => {
-        let matches = (x.names || []).filter(n => n.toLowerCase().includes(f));
-        let matchText = matches.length ? ` (تتضمن: ${matches.join('، ')})` : '';
-        html += `<li>
-          <a href="#" style="color:var(--ink); text-decoration:none; font-weight:bold; font-size:18px;" onclick="event.preventDefault(); window.toggleAccordion(\'card-${i}\');">
-            🔻 ${esc(x.document_title)}${esc(matchText)}
-          </a>
-          <div id="card-${i}" class="card" style="display:none; margin:15px 0; max-width:400px;">
-            <img src="${esc(x.image)}" alt="${esc(x.document_title)}">
-            <div class="body">
-              <div class="actions">
-                <a href="${esc(x.image)}" target="_blank" rel="noopener">👁️ عرض</a>
-                
-              </div>
-            </div>
-          </div>
-        </li>`;
-      });
-      results.innerHTML = html + '</ul></div>';
-    } else {
-      results.innerHTML = '<div class="empty">نتأسف لعدم وجود الاسم في الوثائق.</div>';
-    }
+  }
+  
+  if (a.length === 0) {
+    results.innerHTML = '<div class="empty">نتأسف لعدم وجود الاسم في الوثائق.</div>';
+    count.textContent = '';
     return;
   }
   
+  document.querySelector('header').classList.add('header-small');
   count.textContent = `عرض ${a.length} من ${DOCUMENTS_ARCHIVE.length} وثيقة`;
-  let cardsHtml = a.length ? a.map(x => {
+  
+  let html = message + `
+  <div class="panel" style="padding:0; background:transparent; box-shadow:none; grid-column: 1 / -1;">
+    <div class="split-view">
+      
+      <div id="listPane" class="list-pane">
+        <div class="list-header">
+          <h3>نتائج البحث (${a.length}):</h3>
+        </div>
+        <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
+  `;
+  
+  a.forEach((x, i) => {
     let matches = [];
     if(f || l) matches = (x.names || []).filter(n => (f && n.toLowerCase().includes(f)) || (l && n.toLowerCase().includes(l)));
-    let matchedNamesHtml = matches.length ? '<br><strong>الأسماء المتطابقة في الوثيقة:</strong><br>' + matches.map(m => '- ' + esc(m)).join('<br>') : '';
-    
-    return `<article class="card">
-    <img src="${esc(x.image)}" alt="${esc(x.document_title)}">
-    <div class="body">
-      <h2>${esc(x.document_title)}</h2>
-      <div class="meta">
-        ${x.year ? 'السنة: '+esc(x.year)+'<br>' : ''}
-        ${x.place ? 'المكان: '+esc(x.place) : ''}
-        ${matchedNamesHtml}
-      </div>
-      <div class="actions">
-        <a href="${esc(x.image)}" target="_blank" rel="noopener">عرض</a>
-        <a href="${esc(x.image)}" download="${esc(x.document_title)}.jpg" class="download-btn">تحميل</a>
-      </div>
-    </div>
-  </article>`;
-  }).join('') : '<div class="empty">نتأسف لعدم وجود الاسم في الوثائق.</div>';
+    let matchText = matches.length ? ` (تتضمن: ${matches.join('، ')})` : '';
+    html += `
+      <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0; transition: 0.2s;">
+        <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
+           onclick="event.preventDefault(); window.showInViewer('${esc((x.images || [x.image]).join('|||'))}', '${esc(x.document_title)}${esc(matchText)}', '${esc(x.document_title)}');">
+          📄 ${esc(x.document_title)}${esc(matchText)}
+        </a>
+      </li>`;
+  });
   
-  results.innerHTML = message + (a.length ? '<div class="grid">' + cardsHtml + '</div>' : cardsHtml);
+  html += `</ul></div>
+      <div id="imageViewer" class="viewer-pane">
+        <h3 style="color: #999;">👈 اضغط على وثيقة من القائمة الجانبية لعرضها هنا</h3>
+      </div>
+  </div></div>`;
+  
+  document.querySelector('main').style.maxWidth = '95%';
+  results.innerHTML = html;
 }
 const filterFn=function(){this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); document.querySelector('main').style.maxWidth = '1200px'; render()};firstName.oninput=filterFn;lastName.oninput=filterFn;render();
 document.getElementById('showDocsBtn').onclick = () => {
@@ -491,5 +483,3 @@ window.forceDownload = function(e, url, filename) {
 
 </body>
 </html>
-
-The above content shows the entire, complete file contents of the requested file.
