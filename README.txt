@@ -1,4 +1,4 @@
-Algeria’s Memories and Colors — أرشيف الصور والذاكرة الجزائرية
+   Algeria’s Memories and Colors — أرشيف الصور والذاكرة الجزائرية
 
 هذه نسخة تجريبية مبنية على الصور الثلاث المرسلة:
 
