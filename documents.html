@@ -287,58 +287,41 @@ function render(){
     a = DOCUMENTS_ARCHIVE.filter(doc => match(doc, l));
   } else if (f && !l) {
     a = DOCUMENTS_ARCHIVE.filter(doc => match(doc, f));
-    count.textContent = `عرض ${a.length} من ${DOCUMENTS_ARCHIVE.length} وثيقة`;
-    if (a.length > 0) {
-      let html = '<div class="panel"><h3>قائمة الوثائق المطابقة:</h3><ul style="line-height:2; list-style:none; padding:0;">';
-      a.forEach((x, i) => {
-        let matches = (x.names || []).filter(n => n.toLowerCase().includes(f));
-        let matchText = matches.length ? ` (تتضمن: ${matches.join('، ')})` : '';
-        html += `<li>
-          <a href="#" style="color:var(--ink); text-decoration:none; font-weight:bold; font-size:18px;" onclick="event.preventDefault(); window.toggleAccordion(\'card-${i}\');">
-            🔻 ${esc(x.document_title)}${esc(matchText)}
-          </a>
-          <div id="card-${i}" class="card" style="display:none; margin:15px 0; max-width:400px;">
-            <img src="${esc(x.image)}" alt="${esc(x.document_title)}">
-            <div class="body">
-              <div class="actions">
-                <a href="${esc(x.image)}" target="_blank" rel="noopener">👁️ عرض</a>
-                
-              </div>
-            </div>
-          </div>
-        </li>`;
-      });
-      results.innerHTML = html + '</ul></div>';
-    } else {
-      results.innerHTML = '<div class="empty">نتأسف لعدم وجود الاسم في الوثائق.</div>';
-    }
-    return;
   }
   
   count.textContent = `عرض ${a.length} من ${DOCUMENTS_ARCHIVE.length} وثيقة`;
-  let cardsHtml = a.length ? a.map(x => {
-    let matches = [];
-    if(f || l) matches = (x.names || []).filter(n => (f && n.toLowerCase().includes(f)) || (l && n.toLowerCase().includes(l)));
-    let matchedNamesHtml = matches.length ? '<br><strong>الأسماء المتطابقة في الوثيقة:</strong><br>' + matches.map(m => '- ' + esc(m)).join('<br>') : '';
-    
-    return `<article class="card">
-    <img src="${esc(x.image)}" alt="${esc(x.document_title)}">
-    <div class="body">
-      <h2>${esc(x.document_title)}</h2>
-      <div class="meta">
-        ${x.year ? 'السنة: '+esc(x.year)+'<br>' : ''}
-        ${x.place ? 'المكان: '+esc(x.place) : ''}
-        ${matchedNamesHtml}
-      </div>
-      <div class="actions">
-        <a href="${esc(x.image)}" target="_blank" rel="noopener">عرض</a>
-        <a href="${esc(x.image)}" download="${esc(x.document_title)}.jpg" class="download-btn">تحميل</a>
-      </div>
-    </div>
-  </article>`;
-  }).join('') : '<div class="empty">نتأسف لعدم وجود الاسم في الوثائق.</div>';
-  
-  results.innerHTML = message + (a.length ? '<div class="grid">' + cardsHtml + '</div>' : cardsHtml);
+  if (a.length > 0) {
+    let html = '<div class="panel"><h3>قائمة الوثائق المطابقة:</h3><ul style="line-height:2; list-style:none; padding:0;">';
+    a.forEach((x, i) => {
+      let matches = [];
+      if(f || l) matches = (x.names || []).filter(n => (f && n.toLowerCase().includes(f)) || (l && n.toLowerCase().includes(l)));
+      let matchText = matches.length ? ` (تتضمن: ${matches.join('، ')})` : '';
+      let matchedNamesHtml = matches.length ? '<br><strong>الأسماء المتطابقة في الوثيقة:</strong><br>' + matches.map(m => '- ' + esc(m)).join('<br>') : '';
+      
+      html += `<li>
+        <a href="#" style="color:var(--ink); text-decoration:none; font-weight:bold; font-size:18px;" onclick="event.preventDefault(); window.toggleAccordion(\'card-${i}\');">
+          🔻 ${esc(x.document_title)}${esc(matchText)}
+        </a>
+        <div id="card-${i}" class="card" style="display:none; margin:15px 0; max-width:400px;">
+          <img src="${esc(x.image)}" alt="${esc(x.document_title)}">
+          <div class="body">
+            <div class="meta">
+              ${x.year ? 'السنة: '+esc(x.year)+'<br>' : ''}
+              ${x.place ? 'المكان: '+esc(x.place) : ''}
+              ${matchedNamesHtml}
+            </div>
+            <div class="actions">
+              <a href="${esc(x.image)}" target="_blank" rel="noopener">👁️ عرض</a>
+              <a href="${esc(x.image)}" download="${esc(x.document_title)}.jpg" class="download-btn">تحميل</a>
+            </div>
+          </div>
+        </div>
+      </li>`;
+    });
+    results.innerHTML = message + html + '</ul></div>';
+  } else {
+    results.innerHTML = message + '<div class="empty">نتأسف لعدم وجود الاسم في الوثائق.</div>';
+  }
 }
 const filterFn=function(){this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); document.querySelector('main').style.maxWidth = '1200px'; render()};firstName.oninput=filterFn;lastName.oninput=filterFn;render();
 document.getElementById('showDocsBtn').onclick = () => {
