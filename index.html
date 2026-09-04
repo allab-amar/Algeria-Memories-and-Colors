@@ -22,6 +22,10 @@ window.showInViewer = function(imgsStr, title, downloadName, startIndex = 0) {
     window.currentViewerIndex = startIndex || 0;
     
     window.renderViewerPage();
+    
+    if (window.innerWidth <= 900) {
+        viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 };
 
 window.renderViewerPage = function() {
@@ -107,10 +111,16 @@ window.toggleAccordion = function(id) {
 :root { --bg: #f8f9fa; --ink: #1a1a1a; --muted: #6c757d; --card: #ffffff; --accent: #d4af37; --accent-hover: #b5952f; --fb: #1877f2; --fb-hover: #166fe5; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Cairo', sans-serif; }
-header { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%); color: #fff; padding: 12px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+header { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%); color: #fff; padding: 12px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; transition: all 0.3s ease; }
 header .logo-container { display: flex; align-items: center; gap: 12px; }
-header img { width: 200px; height: 100px; border-radius: 16px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-header h1 { margin: 0; font-size: 26px; font-weight: 700; }
+header img { width: 200px; height: 100px; border-radius: 16px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: all 0.3s ease; }
+header h1 { margin: 0; font-size: 26px; font-weight: 700; transition: all 0.3s ease; }
+
+/* Small Header Styles */
+header.header-small { padding: 5px 20px; }
+header.header-small img { width: 100px; height: 50px; border-radius: 8px; }
+header.header-small h1 { font-size: 18px; }
+header.header-small .btn-fb { padding: 6px 12px; font-size: 13px; }
 main { max-width: 1200px; margin: auto; padding: 15px 20px; }
 .about-section { background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px; text-align: center; border-top: 4px solid var(--accent); }
 .about-section h2 { margin-top: 0; color: var(--ink); }
@@ -141,6 +151,17 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 .nav-tabs a { flex: 1; text-align: center; background: #e9ecef; color: var(--ink); text-decoration: none; padding: 10px; border-radius: 12px; font-weight: bold; font-size: 16px; transition: all 0.3s; }
 .nav-tabs a.active { background: var(--accent); color: #fff; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
 .nav-tabs a:hover:not(.active) { background: #dee2e6; }
+
+/* Split View Styles */
+.split-view { display: flex; flex-direction: row-reverse; gap: 30px; align-items: flex-start; flex-wrap: nowrap; }
+.list-pane { flex: 1.5; min-width: 300px; max-height: 85vh; overflow-y: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
+.viewer-pane { flex: 2; position: sticky; top: 100px; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+@media(max-width: 900px) {
+  .split-view { flex-direction: column-reverse; gap: 20px; }
+  .list-pane { width: 100%; min-width: unset; max-height: 60vh; }
+  .viewer-pane { width: 100%; position: static; min-height: 400px; }
+}
 
 @media(max-width:600px){ header { justify-content: center; } .searchline{flex-direction:column} .card img{height:250px} header h1 { font-size: 18px; } }
 </style>
@@ -178,7 +199,8 @@ window.openLightbox = function(src) {
   <a href="index.html" class="active">📸 الأرشيف (الصور)</a>
   <a href="documents.html">📄 أرشيف الوثائق</a>
 </nav>
-<section class="panel">
+</nav>
+<section class="panel" id="searchPanel">
 <strong>🔎 البحث عن صور من ملف «المبحوث عنهم» خلال الفترة الاستعمارية.</strong>
 <p id="langWarning" style="color:#ef4444; font-size:14px; margin: 8px 0; display:none; font-weight:bold;">⚠️ يرجى كتابة الاسم واللقب باللغة الفرنسية فقط (الأرقام واللغة العربية غير مقبولة).</p>
 <div class="searchline">
@@ -221,10 +243,12 @@ function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function render(){
   const f = firstName.value.trim().toLowerCase(), l = lastName.value.trim().toLowerCase();
   if (!f && !l) {
+    document.querySelector('header').classList.remove('header-small');
     count.textContent = '';
     results.innerHTML = '<div class="empty">الرجاء إدخال كلمة بحث لعرض الصور.</div>';
     return;
   }
+  document.querySelector('header').classList.add('header-small');
   if ((f && f.length < 3) || (l && l.length < 3)) {
     count.textContent = '';
     results.innerHTML = '<div class="empty">الرجاء كتابة 3 أحرف على الأقل للبحث.</div>';
@@ -293,16 +317,21 @@ function render(){
 const filterFn=function(){this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); document.querySelector('main').style.maxWidth = '1200px'; render()};firstName.oninput=filterFn;lastName.oninput=filterFn;render();
 document.getElementById('showAllBtn').onclick = () => {
   firstName.value = ''; lastName.value = '';
+  document.getElementById('searchPanel').style.display = 'none'; // Hide search panel
+  document.querySelector('header').classList.add('header-small'); // Shrink header
   count.textContent = `عرض ${ARCHIVE.length} من ${ARCHIVE.length} صورة`;
   
   let html = `
   <div class="panel" style="padding:0; background:transparent; box-shadow:none; grid-column: 1 / -1;">
-    <div style="display: flex; flex-direction: row-reverse; gap: 30px; align-items: flex-start; flex-wrap: nowrap;">
+    <div class="split-view">
       
       <!-- List Pane (Right in RTL) -->
-      <div style="flex: 1; min-width: 300px; max-height: 85vh; overflow-y: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee;">
-        <h3 style="margin-top:0; border-bottom: 2px solid #2563eb; padding-bottom: 10px; position: sticky; top: -20px; background: #fff;">القائمة الكاملة للأسماء:</h3>
-        <ul style="line-height:2.5; list-style:none; padding:0; margin:0; direction: ltr; text-align: left;">
+      <div id="listPane" class="list-pane">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; position: sticky; top: -20px; background: #fff;">
+          <h3 style="margin:0;">القائمة الكاملة للأسماء:</h3>
+          <button onclick="document.getElementById('searchPanel').style.display='block'; render();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:5px 10px; cursor:pointer;">🔙 رجوع للبحث</button>
+        </div>
+        <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
   ARCHIVE.forEach((x, i) => {
@@ -318,7 +347,7 @@ document.getElementById('showAllBtn').onclick = () => {
   
   html += `</ul></div>
       <!-- Viewer Pane (Left in RTL) -->
-      <div id="imageViewer" style="flex: 2; position: sticky; top: 100px; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <div id="imageViewer" class="viewer-pane">
         <h3 style="color: #999;">👈 اضغط على اسم من القائمة الجانبية لعرض الصورة هنا</h3>
       </div>
   </div></div>`;
