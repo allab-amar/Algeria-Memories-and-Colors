@@ -153,26 +153,52 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 .nav-tabs a:hover:not(.active) { background: #dee2e6; }
 
 /* Split View Styles */
-.split-view { display: flex; flex-direction: row-reverse; gap: 30px; align-items: flex-start; flex-wrap: nowrap; }
-.list-pane { flex: 1.5; min-width: 300px; max-height: 85vh; overflow-y: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
-.viewer-pane { flex: 2; position: sticky; top: 100px; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.split-view { 
+  display: grid; 
+  grid-template-columns: 1.5fr 2fr; 
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "header viewer" "list viewer";
+  gap: 15px 30px; 
+  align-items: start;
+}
+.list-header { 
+  grid-area: header; 
+  display: flex; justify-content: space-between; align-items: center; 
+  border-bottom: 2px solid #2563eb; padding-bottom: 10px; 
+  position: sticky; top: -20px; background: #fff; z-index: 10; gap: 5px; 
+}
+.list-header h3 { margin:0; font-size: 18px; }
+.list-header button { background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:5px 10px; cursor:pointer; white-space: nowrap; font-size: 14px; }
+
+.list-pane { 
+  grid-area: list; 
+  max-height: 85vh; overflow-y: auto; background: #fff; 
+  padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; 
+}
+.viewer-pane { 
+  grid-area: viewer; 
+  position: sticky; top: 100px; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+}
 
 @media(max-width: 900px) {
   header.header-small { display: none !important; }
-  .split-view { flex-direction: column; gap: 15px; display: flex; }
-  .list-pane { display: contents; }
-  .list-header { order: 1; position: relative; top: 0; padding: 12px 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; border-bottom: 2px solid #2563eb; }
-  .viewer-pane { order: 2; width: 100%; position: static; min-height: 400px; margin-bottom: 10px; }
-  .list-pane > ul { order: 3; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; max-height: 60vh; overflow-y: auto; }
+  .split-view { 
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: "header" "viewer" "list";
+    gap: 10px;
+  }
+  .viewer-pane { position: static; min-height: 400px; }
+  .list-pane { max-height: 60vh; }
+  .list-header { position: relative; top: 0; padding: 12px 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; border-bottom: 2px solid #2563eb; background: #fff; }
 }
 
-@media(max-width:600px){ header { justify-content: center; } .searchline{flex-direction:column} .card img{height:250px} header h1 { font-size: 18px; } }
-
-.list-header { display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; position: sticky; top: -20px; background: #fff; z-index: 10; gap: 5px; }
-.list-header h3 { margin:0; font-size: 18px; }
-.list-header button { background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:5px 10px; cursor:pointer; white-space: nowrap; font-size: 14px; }
 @media(max-width:600px) {
-  .list-header { padding: 6px 10px !important; top: 0; }
+  header { justify-content: center; } 
+  .searchline{flex-direction:column} 
+  .card img{height:250px} 
+  header h1 { font-size: 18px; }
+  .list-header { padding: 6px 10px !important; }
   .list-header h3 { font-size: 13px; margin: 0; }
   .list-header button { font-size: 11px; padding: 3px 8px; margin: 0; }
   .nav-tabs { margin-bottom: 10px; }
@@ -303,10 +329,10 @@ function render(){
   <div class="panel" style="padding:0; background:transparent; box-shadow:none; grid-column: 1 / -1;">
     <div class="split-view">
       
-      <div id="listPane" class="list-pane">
-        <div class="list-header">
+      <div class="list-header">
           <h3>نتائج البحث (${a.length}):</h3>
         </div>
+      <div id="listPane" class="list-pane">
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
@@ -354,11 +380,11 @@ document.getElementById('showDocsBtn').onclick = () => {
     <div class="split-view">
       
       <!-- List Pane (Right in RTL) -->
-      <div id="listPane" class="list-pane">
-        <div class="list-header">
+      <div class="list-header">
           <h3>القائمة الكاملة للوثائق:</h3>
           <button onclick="document.getElementById('searchPanel').style.display='block'; render();">🔙 رجوع للبحث</button>
         </div>
+      <div id="listPane" class="list-pane">
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
@@ -409,11 +435,11 @@ document.getElementById('showNamesBtn').onclick = () => {
     <div class="split-view">
       
       <!-- List Pane (Right in RTL) -->
-      <div id="listPane" class="list-pane">
-        <div class="list-header">
+      <div class="list-header">
           <h3>القائمة الكاملة لجميع الأسماء:</h3>
           <button onclick="document.getElementById('searchPanel').style.display='block'; render();">🔙 رجوع للبحث</button>
         </div>
+      <div id="listPane" class="list-pane">
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
