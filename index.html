@@ -324,7 +324,17 @@ function render(){
   document.querySelector('main').style.maxWidth = '95%';
   results.innerHTML = html;
 }
-const filterFn=function(){this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); document.querySelector('main').style.maxWidth = '1200px'; render()};firstName.oninput=filterFn;lastName.oninput=filterFn;render();
+const filterFn=function(){
+  this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); 
+  if (firstName.value || lastName.value) {
+    document.getElementById('showAllBtn').style.display = 'none';
+  } else {
+    document.getElementById('showAllBtn').style.display = 'block';
+  }
+  document.querySelector('main').style.maxWidth = '1200px'; 
+  render();
+};
+firstName.oninput=filterFn;lastName.oninput=filterFn;render();
 document.getElementById('showAllBtn').onclick = () => {
   firstName.value = ''; lastName.value = '';
   document.getElementById('searchPanel').style.display = 'none'; // Hide search panel
