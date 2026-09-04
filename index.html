@@ -211,7 +211,6 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 <div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; flex-direction:column;" onclick="if(event.target === this) this.style.display='none'">
     <span onclick="document.getElementById('lightbox').style.display='none'" style="position:absolute; top:20px; right:30px; font-size:40px; color:white; cursor:pointer; font-weight:bold; transition: 0.3s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='white'">&times;</span>
     <img id="lightboxImg" style="max-width:95%; max-height:85%; object-fit:contain; border-radius:10px; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-    <div style="position:absolute; bottom:30px; color:#fff; background:rgba(0,0,0,0.7); padding:10px 20px; border-radius:20px; font-size:15px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.3); direction:rtl;">💡 <b>ملاحظة:</b> لحفظ هذه الصورة، اضغط عليها <b>بزر الماوس الأيمن</b> واختر "حفظ الصورة باسم" (Save image as).</div>
 </div>
 <script>
 window.openLightbox = function(src) {
