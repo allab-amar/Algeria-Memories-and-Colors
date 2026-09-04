@@ -177,6 +177,14 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
   .actions a { font-size: 14px; }
   .list-pane, .viewer-pane { font-size: 14px; padding: 10px; }
 }
+.list-header { display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; position: sticky; top: -20px; background: #fff; z-index: 10; gap: 5px; }
+.list-header h3 { margin:0; font-size: 18px; }
+.list-header button { background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:5px 10px; cursor:pointer; white-space: nowrap; font-size: 14px; }
+@media(max-width:600px) {
+  .list-header { padding-bottom: 5px; top: 0; }
+  .list-header h3 { font-size: 14px; }
+  .list-header button { font-size: 12px; padding: 4px 6px; }
+}
 </style>
 </head>
 <body>
@@ -291,8 +299,8 @@ function render(){
         
         <!-- List Pane -->
         <div id="listPane" class="list-pane">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; position: sticky; top: -20px; background: #fff; z-index: 10;">
-            <h3 style="margin:0;">قائمة الأسماء المطابقة:</h3>
+          <div class="list-header">
+            <h3>قائمة الأسماء المطابقة:</h3>
           </div>
           <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
     `;
@@ -335,9 +343,9 @@ document.getElementById('showAllBtn').onclick = () => {
       
       <!-- List Pane (Right in RTL) -->
       <div id="listPane" class="list-pane">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; position: sticky; top: -20px; background: #fff;">
-          <h3 style="margin:0;">القائمة الكاملة للأسماء:</h3>
-          <button onclick="document.getElementById('searchPanel').style.display='block'; render();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:5px 10px; cursor:pointer;">🔙 رجوع للبحث</button>
+        <div class="list-header">
+          <h3>القائمة الكاملة للأسماء:</h3>
+          <button onclick="document.getElementById('searchPanel').style.display='block'; render();">🔙 رجوع للبحث</button>
         </div>
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
