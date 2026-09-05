@@ -5288,6 +5288,12 @@ const ARCHIVE = [
     "image": "images/img_1788616805666_504.jpg",
     "year": "",
     "place": ""
+  },
+  {
+    "name": "BOUDJEMAA",
+    "image": "images/img_1788635829303_0.jpg",
+    "year": "",
+    "place": ""
   }
 ];
 
@@ -5538,43 +5544,12 @@ const DOCUMENTS_ARCHIVE = [
     ]
   },
   {
-    "document_title": "wilaya 5 , région 7 Liste d'identification des combattants tués  Rapport militaire : État des pertes du 20 Septembre 1961",
-    "image": "images/doc_1788620089443_0.jpg",
-    "images": [
-      "images/doc_1788620089443_0.jpg"
-    ],
-    "names": [
-      "wilaya 5 , région 7 Liste d'identification des combattants tués  Rapport militaire : État des pertes du 20 Septembre 1961"
-    ],
-    "pageNames": [
-      []
-    ],
-    "year": "1961",
-    "place": "wilaya 5  , région 7"
-  },
-  {
     "document_title": "CONVOI VERS LA TUNISIE    zone 2 wilaya 3, région d’Akbou  1959",
-    "image": "images/doc_1788620599882_0.jpg",
+    "image": "images/doc_1788620599962_1.jpg",
     "images": [
-      "images/doc_1788620599882_0.jpg",
       "images/doc_1788620599962_1.jpg"
     ],
     "names": [
-      "Benfarés Abdelkader",
-      "Bensaadia Hocine",
-      "Hamouche Tahar",
-      "Négar Tahar",
-      "Zégbong Mousaad",
-      "Oulaldj Arezki",
-      "Ait Moufok Hafidh",
-      "Hadad Achour",
-      "Harkane Mouloud",
-      "Sider",
-      "Soltani Mohamed",
-      "Oirdi Amara",
-      "Arkan Abdelkader",
-      "Abdous Mohand",
-      "Mébarki Sadek",
       "Iskoune Youcef",
       "Iskoune Larbi",
       "IskouneMessaoud",
@@ -5598,23 +5573,6 @@ const DOCUMENTS_ARCHIVE = [
       "Benfarés Mohand"
     ],
     "pageNames": [
-      [
-        "Benfarés Abdelkader",
-        "Bensaadia Hocine",
-        "Hamouche Tahar",
-        "Négar Tahar",
-        "Zégbong Mousaad",
-        "Oulaldj Arezki",
-        "Ait Moufok Hafidh",
-        "Hadad Achour",
-        "Harkane Mouloud",
-        "Sider",
-        "Soltani Mohamed",
-        "Oirdi Amara",
-        "Arkan Abdelkader",
-        "Abdous Mohand",
-        "Mébarki Sadek"
-      ],
       [
         "Iskoune Youcef",
         "Iskoune Larbi",
@@ -5641,5 +5599,38 @@ const DOCUMENTS_ARCHIVE = [
     ],
     "year": "1959",
     "place": "AKFADOU"
+  },
+  {
+    "document_title": "wilaya 5 , région 7 Liste d'identification des combattants tués  Rapport militaire : État des pertes du 20 Septembre 1961",
+    "image": "images/doc_1788627027416_0.jpg",
+    "images": [
+      "images/doc_1788627027416_0.jpg"
+    ],
+    "names": [
+      "BENABDALLAH Ahmed",
+      "AHMED BLINDE",
+      "LE MILITAIRE",
+      "TAIF Abdelkader",
+      "MOKHTARI Mokhtar",
+      "MEFTAH",
+      "LEITH Bachir",
+      "ABED",
+      "TAHAR"
+    ],
+    "pageNames": [
+      [
+        "BENABDALLAH Ahmed",
+        "AHMED BLINDE",
+        "LE MILITAIRE",
+        "TAIF Abdelkader",
+        "MOKHTARI Mokhtar",
+        "MEFTAH",
+        "LEITH Bachir",
+        "ABED",
+        "TAHAR"
+      ]
+    ],
+    "year": "",
+    "place": ""
   }
 ];
