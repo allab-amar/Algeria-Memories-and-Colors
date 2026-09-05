@@ -255,7 +255,8 @@ window.openLightbox = function(src) {
 <section id="results" class="grid"></section>
 </main>
 <footer>
-  <div style="margin-bottom:10px;">الأرشيف — يحتوي حاليًا على <span id="footerCount"></span> وثيقة.</div>
+  <div style="margin-bottom:15px;">الأرشيف — يحتوي حاليًا على <span id="footerCount"></span> وثيقة.</div>
+
 </footer>
 <script src="data.js"></script><script>
 
@@ -335,7 +336,8 @@ function render(){
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
-  a.forEach((x, i) => {
+  let sortedA = [...a].sort((c, d) => c.document_title.localeCompare(d.document_title, 'fr'));
+  sortedA.forEach((x, i) => {
     let matches = [];
     if(f || l) matches = (x.names || []).filter(n => (f && n.toLowerCase().includes(f)) || (l && n.toLowerCase().includes(l)));
     let matchText = matches.length ? ` (تتضمن: ${matches.join('، ')})` : '';
@@ -387,7 +389,8 @@ document.getElementById('showDocsBtn').onclick = () => {
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
-  DOCUMENTS_ARCHIVE.forEach((x, i) => {
+  let sortedDocs = [...DOCUMENTS_ARCHIVE].sort((a, b) => a.document_title.localeCompare(b.document_title, 'fr'));
+  sortedDocs.forEach((x, i) => {
     html += `
       <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0;">
         <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
@@ -426,7 +429,7 @@ document.getElementById('showNamesBtn').onclick = () => {
     }
   });
   
-  allNames.sort((a, b) => a.name.localeCompare(b.name));
+  allNames.sort((a, b) => a.name.localeCompare(b.name, \'fr\'));
   count.textContent = `تم العثور على ${allNames.length} اسم في الأرشيف`;
   
   let html = `
@@ -518,5 +521,22 @@ window.forceDownload = function(e, url, filename) {
 };
 </script>
 
+
+<footer style="margin-top: 50px; padding: 15px; text-align: center; background: #f8f9fa; border-top: 1px solid #eee; font-family: 'Cairo', sans-serif;" onmouseover="document.getElementById('footer-info').style.display='block'" onmouseout="document.getElementById('footer-info').style.display='none'">
+  <div style="cursor: pointer; display: inline-block; padding: 10px; background: #e2e8f0; border-radius: 50%; width: 45px; height: 45px; line-height: 25px; transition: 0.2s;" onmouseover="this.style.background='#cbd5e1'" onmouseout="this.style.background='#e2e8f0'">
+    <span style="font-size: 24px; color: #475569;" title="حول الموقع والمساهمة">ℹ️</span>
+  </div>
+  
+  <div id="footer-info" style="display: none; margin-top: 20px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 600px; margin-left: auto; margin-right: auto; border: 1px solid #e5e7eb;">
+    <h3 style="color: var(--ink); margin-top: 0; margin-bottom: 10px;">Algeria’s Memories and Colors</h3>
+    <p style="color: #555; margin: 5px 0;">من أجل تسهيل البحث عن صور المجاهدين والوثائق.</p>
+    <p style="color: #555; margin: 5px 0; font-weight: bold;">من تطوير علاب عمر</p>
+    <hr style="border:none; border-top: 1px dashed #cbd5e1; margin: 15px 0;">
+    <p style="color: #555; margin: 15px 0;">نبحث عن شخص أو مؤسسة ترغب في المساهمة في استضافة الموقع لضمان استمراره وإتاحته للجميع.</p>
+    <p style="color: #555; margin: 10px 0;">🤝 مساهمتكم دعمٌ للذاكرة الجزائرية</p>
+    <p style="color: #555; margin: 5px 0;">📩 من يرغب في المساهمة، يتواصل معي عبر الخاص. <a href="mailto:amaalla2912@outlook.fr" style="color: #2563eb; text-decoration: none; font-weight: bold;">amaalla2912@outlook.fr</a></p>
+  </div>
+</footer>
 </body>
+
 </html>

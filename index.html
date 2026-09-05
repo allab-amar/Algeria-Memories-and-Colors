@@ -252,7 +252,8 @@ window.openLightbox = function(src) {
 <section id="results" class="grid"></section>
 </main>
 <footer>
-  <div style="margin-bottom:10px;">الأرشيف — يحتوي حاليًا على <span id="footerCount"></span> صورة.</div>
+  <div style="margin-bottom:15px;">الأرشيف — يحتوي حاليًا على <span id="footerCount"></span> صورة.</div>
+
 </footer>
 <script src="data.js"></script><script>
 
@@ -329,7 +330,8 @@ function render(){
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
-  a.forEach((x, i) => {
+  let sortedA = [...a].sort((c, d) => c.name.localeCompare(d.name, 'fr'));
+  sortedA.forEach((x, i) => {
     const dispName = esc(x.name) + (x.arabic_name ? ' - ' + esc(x.arabic_name) : '');
     html += `
       <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0; transition: 0.2s;">
@@ -379,7 +381,8 @@ document.getElementById('showAllBtn').onclick = () => {
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
-  ARCHIVE.forEach((x, i) => {
+  let sortedArchive = [...ARCHIVE].sort((c, d) => c.name.localeCompare(d.name, 'fr'));
+  sortedArchive.forEach((x, i) => {
     const dispName = esc(x.name) + (x.arabic_name ? ' - ' + esc(x.arabic_name) : '');
     html += `
       <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0; transition: 0.2s;">
@@ -457,4 +460,21 @@ window.forceDownload = function(e, url, filename) {
 };
 </script>
 
-</body></html>
+
+<footer style="margin-top: 50px; padding: 15px; text-align: center; background: #f8f9fa; border-top: 1px solid #eee; font-family: 'Cairo', sans-serif;" onmouseover="document.getElementById('footer-info').style.display='block'" onmouseout="document.getElementById('footer-info').style.display='none'">
+  <div style="cursor: pointer; display: inline-block; padding: 10px; background: #e2e8f0; border-radius: 50%; width: 45px; height: 45px; line-height: 25px; transition: 0.2s;" onmouseover="this.style.background='#cbd5e1'" onmouseout="this.style.background='#e2e8f0'">
+    <span style="font-size: 24px; color: #475569;" title="حول الموقع والمساهمة">ℹ️</span>
+  </div>
+  
+  <div id="footer-info" style="display: none; margin-top: 20px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 600px; margin-left: auto; margin-right: auto; border: 1px solid #e5e7eb;">
+    <h3 style="color: var(--ink); margin-top: 0; margin-bottom: 10px;">Algeria’s Memories and Colors</h3>
+    <p style="color: #555; margin: 5px 0;">من أجل تسهيل البحث عن صور المجاهدين والوثائق.</p>
+    <p style="color: #555; margin: 5px 0; font-weight: bold;">من تطوير علاب عمر</p>
+    <hr style="border:none; border-top: 1px dashed #cbd5e1; margin: 15px 0;">
+    <p style="color: #555; margin: 15px 0;">نبحث عن شخص أو مؤسسة ترغب في المساهمة في استضافة الموقع لضمان استمراره وإتاحته للجميع.</p>
+    <p style="color: #555; margin: 10px 0;">🤝 مساهمتكم دعمٌ للذاكرة الجزائرية</p>
+    <p style="color: #555; margin: 5px 0;">📩 من يرغب في المساهمة، يتواصل معي عبر الخاص. <a href="mailto:amaalla2912@outlook.fr" style="color: #2563eb; text-decoration: none; font-weight: bold;">amaalla2912@outlook.fr</a></p>
+  </div>
+</footer>
+</body>
+</html>
