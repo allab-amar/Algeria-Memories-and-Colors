@@ -190,11 +190,6 @@ const ARCHIVE = [
     "keywords": "bouziane mohamed"
   },
   {
-    "name": "Bouzid Ali",
-    "image": "images/Bouzid Ali.jpg",
-    "keywords": "bouzid ali"
-  },
-  {
     "name": "BRAHMI Mohamed",
     "image": "images/BRAHMI Mohamed..jpg",
     "keywords": "brahmi mohamed"
@@ -310,9 +305,11 @@ const ARCHIVE = [
     "keywords": "doudou ali"
   },
   {
-    "name": "DRICHE Mohamed. ue",
+    "name": "DRICHE Mohamed",
     "image": "images/DRICHE Mohamed. ue.jpg",
-    "keywords": "driche mohamed. ue"
+    "keywords": "driche mohamed. ue",
+    "year": "",
+    "place": ""
   },
   {
     "name": "EL-GHCUL Mohamed",
@@ -912,9 +909,11 @@ const ARCHIVE = [
     "keywords": "tirrou tahar"
   },
   {
-    "name": "TLEMÇANI Ali",
+    "name": "TLEMCANI Ali",
     "image": "images/TLEMÇANI Ali.jpg",
-    "keywords": "tlemçani ali"
+    "keywords": "tlemçani ali",
+    "year": "",
+    "place": ""
   },
   {
     "name": "TOULEB Ali",
@@ -948,7 +947,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "AZIZ Rabah.",
+    "name": "AZIZ Rabah",
     "image": "images/img_1788530084389_1.jpg",
     "year": "",
     "place": ""
@@ -1506,7 +1505,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "AHMED Ben MohaMed.",
+    "name": "AHMED Ben MohaMed",
     "image": "images/img_1788605172295_64.jpg",
     "year": "",
     "place": ""
@@ -1944,7 +1943,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "AMRAOUI Lakhdar.",
+    "name": "AMRAOUI Lakhdar",
     "image": "images/img_1788605177550_137.jpg",
     "year": "",
     "place": ""
@@ -2220,7 +2219,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "AYACHI Ahmed.",
+    "name": "AYACHI Ahmed",
     "image": "images/img_1788605180621_183.jpg",
     "year": "",
     "place": ""
@@ -2262,7 +2261,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "BABOU Ahmed.",
+    "name": "BABOU Ahmed",
     "image": "images/img_1788616768951_0.jpg",
     "year": "",
     "place": ""
@@ -2658,7 +2657,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "BELGHOUL salahe",
+    "name": "BELGHOUL salah",
     "image": "images/img_1788616773428_66.jpg",
     "year": "",
     "place": ""
@@ -3012,7 +3011,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "BEN KADI Tahar.",
+    "name": "BEN KADI Tahar",
     "image": "images/img_1788616778074_125.jpg",
     "year": "",
     "place": ""
@@ -3864,7 +3863,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "BERRICHE Amar.",
+    "name": "BERRICHE Amar",
     "image": "images/img_1788616789008_267.jpg",
     "year": "",
     "place": ""
@@ -4220,12 +4219,6 @@ const ARCHIVE = [
   {
     "name": "BOUDAH Ali",
     "image": "images/img_1788616792911_326.jpg",
-    "year": "",
-    "place": ""
-  },
-  {
-    "name": "BOUDALI Ali.",
-    "image": "images/img_1788616792979_327.jpg",
     "year": "",
     "place": ""
   },
@@ -4680,7 +4673,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "BOUMAIZA Abdelkader.",
+    "name": "BOUMAIZA Abdelkader",
     "image": "images/img_1788616798400_403.jpg",
     "year": "",
     "place": ""
@@ -4788,7 +4781,7 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "BOUNGUIRA Salah.",
+    "name": "BOUNGUIRA Salah",
     "image": "images/img_1788616799568_421.jpg",
     "year": "",
     "place": ""
@@ -5030,12 +5023,6 @@ const ARCHIVE = [
   {
     "name": "BOUSSEHABA Bouteldja",
     "image": "images/img_1788616802684_461.jpg",
-    "year": "",
-    "place": ""
-  },
-  {
-    "name": "BOUSSHABA Ali",
-    "image": "images/img_1788616802747_462.jpg",
     "year": "",
     "place": ""
   },

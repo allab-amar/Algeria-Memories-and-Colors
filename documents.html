@@ -237,6 +237,14 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
   .list-header button { font-size: 11px; padding: 3px 8px; margin: 0; }
   .nav-tabs { margin-bottom: 10px; }
   .nav-tabs a { padding: 6px; font-size: 13px; border-radius: 8px; }
+  #searchInput {
+    font-size: 12.5px;
+    padding: 10px 12px;
+  }
+  #searchInput::placeholder {
+    font-size: 12px;
+    opacity: 0.85;
+  }
 }
 </style>
 </head>
@@ -318,6 +326,16 @@ const results = document.getElementById('results');
 const count = document.getElementById('count');
 document.getElementById('footerCount').textContent = DOCUMENTS_ARCHIVE.length;
 
+function updateSearchPlaceholder() {
+  if (window.innerWidth <= 600) {
+    searchInput.placeholder = "ابحث بالاسم واللقب (مثال: CHOUCHANE Bachir)";
+  } else {
+    searchInput.placeholder = "ابحث بالاسم واللقب معاً في الوثائق (مثال: CHOUCHANE Bachir أو Bachir CHOUCHANE)...";
+  }
+}
+updateSearchPlaceholder();
+window.addEventListener('resize', updateSearchPlaceholder);
+
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
 function highlightMatches(text, tokensToHighlight) {
@@ -351,7 +369,9 @@ function render(){
   }
   
   const matchedDocs = [];
-  const getWords = str => String(str || '').toLowerCase().split(/[\s\-',.]+/).filter(Boolean);
+  // Clean duplicate numbers / suffixes (e.g. _1, _2, (1), -1) from names for accurate search matching
+  const cleanNameForSearch = str => String(str || '').replace(/[_\-\s]*\d+$/g, '').replace(/\(\d+\)$/g, '');
+  const getWords = str => cleanNameForSearch(str).toLowerCase().split(/[\s\-',._\d]+/).filter(Boolean);
 
   for (const doc of DOCUMENTS_ARCHIVE) {
     const docNames = doc.names || [];
@@ -367,7 +387,7 @@ function render(){
 
     const partialPersonMatches = docNames.filter(personName => {
       const pWords = getWords(personName);
-      return searchTokens.some(tok => pWords.some(w => w === tok || w.startsWith(tok)) || personName.toLowerCase().includes(tok));
+      return searchTokens.some(tok => pWords.some(w => w === tok || w.startsWith(tok)) || cleanNameForSearch(personName).toLowerCase().includes(tok) || personName.toLowerCase().includes(tok));
     });
     
     const matchedTokens = searchTokens.filter(t => 

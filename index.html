@@ -227,6 +227,14 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
   .list-header button { font-size: 11px; padding: 3px 8px; margin: 0; }
   .nav-tabs { margin-bottom: 10px; }
   .nav-tabs a { padding: 6px; font-size: 13px; border-radius: 8px; }
+  #searchInput {
+    font-size: 12.5px;
+    padding: 10px 12px;
+  }
+  #searchInput::placeholder {
+    font-size: 12px;
+    opacity: 0.85;
+  }
 }
 </style>
 </head>
@@ -305,6 +313,16 @@ const results = document.getElementById('results');
 const count = document.getElementById('count');
 document.getElementById('footerCount').textContent = ARCHIVE.length;
 
+function updateSearchPlaceholder() {
+  if (window.innerWidth <= 600) {
+    searchInput.placeholder = "اكتب اللقب والاسم (مثال: CHOUCHANE Bachir)";
+  } else {
+    searchInput.placeholder = "اكتب اللقب والاسم معاً (مثال: CHOUCHANE Bachir أو Bachir CHOUCHANE)...";
+  }
+}
+updateSearchPlaceholder();
+window.addEventListener('resize', updateSearchPlaceholder);
+
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
 function highlightMatches(text, tokensToHighlight) {
@@ -340,10 +358,13 @@ function render(){
   
   // Match records containing AT LEAST ONE token (Condition OR)
   const matchedList = [];
-  const getWords = str => String(str || '').toLowerCase().split(/[\s\-',.]+/).filter(Boolean);
+  // Clean duplicate numbers / suffixes (e.g. _1, _2, (1), -1) from names for accurate search matching
+  const cleanNameForSearch = str => String(str || '').replace(/[_\-\s]*\d+$/g, '').replace(/\(\d+\)$/g, '');
+  const getWords = str => cleanNameForSearch(str).toLowerCase().split(/[\s\-',._\d]+/).filter(Boolean);
 
   for (const item of ARCHIVE) {
-    const targetStr = [item.name || '', item.keywords || '', item.arabic_name || ''].join(' ').toLowerCase();
+    const cleanedName = cleanNameForSearch(item.name);
+    const targetStr = [cleanedName, item.name || '', item.keywords || '', item.arabic_name || ''].join(' ').toLowerCase();
     const nameWords = getWords(item.name);
     
     let matchedTokens = [];
@@ -487,7 +508,7 @@ function render(){
         <a href="#" style="color:var(--ink); text-decoration:none; display:flex; justify-content:space-between; align-items:center; width:100%; font-size:14px;" 
            onclick="event.preventDefault(); window.showPhotoFromSearch(${i});">
           <span style="display:flex; align-items:center; gap:6px;">
-            👤 <span style="font-weight: 600;">${highlightedName}</span>
+            👤 <span style="font-weight: 600;" dir="ltr">${highlightedName}</span>
           </span>
           ${badgeHtml}
         </a>
