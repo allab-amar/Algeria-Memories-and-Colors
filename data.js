@@ -1228,12 +1228,6 @@ const ARCHIVE = [
     "place": ""
   },
   {
-    "name": "ABDELKADER bouzidi",
-    "image": "images/img_1788605169195_17.jpg",
-    "year": "",
-    "place": ""
-  },
-  {
     "name": "ABDELKADER",
     "image": "images/img_1788605169266_18.jpg",
     "year": "",
