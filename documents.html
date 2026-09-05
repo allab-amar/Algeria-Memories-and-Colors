@@ -28,6 +28,40 @@ window.showInViewer = function(imgsStr, title, downloadName, startIndex = 0) {
     }
 };
 
+window.openLightboxCurrent = function() {
+    if (window.currentViewerImages && window.currentViewerImages.length > window.currentViewerIndex) {
+        window.openLightbox(window.currentViewerImages[window.currentViewerIndex]);
+    }
+};
+
+window.currentRenderedDocs = [];
+window.showDocFromSearch = function(index) {
+    const x = window.currentRenderedDocs[index];
+    if (!x) return;
+    let matches = [];
+    const f = (firstName.value || '').trim().toLowerCase();
+    const l = (lastName.value || '').trim().toLowerCase();
+    if (f || l) matches = (x.names || []).filter(n => (f && n.toLowerCase().includes(f)) || (l && n.toLowerCase().includes(l)));
+    let matchText = matches.length ? ` (تتضمن: ${matches.join('، ')})` : '';
+    const imgs = (x.images && x.images.length > 0) ? x.images : [x.image];
+    window.showInViewer(imgs.join('|||'), x.document_title + matchText, x.document_title);
+};
+
+window.currentAllDocs = [];
+window.showDocFromAll = function(index) {
+    const x = window.currentAllDocs[index];
+    if (!x) return;
+    const imgs = (x.images && x.images.length > 0) ? x.images : [x.image];
+    window.showInViewer(imgs.join('|||'), x.document_title, x.document_title);
+};
+
+window.currentAllNames = [];
+window.showNameFromAll = function(index) {
+    const item = window.currentAllNames[index];
+    if (!item) return;
+    window.showInViewer(item.docImages.join('|||'), 'اسم الوثيقة: ' + item.docTitle, item.name, item.pageIndex || 0);
+};
+
 window.renderViewerPage = function() {
     const viewer = document.getElementById('imageViewer');
     if (!viewer) return;
@@ -51,12 +85,12 @@ window.renderViewerPage = function() {
     }
     
     let html = `
-      <img src="${img}" alt="${title}" onclick="window.openLightbox('${img}')" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة">
+      <img src="${img}" alt="${esc(title)}" onclick="window.openLightboxCurrent()" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة">
       
       ${paginationHtml}
       
       <div class="actions" style="display:flex; justify-content:center; gap:10px; margin-bottom: 10px;">
-        <button onclick="window.openLightbox('${img}')" class="download-btn" style="background:#1a1a1a; color:white; border:none; padding: 4px 8px; font-size: 11px; font-weight: normal; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo';">👁️ تكبير</button>
+        <button onclick="window.openLightboxCurrent()" class="download-btn" style="background:#1a1a1a; color:white; border:none; padding: 4px 8px; font-size: 11px; font-weight: normal; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo';">👁️ تكبير</button>
         
       </div>
     `;
@@ -243,11 +277,10 @@ window.openLightbox = function(src) {
 <strong>🔎 البحث عن الأسماء في الوثائق الارشيفية خلال الفترة الاستعمارية.</strong>
 <p id="langWarning" style="color:#ef4444; font-size:14px; margin: 8px 0; display:none; font-weight:bold;">⚠️ يرجى كتابة الاسم واللقب باللغة الفرنسية فقط (الأرقام واللغة العربية غير مقبولة).</p>
 <div class="searchline">
-  <input id="lastName" placeholder="اللقب (Nom)..." autocomplete="off">
-  <input id="firstName" placeholder="الاسم (Prénom)..." autocomplete="off">
-  <div style="display:flex; gap:10px; width:100%;">
-    <button id="showDocsBtn" title="عرض جميع عناوين الوثائق" style="flex:1; background:#34d399; color:#111827; border:none; border-radius:10px; padding:10px 10px; font-family:\'Cairo\', sans-serif; cursor:pointer; font-weight:bold; font-size:14px; transition:0.3s; white-space:nowrap; box-shadow: 0 4px 10px rgba(16,185,129,0.3);">📄 عرض الوثائق</button>
-    <button id="showNamesBtn" title="عرض جميع الأسماء المتوفرة" style="flex:1; background:#86efac; color:#111827; border:none; border-radius:10px; padding:10px 10px; font-family:\'Cairo\', sans-serif; cursor:pointer; font-weight:bold; font-size:14px; transition:0.3s; white-space:nowrap; box-shadow: 0 4px 10px rgba(134,239,172,0.3);">👥 عرض الأسماء</button>
+  <input id="searchInput" placeholder="ابحث بالاسم واللقب معاً في الوثائق (مثال: CHOUCHANE Bachir أو Bachir CHOUCHANE)..." autocomplete="off" autofocus>
+  <div id="btnGroup" style="display:flex; gap:10px;">
+    <button id="showDocsBtn" title="عرض جميع عناوين الوثائق" style="flex:1; background:#34d399; color:#111827; border:none; border-radius:10px; padding:10px 15px; font-family:'Cairo', sans-serif; cursor:pointer; font-weight:bold; font-size:14px; transition:0.3s; white-space:nowrap; box-shadow: 0 4px 10px rgba(16,185,129,0.3);">📄 عرض الوثائق</button>
+    <button id="showNamesBtn" title="عرض جميع الأسماء المتوفرة" style="flex:1; background:#86efac; color:#111827; border:none; border-radius:10px; padding:10px 15px; font-family:'Cairo', sans-serif; cursor:pointer; font-weight:bold; font-size:14px; transition:0.3s; white-space:nowrap; box-shadow: 0 4px 10px rgba(134,239,172,0.3);">👥 عرض الأسماء</button>
   </div>
 </div>
 <div id="count"></div>
@@ -280,76 +313,186 @@ window.toggleAccordion = function(id) {
     }
 }
 
-const firstName=document.getElementById('firstName'),lastName=document.getElementById('lastName'),results=document.getElementById('results'),count=document.getElementById('count');
+const searchInput = document.getElementById('searchInput');
+const results = document.getElementById('results');
+const count = document.getElementById('count');
 document.getElementById('footerCount').textContent = DOCUMENTS_ARCHIVE.length;
+
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function highlightMatches(text, tokensToHighlight) {
+  let escaped = esc(text);
+  if (!tokensToHighlight || tokensToHighlight.length === 0) return escaped;
+  const sortedTokens = [...new Set(tokensToHighlight)].sort((x, y) => y.length - x.length);
+  for (const tok of sortedTokens) {
+    const regex = new RegExp(`(${tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    escaped = escaped.replace(regex, '<mark style="background:#fef08a; color:#1e293b; padding:1px 3px; border-radius:3px; font-weight:bold;">$1</mark>');
+  }
+  return escaped;
+}
+
 function render(){
-  const f = firstName.value.trim().toLowerCase(), l = lastName.value.trim().toLowerCase();
-  if (!f && !l) {
+  const rawQuery = searchInput.value.trim();
+  if (!rawQuery) {
     document.querySelector('header').classList.remove('header-small');
     count.textContent = '';
-    results.innerHTML = '<div class="empty">الرجاء إدخال كلمة بحث لعرض الوثائق.</div>';
+    results.innerHTML = '<div class="empty">الرجاء إدخال كلمة بحث (الاسم واللقب) لعرض الوثائق.</div>';
     return;
   }
   document.querySelector('header').classList.add('header-small');
-  if ((f && f.length < 3) || (l && l.length < 3)) {
+  
+  const tokens = rawQuery.toLowerCase().split(/\s+/).filter(w => w.length > 0);
+  const searchTokens = tokens.filter(w => w.length >= 2);
+  
+  if (searchTokens.length === 0) {
     count.textContent = '';
-    results.innerHTML = '<div class="empty">الرجاء كتابة 3 أحرف على الأقل للبحث.</div>';
+    results.innerHTML = '<div class="empty">الرجاء كتابة حرفين على الأقل للبحث.</div>';
     return;
   }
   
-  const match = (doc, term) => (doc.names || []).some(n => n.toLowerCase().includes(term));
-  
-  let a = [], message = '';
-  if (f && l) {
-    a = DOCUMENTS_ARCHIVE.filter(doc => match(doc, f) && match(doc, l));
-    if (a.length === 0) {
-      const byLastName = DOCUMENTS_ARCHIVE.filter(doc => match(doc, l));
-      if (byLastName.length > 0) {
-        a = byLastName;
-        message = '<div class="panel" style="background:#ffecd2; color:#856404; padding:15px; border-radius:12px; margin-bottom:20px;">للأسف هذا الاسم واللقب غير موجود، لكن تم العثور على وثائق تحتوي على نفس اللقب:</div>';
+  const matchedDocs = [];
+  const getWords = str => String(str || '').toLowerCase().split(/[\s\-',.]+/).filter(Boolean);
+
+  for (const doc of DOCUMENTS_ARCHIVE) {
+    const docNames = doc.names || [];
+    
+    // Check if any single person name in doc.names matches ALL tokens as words/prefixes (not internal substrings)
+    const fullPersonMatches = docNames.filter(personName => {
+      const pWords = getWords(personName);
+      if (searchTokens.length === 1) {
+        return pWords.some(w => w === searchTokens[0]);
       }
+      return searchTokens.every(tok => pWords.some(w => w === tok || w.startsWith(tok)));
+    });
+
+    const partialPersonMatches = docNames.filter(personName => {
+      const pWords = getWords(personName);
+      return searchTokens.some(tok => pWords.some(w => w === tok || w.startsWith(tok)) || personName.toLowerCase().includes(tok));
+    });
+    
+    const matchedTokens = searchTokens.filter(t => 
+      docNames.some(n => n.toLowerCase().includes(t)) || 
+      (doc.document_title && doc.document_title.toLowerCase().includes(t))
+    );
+    
+    const matchCount = matchedTokens.length;
+    if (matchCount > 0) {
+      const isFullMatch = (fullPersonMatches.length > 0);
+
+      matchedDocs.push({
+        doc: doc,
+        matchCount: matchCount,
+        isFullMatch: isFullMatch,
+        fullPersonMatches: fullPersonMatches,
+        partialPersonMatches: partialPersonMatches,
+        matchedTokens: matchedTokens
+      });
     }
-  } else if (l && !f) {
-    a = DOCUMENTS_ARCHIVE.filter(doc => match(doc, l));
-  } else if (f && !l) {
-    a = DOCUMENTS_ARCHIVE.filter(doc => match(doc, f));
   }
-  
-  if (a.length === 0) {
+
+  if (matchedDocs.length === 0) {
     results.innerHTML = '<div class="empty">نتأسف لعدم وجود الاسم في الوثائق.</div>';
     count.textContent = '';
     return;
   }
-  
-  document.querySelector('header').classList.add('header-small');
-  count.textContent = `عرض ${a.length} من ${DOCUMENTS_ARCHIVE.length} وثيقة`;
-  
+
+  // Priority 1: full matches
+  // Priority 2: partial matches
+  // Tie-breaker: matchCount descending, then alphabetical by document_title
+  matchedDocs.sort((a, b) => {
+    if (a.isFullMatch !== b.isFullMatch) {
+      return a.isFullMatch ? -1 : 1;
+    }
+    if (a.matchCount !== b.matchCount) {
+      return b.matchCount - a.matchCount;
+    }
+    return (a.doc.document_title || '').localeCompare(b.doc.document_title || '', 'fr');
+  });
+
+  const fullMatchesCount = matchedDocs.filter(x => x.isFullMatch).length;
+  const partialMatchesCount = matchedDocs.length - fullMatchesCount;
+
+  if (fullMatchesCount > 0 && partialMatchesCount > 0) {
+    count.innerHTML = `تم العثور على <b>${matchedDocs.length}</b> وثيقة (${fullMatchesCount} تطابق تام ⭐ و ${partialMatchesCount} تطابق جزئي) من أصل ${DOCUMENTS_ARCHIVE.length} وثيقة`;
+  } else if (fullMatchesCount > 0 && partialMatchesCount === 0) {
+    count.innerHTML = `تم العثور على <b>${fullMatchesCount}</b> وثيقة (تطابق تام ⭐) من أصل ${DOCUMENTS_ARCHIVE.length} وثيقة`;
+  } else {
+    count.innerHTML = `تم العثور على <b>${matchedDocs.length}</b> وثيقة (تطابق جزئي) من أصل ${DOCUMENTS_ARCHIVE.length} وثيقة`;
+  }
+
+  let message = '';
+  if (searchTokens.length > 1 && fullMatchesCount === 0) {
+    message = `
+      <div class="panel" style="background:#fffbeb; color:#92400e; border:1px solid #fde68a; padding:12px 18px; border-radius:12px; margin-bottom:18px; font-size:14px; display:flex; align-items:center; gap:10px; box-shadow: 0 2px 8px rgba(245,158,11,0.08);">
+        <span style="font-size:20px;">💡</span>
+        <span>لم نجد وثائق بتطابق كامل لجميع الكلمات، ولكن تم العثور على <b>${matchedDocs.length}</b> وثيقة تتضمن بعض الكلمات (تطابق جزئي):</span>
+      </div>
+    `;
+  }
+
   let html = message + `
   <div class="panel" style="padding:0; background:transparent; box-shadow:none; grid-column: 1 / -1;">
     <div class="split-view">
       
       <div class="list-header">
-          <h3>نتائج البحث (${a.length}):</h3>
-        </div>
+        <h3>نتائج البحث (${matchedDocs.length}):</h3>
+      </div>
       <div id="listPane" class="list-pane">
-        <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
+        <ul style="line-height:1.6; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
-  
-  let sortedA = [...a].sort((c, d) => c.document_title.localeCompare(d.document_title, 'fr'));
-  sortedA.forEach((x, i) => {
-    let matches = [];
-    if(f || l) matches = (x.names || []).filter(n => (f && n.toLowerCase().includes(f)) || (l && n.toLowerCase().includes(l)));
-    let matchText = matches.length ? ` (تتضمن: ${matches.join('، ')})` : '';
+
+  window.currentRenderedDocs = matchedDocs.map(x => x.doc);
+  let hasShownPartialSeparator = false;
+
+  matchedDocs.forEach((entry, i) => {
+    const x = entry.doc;
+    const isFull = entry.isFullMatch;
+    
+    const relevantNames = (entry.fullPersonMatches.length > 0 ? entry.fullPersonMatches : entry.partialPersonMatches).slice(0, 3);
+    const highlightedNames = relevantNames.map(n => highlightMatches(n, entry.matchedTokens)).join(' ، ');
+    const matchSubtext = relevantNames.length ? `<div style="font-size:12px; color:#475569; margin-top:4px;">👤 تتضمن: ${highlightedNames}${relevantNames.length < (entry.partialPersonMatches.length) ? ' ...' : ''}</div>` : '';
+
+    if (fullMatchesCount > 0 && !isFull && !hasShownPartialSeparator) {
+      hasShownPartialSeparator = true;
+      html += `
+        <li style="margin: 14px 0 8px 0; padding: 6px 12px; background: #f8fafc; border-radius: 8px; font-size: 12px; font-weight: bold; color: #64748b; text-align: right; direction: rtl; border: 1px dashed #cbd5e1;">
+          ⬇️ نتائج تطابق جزئي (${partialMatchesCount} وثائق تتضمن بعض الأسماء المطلوبة):
+        </li>
+      `;
+    }
+
+    let itemStyle = '';
+    let badgeHtml = '';
+
+    if (isFull) {
+      itemStyle = 'background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 5px solid #10b981; border-radius: 8px; padding: 9px 12px; margin-bottom: 6px; box-shadow: 0 2px 5px rgba(16,185,129,0.06); transition: all 0.2s ease;';
+      badgeHtml = `
+        <span style="background: #10b981; color: #ffffff; font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: bold; white-space: nowrap; margin-left: 8px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(16,185,129,0.25);">
+          ⭐ تطابق تام
+        </span>
+      `;
+    } else {
+      itemStyle = 'background: #ffffff; border: 1px solid #f1f5f9; border-left: 4px solid #cbd5e1; border-radius: 8px; padding: 9px 12px; margin-bottom: 6px; transition: all 0.2s ease;';
+      badgeHtml = `
+        <span style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-size: 11px; padding: 2px 7px; border-radius: 12px; white-space: nowrap; margin-left: 8px;">
+          ${searchTokens.length > 1 ? `تطابق جزئي (${entry.matchCount}/${searchTokens.length})` : 'تطابق جزئي'}
+        </span>
+      `;
+    }
+
     html += `
-      <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0; transition: 0.2s;">
-        <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
-           onclick="event.preventDefault(); window.showInViewer('${esc((x.images || [x.image]).join('|||'))}', '${esc(x.document_title)}${esc(matchText)}', '${esc(x.document_title)}');">
-          📄 ${esc(x.document_title)}${esc(matchText)}
+      <li style="${itemStyle}">
+        <a href="#" style="color:var(--ink); text-decoration:none; display:flex; justify-content:space-between; align-items:flex-start; width:100%; font-size:14px;" 
+           onclick="event.preventDefault(); window.showDocFromSearch(${i});">
+          <div>
+            <div style="font-weight:600;">📄 ${esc(x.document_title)}</div>
+            ${matchSubtext}
+          </div>
+          ${badgeHtml}
         </a>
       </li>`;
   });
-  
+
   html += `</ul></div>
       <div id="imageViewer" class="viewer-pane">
         <h3 style="color: #999;">👈 اضغط على وثيقة من القائمة الجانبية لعرضها هنا</h3>
@@ -359,33 +502,28 @@ function render(){
   document.querySelector('main').style.maxWidth = '95%';
   results.innerHTML = html;
 }
+
 const filterFn=function(){
   this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); 
-  if (firstName.value || lastName.value) {
-    document.getElementById('showDocsBtn').style.display = 'none';
+  if (searchInput.value.trim()) {
+    document.getElementById('btnGroup').style.display = 'none';
   } else {
-    document.getElementById('showDocsBtn').style.display = 'block';
+    document.getElementById('btnGroup').style.display = 'flex';
   }
   document.querySelector('main').style.maxWidth = '1200px'; 
   render();
 };
-firstName.oninput=filterFn;lastName.oninput=filterFn;render();
+searchInput.oninput=filterFn;render();
 
-lastName.addEventListener('keydown', function(e) {
+searchInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
     e.preventDefault();
-    firstName.focus();
-  }
-});
-firstName.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    firstName.blur();
+    searchInput.blur();
   }
 });
 
 document.getElementById('showDocsBtn').onclick = () => {
-  firstName.value = ''; lastName.value = '';
+  searchInput.value = '';
   document.getElementById('searchPanel').style.display = 'none';
   document.querySelector('header').classList.add('header-small');
   count.textContent = `عرض ${DOCUMENTS_ARCHIVE.length} من ${DOCUMENTS_ARCHIVE.length} وثيقة`;
@@ -404,11 +542,12 @@ document.getElementById('showDocsBtn').onclick = () => {
   `;
   
   let sortedDocs = [...DOCUMENTS_ARCHIVE].sort((a, b) => a.document_title.localeCompare(b.document_title, 'fr'));
+  window.currentAllDocs = sortedDocs;
   sortedDocs.forEach((x, i) => {
     html += `
       <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0;">
         <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
-           onclick="event.preventDefault(); window.showInViewer('${esc((x.images || [x.image]).join('|||'))}', '${esc(x.document_title)}', '${esc(x.document_title)}');">
+           onclick="event.preventDefault(); window.showDocFromAll(${i});">
           📄 ${esc(x.document_title)}
         </a>
       </li>`;
@@ -425,7 +564,7 @@ document.getElementById('showDocsBtn').onclick = () => {
 };
 
 document.getElementById('showNamesBtn').onclick = () => {
-  firstName.value = ''; lastName.value = '';
+  searchInput.value = '';
   document.getElementById('searchPanel').style.display = 'none';
   document.querySelector('header').classList.add('header-small');
   let allNames = [];
@@ -443,7 +582,8 @@ document.getElementById('showNamesBtn').onclick = () => {
     }
   });
   
-  allNames.sort((a, b) => a.name.localeCompare(b.name, \'fr\'));
+  allNames.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+  window.currentAllNames = allNames;
   count.textContent = `تم العثور على ${allNames.length} اسم في الأرشيف`;
   
   let html = `
@@ -463,7 +603,7 @@ document.getElementById('showNamesBtn').onclick = () => {
     html += `
       <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0;">
         <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
-           onclick="event.preventDefault(); window.showInViewer('${esc(item.docImages.join('|||'))}', 'اسم الوثيقة: ${esc(item.docTitle)}', '${esc(item.name)}', ${item.pageIndex || 0});">
+           onclick="event.preventDefault(); window.showNameFromAll(${index});">
           👤 ${esc(item.name)}
         </a>
       </li>`;
@@ -482,8 +622,7 @@ document.getElementById('showNamesBtn').onclick = () => {
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const fnInput = document.getElementById('firstName');
-    const lnInput = document.getElementById('lastName');
+    const sInput = document.getElementById('searchInput');
     const warning = document.getElementById('langWarning');
     
     function validateInput(e) {
@@ -506,8 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (fnInput) fnInput.addEventListener('input', validateInput);
-    if (lnInput) lnInput.addEventListener('input', validateInput);
+    if (sInput) sInput.addEventListener('input', validateInput);
 });
 </script>
 
