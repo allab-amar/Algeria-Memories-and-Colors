@@ -830,9 +830,11 @@ const ARCHIVE = [
     "keywords": "sellami  bachir"
   },
   {
-    "name": "SLIMANI Bachire",
+    "name": "SLIMANI Bachir",
     "image": "images/SLIMANI Bachire.jpg",
-    "keywords": "slimani bachire"
+    "keywords": "slimani bachire",
+    "year": "",
+    "place": ""
   },
   {
     "name": "SLIMANI Mohamed",
@@ -5292,6 +5294,528 @@ const ARCHIVE = [
   {
     "name": "BOUDJEMAA",
     "image": "images/img_1788635829303_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CACEMI TAHAR",
+    "image": "images/img_1788640298029_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CAVITTE  JEAN",
+    "image": "images/img_1788640298092_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHABANE Bachir",
+    "image": "images/img_1788640298151_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHABANI Boualem",
+    "image": "images/img_1788640298212_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHABBI ABDELMAJID",
+    "image": "images/img_1788640298273_4.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHABBI Alssas",
+    "image": "images/img_1788640298335_5.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHABBI Salah",
+    "image": "images/img_1788640298396_6.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHABIRA Ramdane",
+    "image": "images/img_1788640298456_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHABOU Tahar",
+    "image": "images/img_1788640298517_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHABOUNI Idriss",
+    "image": "images/img_1788640298577_9.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHABOURI Amar",
+    "image": "images/img_1788640298640_10.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHADLI Mohamed",
+    "image": "images/img_1788640298708_11.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHAFAI Abdelhamid",
+    "image": "images/img_1788640298770_12.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHAFAI Salah",
+    "image": "images/img_1788640298830_13.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHAIB Miloud",
+    "image": "images/img_1788640298892_14.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHAID   Mohamed",
+    "image": "images/img_1788640298952_15.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHAID  BELKACEM",
+    "image": "images/img_1788640299011_16.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHAIM Hacène",
+    "image": "images/img_1788640299072_17.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHAIRI Racéne",
+    "image": "images/img_1788640299137_18.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHAKOURI Abderrezek",
+    "image": "images/img_1788640299201_19.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHALBI Mohamed",
+    "image": "images/img_1788640299263_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHALLABI Abdelkader",
+    "image": "images/img_1788640299327_21.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHALLAG Mimouna",
+    "image": "images/img_1788640299392_22.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "chaouche  Mohamed",
+    "image": "images/img_1788640299453_23.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHAOUCHE RAMDANE",
+    "image": "images/img_1788640299515_24.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHARA  SAID",
+    "image": "images/img_1788640299578_25.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHARBI Madani.",
+    "image": "images/img_1788640299638_26.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHATTABI ABDELOUAHAB",
+    "image": "images/img_1788640299699_27.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEBOUTI Mahiedine",
+    "image": "images/img_1788640299759_28.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEBOUTI Mohamed",
+    "image": "images/img_1788640299819_29.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEIK Moussa",
+    "image": "images/img_1788640299880_30.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEIKH Ben Ali",
+    "image": "images/img_1788640299939_31.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEIKH",
+    "image": "images/img_1788640300003_32.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEKIREB Saci",
+    "image": "images/img_1788640300066_33.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEKIRED Mostefa",
+    "image": "images/img_1788640300131_34.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEKIRINE Salah",
+    "image": "images/img_1788640300192_35.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEKROUD Moussa",
+    "image": "images/img_1788640300255_36.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHELLAF Abdelrahim",
+    "image": "images/img_1788640300316_37.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHELLAL Ali",
+    "image": "images/img_1788640300381_38.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHELLI Abdelkader",
+    "image": "images/img_1788640300445_39.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHELLIG Mohamed",
+    "image": "images/img_1788640300511_40.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHELLOUL Ahmed",
+    "image": "images/img_1788640300571_41.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEMAM AREZKI",
+    "image": "images/img_1788640300634_42.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEMAM LOUNES",
+    "image": "images/img_1788640300695_43.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEMCHAT Mohamed",
+    "image": "images/img_1788640300755_44.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHENAM Kabloutio",
+    "image": "images/img_1788640300816_45.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHENICHENE MOHAMED",
+    "image": "images/img_1788640300877_46.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHENIKEL Mohamed",
+    "image": "images/img_1788640300938_47.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHENOUI AHMED",
+    "image": "images/img_1788640301001_48.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERA MOHAMED",
+    "image": "images/img_1788640301062_49.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERBI Hocine",
+    "image": "images/img_1788640301125_50.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERCHAB MOHAMED",
+    "image": "images/img_1788640301187_51.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERCHEF MOHAMED",
+    "image": "images/img_1788640301250_52.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERFA Mahieddine",
+    "image": "images/img_1788640301310_53.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERFI KACI",
+    "image": "images/img_1788640301374_54.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERFI Maachou",
+    "image": "images/img_1788640301435_55.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERGUI  Abdallah",
+    "image": "images/img_1788640301498_56.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERIF Hammoud",
+    "image": "images/img_1788640301564_57.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERIF Mohamed",
+    "image": "images/img_1788640301625_58.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERIFI Ali",
+    "image": "images/img_1788640301692_59.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERIFI Mohamed",
+    "image": "images/img_1788640301755_60.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERIGUI Mohamed",
+    "image": "images/img_1788640301814_61.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHERIK  SAID",
+    "image": "images/img_1788640301875_62.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHETIBI Chérifo",
+    "image": "images/img_1788640301936_63.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHETIBI Mansour",
+    "image": "images/img_1788640301997_64.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEUFF AHMED",
+    "image": "images/img_1788640302058_65.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEURFA Ali",
+    "image": "images/img_1788640302119_66.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHEURFI  LEMHOUAR",
+    "image": "images/img_1788640302183_67.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHIAHI Mohamed Tahar",
+    "image": "images/img_1788640302244_68.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHIAIDA Abdelkader",
+    "image": "images/img_1788640302306_69.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHIBANI  Idir",
+    "image": "images/img_1788640302368_70.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ChiDEKH MAAMAR",
+    "image": "images/img_1788640302432_71.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHIDIKH Maâmar",
+    "image": "images/img_1788640302491_72.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHIEB  Brahim",
+    "image": "images/img_1788640302553_73.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHIKHI Salem",
+    "image": "images/img_1788640302618_74.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHIKR MOHAMED",
+    "image": "images/img_1788640302679_75.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHIROUF Mohamed",
+    "image": "images/img_1788640302741_76.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHOUA Abdelhamid",
+    "image": "images/img_1788640302803_77.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHOUABNA Madjid",
+    "image": "images/img_1788640302866_78.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHOUCHANE Bachir",
+    "image": "images/img_1788640302928_79.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHOUCHANE Mabrouk",
+    "image": "images/img_1788640302989_80.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHOUDER  SLIMANE",
+    "image": "images/img_1788640303053_81.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHOUIKI Smail",
+    "image": "images/img_1788640303114_82.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "CHRFA MAHIEDDINE",
+    "image": "images/img_1788640303175_83.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BENAICHA Rabeh",
+    "image": "images/img_1788640312987_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ARAB ALI",
+    "image": "images/img_1788640313592_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BOUDJEMAA",
+    "image": "images/img_1788640313668_2.jpg",
     "year": "",
     "place": ""
   }
