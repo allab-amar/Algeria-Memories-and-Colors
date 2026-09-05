@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>لوحة التحكم والأرشيف</title>
+<script src="data.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+  body { font-family: 'Cairo', sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+  .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #2563eb; }
+  h1 { text-align: center; color: #1a1a1a; margin-top: 0; }
+  label { font-weight: bold; display: block; margin-top: 15px; margin-bottom: 5px; color: #333; }
+  input, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; font-family: inherit; box-sizing: border-box; }
+  input[type="file"] { background: #f1f3f5; padding: 10px; cursor: pointer; }
+  input:focus, textarea:focus { border-color: #2563eb; outline: none; }
+  textarea { height: 180px; resize: vertical; }
+  button { width: 100%; padding: 15px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+  button:hover { background: #1d4ed8; }
+  button.auth-btn { background: #155724; margin-top: 25px; }
+  button.auth-btn:hover { background: #10411b; }
+  button.danger { background: #dc3545; padding: 8px 15px; font-size: 14px; width: auto; }
+  button.danger:hover { background: #c82333; }
+  
+  .status { margin-top: 15px; text-align: center; font-weight: bold; color: #155724; display: none; padding: 15px; background: #d4edda; border-radius: 8px; border: 1px solid #c3e6cb; }
+  .instructions { background: #e9ecef; padding: 15px; border-radius: 8px; font-size: 14px; margin-bottom: 20px; color: #555; }
+  
+  .tabs { display: flex; gap: 10px; margin-bottom: 20px; display: none; }
+  .tabs button { background: #e9ecef; color: #333; flex: 1; padding: 12px; }
+  .tabs button.active { background: #2563eb; color: #fff; }
+  
+  #mainForm, #manageArchive { display: none; }
+  
+  .item-row { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
+  .item-row img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-left: 15px; }
+  .item-title { flex: 1; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>⚙️ لوحة التحكم</h1>
+  
+  <div class="instructions" id="authSection">
+    <strong>مرحباً بك في لوحة التحكم</strong><br>
+    اضغط على الزر أدناه لتحديد المجلد الرئيسي لمشروعك (Algeria_Memories_and_Colors_3_photos). هذا سيعطي الأداة صلاحية لرفع الصور وحذفها وتحديث قاعدة البيانات.
+    <button id="authBtn" class="auth-btn">📁 تحديد مجلد المشروع للبدء</button>
+  </div>
+  
+  <div class="tabs" id="tabsMenu">
+    <button id="tabAddDoc" class="active">📄 إضافة وثائق</button>
+    <button id="tabAddPhoto">📸 إضافة صور أشخاص</button>
+    <button id="tabManage">🗑️ إدارة الأرشيف</button>
+  </div>
+  
+  <!-- Add Section -->
+  <div id="mainForm">
+    <label>عنوان الوثيقة أو الصورة (اتركه فارغاً ليتم استخدام اسم ملف الصورة تلقائياً):</label>
+    <input type="text" id="docTitle" placeholder="مثال: وثيقة سرية - صفحة 6">
+    
+    <div id="fileUploadContainer">
+      <label>اختيار الصورة أو الصور (يمكنك تحديد عدة صور معاً):</label>
+      <input type="file" id="docImageFile" accept="image/*" multiple>
+    </div>
+    
+    <label>السنة (اختياري):</label>
+    <input type="text" id="docYear" placeholder="مثال: فترة الاستعمار">
+    
+    <label>المكان (اختياري):</label>
+    <input type="text" id="docPlace" placeholder="مثال: الجزائر">
+    
+    <div id="namesContainer">
+      <label>قائمة الأسماء (انسخها والصقها هنا - كل اسم في سطر):</label>
+      <textarea id="docNames_0" class="page-names" placeholder="TADJ Slami ben Bouzid
+TALBI Saddek Mohamed ben Attia"></textarea>
+    </div>
+    
+    <button id="saveBtn" style="margin-top:20px;">💾 حفظ وتحديث الموقع</button>
+    <div id="status" class="status">✅ تمت الإضافة بنجاح!</div>
+  </div>
+  
+  <!-- Manage Section -->
+  <div id="manageArchive">
+    <button id="bulkDeleteBtn" class="danger" style="margin-bottom: 20px; font-size:18px;">🗑️ حذف المحدد (0)</button>
+    <h2>📄 الوثائق</h2>
+    <div id="docsList"></div>
+    <hr style="margin:30px 0; border:1px solid #eee;">
+    <h2>📸 الصور</h2>
+    <div id="photosList"></div>
+  </div>
+</div>
+
+<script>
+let rootDirHandle = null;
+
+const authSection = document.getElementById('authSection');
+const tabsMenu = document.getElementById('tabsMenu');
+const mainForm = document.getElementById('mainForm');
+const manageArchive = document.getElementById('manageArchive');
+const namesContainer = document.getElementById('namesContainer');
+window.currentDocType = 'doc';
+  window.editMode = false;
+  document.getElementById('fileUploadContainer').style.display = 'block';
+  document.getElementById('saveBtn').innerHTML = '💾 حفظ وتحديث الموقع';
+  if (window.editMode) { document.getElementById('tabManage').click(); }
+    document.getElementById('docTitle').value = '';
+  document.getElementById('docYear').value = '';
+  document.getElementById('docPlace').value = '';
+  if (document.getElementById('docNames_0')) document.getElementById('docNames_0').value = '';
+
+
+document.getElementById('tabAddDoc').onclick = () => {
+  document.getElementById('tabAddDoc').classList.add('active');
+  document.getElementById('tabAddPhoto').classList.remove('active');
+  document.getElementById('tabManage').classList.remove('active');
+  window.currentDocType = 'doc';
+  window.editMode = false;
+  document.getElementById('fileUploadContainer').style.display = 'block';
+  document.getElementById('saveBtn').innerHTML = '💾 حفظ وتحديث الموقع';
+  if (window.editMode) { document.getElementById('tabManage').click(); }
+    document.getElementById('docTitle').value = '';
+  document.getElementById('docYear').value = '';
+  document.getElementById('docPlace').value = '';
+  if (document.getElementById('docNames_0')) document.getElementById('docNames_0').value = '';
+
+  namesContainer.style.display = 'block';
+  mainForm.style.display = 'block';
+  manageArchive.style.display = 'none';
+};
+
+document.getElementById('tabAddPhoto').onclick = () => {
+  document.getElementById('tabAddPhoto').classList.add('active');
+  document.getElementById('tabAddDoc').classList.remove('active');
+  document.getElementById('tabManage').classList.remove('active');
+  window.currentDocType = 'photo';
+  window.editMode = false;
+  document.getElementById('fileUploadContainer').style.display = 'block';
+  document.getElementById('saveBtn').innerHTML = '💾 حفظ وتحديث الموقع';
+  if (window.editMode) { document.getElementById('tabManage').click(); }
+    document.getElementById('docTitle').value = '';
+  document.getElementById('docYear').value = '';
+  document.getElementById('docPlace').value = '';
+  if (document.getElementById('docNames_0')) document.getElementById('docNames_0').value = '';
+
+  namesContainer.style.display = 'none';
+  mainForm.style.display = 'block';
+  manageArchive.style.display = 'none';
+};
+
+document.getElementById('tabManage').onclick = () => {
+  document.getElementById('tabManage').classList.add('active');
+  document.getElementById('tabAddDoc').classList.remove('active');
+  document.getElementById('tabAddPhoto').classList.remove('active');
+  mainForm.style.display = 'none';
+  manageArchive.style.display = 'block';
+  renderArchiveLists();
+};
+
+document.getElementById('authBtn').addEventListener('click', async () => {
+  try {
+    rootDirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+    try {
+      await rootDirHandle.getFileHandle('data.js', { create: false });
+    } catch (e) {
+      alert("⚠️ يبدو أنك اخترت مجلداً خاطئاً! يرجى التأكد من اختيار مجلد المشروع الذي يحتوي على ملف data.js.");
+      rootDirHandle = null;
+      return;
+    }
+    authSection.style.display = 'none';
+    tabsMenu.style.display = 'flex';
+    mainForm.style.display = 'block';
+  } catch (err) {
+    if (err.name !== 'AbortError') alert("حدث خطأ: " + err.message);
+  }
+});
+
+function renderArchiveLists() {
+  const docsList = document.getElementById('docsList');
+  docsList.innerHTML = DOCUMENTS_ARCHIVE.map((doc, i) => `
+    <div class="item-row">
+      <input type="checkbox" class="bulk-check" data-type="doc" data-index="${i}" style="width:auto; transform:scale(1.5); margin-left:15px; cursor:pointer;">
+      <img src="${doc.image}">
+      <div class="item-title">${doc.document_title}</div>
+      <div style="display:flex; justify-content:center; gap:10px; margin-top:5px;">
+        <button onclick="editItem('doc', ${i})" title="تعديل" style="width:32px; height:32px; padding:0; background:#f59e0b; color:white; border:none; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px;">✏️</button>
+        <button onclick="deleteItem('doc', ${i})" title="حذف" style="width:32px; height:32px; padding:0; background:#ef4444; color:white; border:none; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px;">🗑️</button>
+      </div>
+    </div>
+  `).join('') || '<p>لا توجد وثائق.</p>';
+  
+  const photosList = document.getElementById('photosList');
+  photosList.innerHTML = ARCHIVE.map((photo, i) => `
+    <div class="item-row">
+      <input type="checkbox" class="bulk-check" data-type="photo" data-index="${i}" style="width:auto; transform:scale(1.5); margin-left:15px; cursor:pointer;">
+      <img src="${photo.image}">
+      <div class="item-title">${photo.name}</div>
+      <div style="display:flex; justify-content:center; gap:10px; margin-top:5px;">
+        <button onclick="editItem('photo', ${i})" title="تعديل" style="width:32px; height:32px; padding:0; background:#f59e0b; color:white; border:none; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px;">✏️</button>
+        <button onclick="deleteItem('photo', ${i})" title="حذف" style="width:32px; height:32px; padding:0; background:#ef4444; color:white; border:none; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px;">🗑️</button>
+      </div>
+    </div>
+  `).join('') || '<p>لا توجد صور.</p>';
+}
+
+
+document.getElementById('manageArchive').addEventListener('change', (e) => {
+  if(e.target.classList.contains('bulk-check')) {
+    const checkedCount = document.querySelectorAll('.bulk-check:checked').length;
+    document.getElementById('bulkDeleteBtn').innerText = `🗑️ حذف المحدد (${checkedCount})`;
+  }
+});
+
+document.getElementById('bulkDeleteBtn').onclick = async () => {
+  const checkboxes = document.querySelectorAll('.bulk-check:checked');
+  if (checkboxes.length === 0) {
+    alert("يرجى تحديد عنصر واحد على الأقل للحذف.");
+    return;
+  }
+  
+  if (!confirm(`هل أنت متأكد أنك تريد حذف ${checkboxes.length} عنصر/عناصر نهائياً؟`)) return;
+  
+  let docsToDelete = [];
+  let photosToDelete = [];
+  
+  checkboxes.forEach(cb => {
+    if (cb.dataset.type === 'doc') docsToDelete.push(parseInt(cb.dataset.index));
+    else photosToDelete.push(parseInt(cb.dataset.index));
+  });
+  
+  docsToDelete.sort((a, b) => b - a);
+  photosToDelete.sort((a, b) => b - a);
+  
+  let filesToDelete = [];
+  
+  docsToDelete.forEach(idx => {
+    if (DOCUMENTS_ARCHIVE[idx].images) {
+        filesToDelete.push(...DOCUMENTS_ARCHIVE[idx].images);
+    } else if (DOCUMENTS_ARCHIVE[idx].image) {
+        filesToDelete.push(DOCUMENTS_ARCHIVE[idx].image);
+    }
+    DOCUMENTS_ARCHIVE.splice(idx, 1);
+  });
+  
+  photosToDelete.forEach(idx => {
+    if (ARCHIVE[idx].images) {
+        filesToDelete.push(...ARCHIVE[idx].images);
+    } else if (ARCHIVE[idx].image) {
+        filesToDelete.push(ARCHIVE[idx].image);
+    }
+    ARCHIVE.splice(idx, 1);
+  });
+  
+  try {
+    const dataJsContent = 'const ARCHIVE = ' + JSON.stringify(ARCHIVE, null, 2) + ';\n\nconst DOCUMENTS_ARCHIVE = ' + JSON.stringify(DOCUMENTS_ARCHIVE, null, 2) + ';\n';
+    const dataJsHandle = await rootDirHandle.getFileHandle('data.js', { create: false });
+    const writableData = await dataJsHandle.createWritable();
+    await writableData.write(dataJsContent);
+    await writableData.close();
+    
+    for (const imgPath of filesToDelete) {
+      if (imgPath) {
+        try {
+          const parts = imgPath.split('/');
+          if (parts.length === 2) {
+            const dirHandle = await rootDirHandle.getDirectoryHandle(parts[0], { create: false });
+            await dirHandle.removeEntry(parts[1]);
+          }
+        } catch (e) {
+          console.error("Could not delete physical file:", imgPath, e);
+        }
+      }
+    }
+    
+    alert(`تم حذف ${checkboxes.length} عناصر بنجاح!`);
+    renderArchiveLists();
+    document.getElementById('bulkDeleteBtn').innerText = '🗑️ حذف المحدد (0)';
+  } catch (e) {
+    alert("حدث خطأ أثناء الحذف: " + e.message);
+  }
+};
+
+
+window.editMode = false;
+window.editType = '';
+window.editIndex = -1;
+
+window.editItem = function(type, index) {
+    if (type === 'doc') {
+        document.getElementById('tabAddDoc').click();
+    } else {
+        document.getElementById('tabAddPhoto').click();
+    }
+    
+    // Set edit mode AFTER click to avoid being reset by the tab event listener
+    window.editMode = true;
+    window.editType = type;
+    window.editIndex = index;
+    
+    document.getElementById('fileUploadContainer').style.display = 'none';
+    document.getElementById('saveBtn').innerHTML = '💾 حفظ التعديلات';
+    
+    if (type === 'doc') {
+        const doc = DOCUMENTS_ARCHIVE[index];
+        document.getElementById('docTitle').value = doc.document_title || '';
+        document.getElementById('docYear').value = doc.year || '';
+        document.getElementById('docPlace').value = doc.place || '';
+        
+        const container = document.getElementById('namesContainer');
+        const numPages = (doc.images && doc.images.length > 0) ? doc.images.length : (doc.image ? 1 : 0);
+        
+        if (numPages <= 1) {
+            container.innerHTML = `
+              <label style="color:#d4af37; font-weight:bold;">الأسماء الموجودة في الوثيقة (وضع التعديل):</label>
+              <textarea id="docNames_0" class="page-names" placeholder="...">` + (doc.names ? doc.names.join('\n') : '') + `</textarea>
+            `;
+        } else {
+            let html = '<label style="color:#d4af37; font-weight:bold;">تعديل أسماء الصفحات لهذه الوثيقة:</label><br><br>';
+            for(let i = 0; i < numPages; i++) {
+                let pageNames = (doc.pageNames && doc.pageNames[i]) ? doc.pageNames[i].join('\n') : '';
+                html += `
+                  <label style="background:#f8f9fa; padding:5px 10px; border-radius:5px; border-right:3px solid #2563eb;">الأسماء الموجودة في الصفحة ${i+1}:</label>
+                  <textarea id="docNames_${i}" class="page-names" placeholder="ضع أسماء الصفحة ${i+1} هنا..." style="margin-bottom:20px;">${pageNames}</textarea>
+                `;
+            }
+            container.innerHTML = html;
+        }
+    } else {
+        const photo = ARCHIVE[index];
+        document.getElementById('docTitle').value = photo.name || '';
+        document.getElementById('docYear').value = photo.year || '';
+        document.getElementById('docPlace').value = photo.place || '';
+    }
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.deleteItem = async function(type, index) {
+  if(!confirm("هل أنت متأكد أنك تريد حذف هذا العنصر نهائياً؟ سيتم حذف الصورة من حاسوبك وحذف جميع البيانات من قاعدة البيانات!")) return;
+  
+  let deletedItem;
+  if (type === 'doc') {
+    deletedItem = DOCUMENTS_ARCHIVE[index];
+    DOCUMENTS_ARCHIVE.splice(index, 1);
+  } else {
+    deletedItem = ARCHIVE[index];
+    ARCHIVE.splice(index, 1);
+  }
+  
+  try {
+    // Write new data.js
+    const content = 'const ARCHIVE = ' + JSON.stringify(ARCHIVE, null, 2) + ';\n\nconst DOCUMENTS_ARCHIVE = ' + JSON.stringify(DOCUMENTS_ARCHIVE, null, 2) + ';\n';
+    const dataJsHandle = await rootDirHandle.getFileHandle('data.js', { create: false });
+    const writableData = await dataJsHandle.createWritable();
+    await writableData.write(content);
+    await writableData.close();
+    
+    // Delete files
+    const imagesToDelete = deletedItem.images ? deletedItem.images : (deletedItem.image ? [deletedItem.image] : []);
+    for (const img of imagesToDelete) {
+      try {
+        const parts = img.split('/');
+        if (parts.length === 2) {
+          const dirHandle = await rootDirHandle.getDirectoryHandle(parts[0], { create: false });
+          await dirHandle.removeEntry(parts[1]);
+        }
+      } catch (e) {
+        console.error("Could not delete physical file:", e);
+      }
+    }
+    
+    alert("تم الحذف بنجاح!");
+    renderArchiveLists(); // Re-render the lists instead of reloading the page
+  } catch (e) {
+    alert("حدث خطأ أثناء الحذف: " + e.message);
+  }
+}
+
+// Add Document Logic
+
+document.getElementById('docImageFile').addEventListener('change', function(e) {
+    if (window.currentDocType !== 'doc') return;
+    
+    const files = e.target.files;
+    const container = document.getElementById('namesContainer');
+    
+    if (files.length === 0) {
+        container.innerHTML = `
+          <label>قائمة الأسماء (انسخها والصقها هنا - كل اسم في سطر):</label>
+          <textarea id="docNames_0" class="page-names" placeholder="..."></textarea>
+        `;
+    } else if (files.length === 1) {
+        container.innerHTML = `
+          <label>الأسماء الموجودة في الوثيقة:</label>
+          <textarea id="docNames_0" class="page-names" placeholder="..."></textarea>
+        `;
+    } else {
+        let html = '<label style="color:#d4af37; font-weight:bold;">بما أنك اخترت عدة صور (صفحات)، يمكنك كتابة الأسماء الموجودة في كل صفحة على حدة:</label><br><br>';
+        for(let i = 0; i < files.length; i++) {
+            html += `
+              <label style="background:#f8f9fa; padding:5px 10px; border-radius:5px; border-right:3px solid #2563eb;">الأسماء الموجودة في الصفحة ${i+1} (${files[i].name}):</label>
+              <textarea id="docNames_${i}" class="page-names" placeholder="ضع أسماء الصفحة ${i+1} هنا..." style="margin-bottom:20px;"></textarea>
+            `;
+        }
+        container.innerHTML = html;
+    }
+});
+
+
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const type = window.currentDocType;
+  let title = document.getElementById('docTitle').value.trim();
+  const year = document.getElementById('docYear').value.trim();
+  const place = document.getElementById('docPlace').value.trim();
+  const fileInput = document.getElementById('docImageFile');
+  
+  if(!window.editMode && fileInput.files.length === 0) {
+    alert("يرجى اختيار صورة واحدة على الأقل.");
+    return;
+  }
+  
+  const isBulk = fileInput.files.length > 1;
+  
+  document.getElementById('status').style.display = 'block';
+  document.getElementById('status').innerText = "⏳ جاري الرفع والحفظ... يرجى الانتظار.";
+  
+  try {
+    const folder = 'images';
+    const imagesDirHandle = await rootDirHandle.getDirectoryHandle(folder, { create: false });
+    
+    if (type === 'doc') {
+        let pageNamesArray = [];
+        let flatNamesArray = [];
+        const numPages = window.editMode ? ((DOCUMENTS_ARCHIVE[window.editIndex].images && DOCUMENTS_ARCHIVE[window.editIndex].images.length > 0) ? DOCUMENTS_ARCHIVE[window.editIndex].images.length : 1) : fileInput.files.length;
+        
+        for(let i=0; i<numPages; i++) {
+            const ta = document.getElementById('docNames_' + i);
+            const txt = ta ? ta.value.trim() : '';
+            const arr = txt ? txt.split('\n').map(n => n.trim()).filter(n => n !== '') : [];
+            pageNamesArray.push(arr);
+            flatNamesArray = flatNamesArray.concat(arr);
+        }
+        if (flatNamesArray.length === 0) {
+            flatNamesArray = [title || fileInput.files[0].name.replace(/\.[^/.]+$/, "")];
+        }
+        
+        let uploadedImages = [];
+        
+        if(!window.editMode) { for(let i=0; i<fileInput.files.length; i++) {
+            const imageFile = fileInput.files[i];
+            const extension = imageFile.name.split('.').pop();
+            const safeImageName = 'doc_' + Date.now() + '_' + i + '.' + extension;
+            
+            const newImageHandle = await imagesDirHandle.getFileHandle(safeImageName, { create: true });
+            const writableImage = await newImageHandle.createWritable();
+            await writableImage.write(imageFile);
+            await writableImage.close();
+            
+            uploadedImages.push(folder + '/' + safeImageName);
+        } }
+        
+        if (window.editMode) {
+            DOCUMENTS_ARCHIVE[window.editIndex].document_title = title;
+            DOCUMENTS_ARCHIVE[window.editIndex].names = flatNamesArray;
+            DOCUMENTS_ARCHIVE[window.editIndex].pageNames = pageNamesArray;
+            DOCUMENTS_ARCHIVE[window.editIndex].year = year;
+            DOCUMENTS_ARCHIVE[window.editIndex].place = place;
+        } else {
+            DOCUMENTS_ARCHIVE.push({
+              document_title: title || fileInput.files[0].name.replace(/\.[^/.]+$/, ""),
+              image: uploadedImages[0], 
+              images: uploadedImages,   
+              names: flatNamesArray,    
+              pageNames: pageNamesArray, 
+              year: year,
+              place: place
+            });
+        }
+    } else {
+        if (window.editMode) {
+            ARCHIVE[window.editIndex].name = title;
+            ARCHIVE[window.editIndex].year = year;
+            ARCHIVE[window.editIndex].place = place;
+        } else {
+            for(let i=0; i<fileInput.files.length; i++) {
+                const imageFile = fileInput.files[i];
+                let currentTitle = title;
+                if(isBulk || !title) {
+                   currentTitle = imageFile.name.replace(/\.[^/.]+$/, "");
+                }
+                
+                const extension = imageFile.name.split('.').pop();
+                const safeImageName = 'img_' + Date.now() + '_' + i + '.' + extension;
+                
+                ARCHIVE.push({
+                  name: currentTitle,
+                  image: 'images/' + safeImageName,
+                  year: year,
+                  place: place
+                });
+                
+                const newImageHandle = await imagesDirHandle.getFileHandle(safeImageName, { create: true });
+                const writableImage = await newImageHandle.createWritable();
+                await writableImage.write(imageFile);
+                await writableImage.close();
+            }
+        }
+    }
+
+    const dataJsContent = 'const ARCHIVE = ' + JSON.stringify(ARCHIVE, null, 2) + ';\n\nconst DOCUMENTS_ARCHIVE = ' + JSON.stringify(DOCUMENTS_ARCHIVE, null, 2) + ';\n';
+    const dataJsHandle = await rootDirHandle.getFileHandle('data.js', { create: false });
+    const writableData = await dataJsHandle.createWritable();
+    await writableData.write(dataJsContent);
+    await writableData.close();
+      
+    const status = document.getElementById('status');
+    status.innerText = `✅ تمت إضافة ${fileInput.files.length} عناصر بنجاح!`;
+    setTimeout(() => status.style.display = 'none', 5000);
+      
+    if (window.editMode) { document.getElementById('tabManage').click(); }
+    document.getElementById('docTitle').value = '';
+    document.getElementById('namesContainer').innerHTML = '<label>الأسماء الموجودة في الوثيقة:</label><textarea id="docNames_0" class="page-names" placeholder="..."></textarea>';
+    document.getElementById('docImageFile').value = '';
+    
+  } catch (err) {
+    alert("حدث خطأ أثناء الحفظ: " + err.message);
+    document.getElementById('status').style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>

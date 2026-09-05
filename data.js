@@ -5536,5 +5536,20 @@ const DOCUMENTS_ARCHIVE = [
         "MAHI Bouzid ben Laidi"
       ]
     ]
+  },
+  {
+    "document_title": "wilaya 5 , région 7 Liste d'identification des combattants tués  Rapport militaire : État des pertes du 20 Septembre 1961",
+    "image": "images/doc_1788620089443_0.jpg",
+    "images": [
+      "images/doc_1788620089443_0.jpg"
+    ],
+    "names": [
+      "wilaya 5 , région 7 Liste d'identification des combattants tués  Rapport militaire : État des pertes du 20 Septembre 1961"
+    ],
+    "pageNames": [
+      []
+    ],
+    "year": "1961",
+    "place": "wilaya 5  , région 7"
   }
 ];
