@@ -2280,6 +2280,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "BENGHADEM  BOUALEM",
+    "image": "images/img_1788719250183_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "BENGHADEM MohAMED",
     "image": "images/img_1788616781957_182.jpg",
     "year": "",
@@ -7099,9 +7105,93 @@ const ARCHIVE = [
     "keywords": "kerrache ali"
   },
   {
+    "name": "KESRI MESSAOUD",
+    "image": "images/img_1788719229948_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KESSIRAT Salah",
+    "image": "images/img_1788719230009_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KETFI Allaoua",
+    "image": "images/img_1788719230069_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHALDI HACENE",
+    "image": "images/img_1788719230128_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "khaled khodj omar",
+    "image": "images/img_1788719230188_4.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHALED Mohamed",
+    "image": "images/img_1788719230249_5.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHALFAoUI  remdane",
+    "image": "images/img_1788719230315_6.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "KHALFAOUI Bachir",
     "image": "images/KHALFAOUI Bachir. ..jpg",
     "keywords": "khalfaoui bachir"
+  },
+  {
+    "name": "KHALFAOUI Bachir",
+    "image": "images/img_1788719230377_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHAMARE Lakhdar",
+    "image": "images/img_1788719230437_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHARCHICHE said",
+    "image": "images/img_1788719230499_9.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHAZRADJI Abderrahmane",
+    "image": "images/img_1788719230561_10.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHBRBICHE Mustapha",
+    "image": "images/img_1788719230623_11.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHECHINE mohamed",
+    "image": "images/img_1788719230682_12.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHEDDIM Ali",
+    "image": "images/img_1788719230743_13.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "KHEIDDIN Ali",
@@ -7109,13 +7199,121 @@ const ARCHIVE = [
     "keywords": "kheiddin ali"
   },
   {
+    "name": "KHELAIFIA Toumi",
+    "image": "images/img_1788719230804_14.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHELASSI  ALI",
+    "image": "images/img_1788719230864_15.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHELASSI YOUCEF",
+    "image": "images/img_1788719230925_16.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHELDOUM MHamed",
+    "image": "images/img_1788719230987_17.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHELFI  ALI",
+    "image": "images/img_1788719231049_18.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "Khelfoun Amar",
+    "image": "images/img_1788719231113_19.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHELIF Lakhdar",
+    "image": "images/img_1788719231179_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHELIFA Ferhat",
+    "image": "images/img_1788719231245_21.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "KHELIFATI Ali",
     "image": "images/KHELIFATI Ali.jpg",
     "keywords": "khelifati ali"
   },
   {
+    "name": "KHELIFATI Ali",
+    "image": "images/img_1788719231403_22.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "KHELIFI  RABAH",
     "image": "images/img_1788530085629_17.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHELIFI  RABAH",
+    "image": "images/img_1788719231466_23.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHEMAL Belkacem",
+    "image": "images/img_1788719231528_24.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHEMISSA Metaiche",
+    "image": "images/img_1788719231590_25.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHENFAR Aissa",
+    "image": "images/img_1788719231651_26.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHERACHI Hachemi",
+    "image": "images/img_1788719231714_27.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHERBOUCHE BénALI",
+    "image": "images/img_1788719231779_28.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHERICI Messaoud",
+    "image": "images/img_1788719231841_29.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHETTACHE Ahmed",
+    "image": "images/img_1788719231903_30.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHETTACHE Amar",
+    "image": "images/img_1788719231966_31.jpg",
     "year": "",
     "place": ""
   },
@@ -7125,13 +7323,241 @@ const ARCHIVE = [
     "keywords": "khiali ali"
   },
   {
+    "name": "KHIALI Ali",
+    "image": "images/img_1788719232034_32.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHIALi Arezkis",
+    "image": "images/img_1788719232099_33.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHIDER Said",
+    "image": "images/img_1788719232163_34.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHILMI  Mimoun",
+    "image": "images/img_1788719232225_35.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHODJA Ben Youcef",
+    "image": "images/img_1788719232288_36.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHODJA Mohamed",
+    "image": "images/img_1788719232358_37.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHODJET-KESBA BoueleM",
+    "image": "images/img_1788719232420_38.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHORICI Miloud",
+    "image": "images/img_1788719232480_39.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHORICI Salah",
+    "image": "images/img_1788719232541_40.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KHOUMALED Said",
+    "image": "images/img_1788719232604_41.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KIMI BOUALEM",
+    "image": "images/img_1788719232667_42.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "KINMOUCHE Mohamed",
     "image": "images/KINMOUCHE Mohamed..jpg",
     "keywords": "kinmouche mohamed"
   },
   {
+    "name": "KINMOUCHE Mohamed",
+    "image": "images/img_1788719232731_43.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KINOUA Abderazak",
+    "image": "images/img_1788719234680_44.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KIRATI Amar",
+    "image": "images/img_1788719234739_45.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KIRECHE Ramdane",
+    "image": "images/img_1788719234802_46.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KISSERLI El-Hadi",
+    "image": "images/img_1788719234863_47.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KNADRI  SALAH",
+    "image": "images/img_1788719234923_48.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KNENE  ABDERRAHMANE",
+    "image": "images/img_1788719234983_49.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOBBI  KADOUR",
+    "image": "images/img_1788719235043_50.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOLLI  MOHAMED",
+    "image": "images/img_1788719235111_51.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KORCHI ABDELKADER",
+    "image": "images/img_1788719235170_52.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOREIFI Mostefa",
+    "image": "images/img_1788719235230_53.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KORSI Dahbia",
+    "image": "images/img_1788719235297_54.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KORZIT  AISSA",
+    "image": "images/img_1788719235366_55.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOUACHI  MENAA",
+    "image": "images/img_1788719235427_56.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOUADRIA Youcef",
+    "image": "images/img_1788719235489_57.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOUAR Lhoucain",
+    "image": "images/img_1788719235549_58.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOUIDRI Hocine",
+    "image": "images/img_1788719235611_59.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOUIDRI Mohamed",
+    "image": "images/img_1788719235671_60.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOUISSE Bouaziz",
+    "image": "images/img_1788719235735_61.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOUKAL Ahmed",
+    "image": "images/img_1788719235799_62.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KOURDALI MOSTEFA",
+    "image": "images/img_1788719235861_63.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KRAMDI Rabah",
+    "image": "images/img_1788719235924_64.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "KRAMDI Rabah.",
     "image": "images/img_1788530085708_18.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KRARIA Slinanes",
+    "image": "images/img_1788719235985_65.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KREZ Abdelkader",
+    "image": "images/img_1788719236047_66.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KREZ Djillalis",
+    "image": "images/img_1788719236112_67.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KREZ Mohammed",
+    "image": "images/img_1788719236181_68.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "KRITNI  Mabrouk",
+    "image": "images/img_1788719236241_69.jpg",
     "year": "",
     "place": ""
   },
