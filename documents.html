@@ -218,6 +218,7 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
   header { display: none !important; }
   main { padding: 10px 12px !important; }
   .panel { padding: 12px; border-radius: 14px; margin-bottom: 12px; }
+  .search-title { font-size: 13px !important; line-height: 1.5; display: block; }
   .nav-tabs { margin-bottom: 10px; gap: 6px; }
   .nav-tabs a { padding: 8px 6px; font-size: 13px; border-radius: 10px; }
 }
@@ -242,6 +243,7 @@ header.mobile-hidden {
 @media(max-width:600px) {
   .searchline{flex-direction:column} 
   .card img{height:250px} 
+  .search-title { font-size: 11.5px !important; line-height: 1.4; display: block; }
   .list-header { padding: 6px 10px !important; }
   .list-header h3 { font-size: 13px; margin: 0; }
   .list-header button { font-size: 11px; padding: 3px 8px; margin: 0; }
@@ -290,7 +292,7 @@ window.openLightbox = function(src) {
   <a href="documents.html" class="active">📄 أرشيف الوثائق</a>
 </nav>
 <section class="panel" id="searchPanel">
-<strong>🔎 البحث عن الأسماء في الوثائق الارشيفية خلال الفترة الاستعمارية.</strong>
+<strong class="search-title">🔎 البحث عن الأسماء في الوثائق الارشيفية خلال الفترة الاستعمارية.</strong>
 <p id="langWarning" style="color:#ef4444; font-size:14px; margin: 8px 0; display:none; font-weight:bold;">⚠️ يرجى كتابة الاسم واللقب باللغة الفرنسية فقط (الأرقام واللغة العربية غير مقبولة).</p>
 <div class="searchline">
   <input id="searchInput" placeholder="ابحث بالاسم واللقب معاً في الوثائق (مثال: CHOUCHANE Bachir أو Bachir CHOUCHANE)..." autocomplete="off" autofocus>
@@ -303,10 +305,6 @@ window.openLightbox = function(src) {
 </section>
 <section id="results" class="grid"></section>
 </main>
-<footer>
-  <div style="margin-bottom:15px;">الأرشيف — يحتوي حاليًا على <span id="footerCount"></span> وثيقة.</div>
-
-</footer>
 <script src="data.js"></script><script>
 
 // Check mobile/Android directly to hide header immediately
@@ -708,13 +706,5 @@ window.forceDownload = function(e, url, filename) {
       });
 };
 </script>
-
-
-<footer style="margin-top: 50px; padding: 15px; text-align: center; background: #f8f9fa; border-top: 1px solid #eee; font-family: 'Cairo', sans-serif;">
-  <p style="color: #555; margin: 0; font-size: 16px; font-weight: bold;">
-    الموقع في ايطار التجريب من تطوير علاب عمر ننتضر اقتراحاتكم و مساعدتكم في توطين الموقع ننتضر تعليقاتكم في الفيسبوك
-  </p>
-</footer>
 </body>
-
 </html>
