@@ -656,27 +656,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const statNames = document.getElementById('statNames');
   if (statNames) statNames.textContent = (totalNames > 0 ? totalNames.toLocaleString('ar-DZ') : '+1500');
 
-  // Live Visitor Counter
+  // Live Visitor Counter (Unique Visits Only - Prevents incrementing on refresh)
   (function initVisitorCounter() {
     const countEl = document.getElementById('siteVisitorCount');
     if (!countEl) return;
 
-    let localCount = parseInt(localStorage.getItem('algeria_site_visits') || '27', 10);
-    localCount++;
-    localStorage.setItem('algeria_site_visits', localCount);
-    countEl.textContent = localCount;
+    const baseOffset = 27;
+    const sessionKey = 'algeria_visited_session';
+    const lastVisitKey = 'algeria_last_visit_time';
+    const now = Date.now();
+    const cooldownPeriod = 24 * 60 * 60 * 1000; // 24 hours cooldown for same visitor
 
-    fetch('https://countapi.mileshilliard.com/api/v1/hit/algeria-memories-colors')
+    // Check if this visitor was already counted recently
+    const hasVisitedSession = sessionStorage.getItem(sessionKey);
+    const lastVisitTime = parseInt(localStorage.getItem(lastVisitKey) || '0', 10);
+    const isNewVisit = !hasVisitedSession && (now - lastVisitTime > cooldownPeriod);
+
+    // Retrieve cached count
+    let cachedCount = parseInt(localStorage.getItem('algeria_site_visits') || '28', 10);
+    
+    if (isNewVisit) {
+      sessionStorage.setItem(sessionKey, 'true');
+      localStorage.setItem(lastVisitKey, now.toString());
+      cachedCount++;
+      localStorage.setItem('algeria_site_visits', cachedCount);
+    } else {
+      // Ensure session key is active
+      sessionStorage.setItem(sessionKey, 'true');
+    }
+    
+    countEl.textContent = cachedCount;
+
+    // Use /hit endpoint ONLY for genuine new visits; use /get for reloads/refreshes
+    const endpoint = isNewVisit ? 'hit' : 'get';
+    fetch(`https://countapi.mileshilliard.com/api/v1/${endpoint}/algeria-memories-colors`)
       .then(res => res.json())
       .then(data => {
         if (data && typeof data.value === 'number') {
-          const totalVisits = data.value + 27;
+          const totalVisits = data.value + baseOffset;
           countEl.textContent = totalVisits;
           localStorage.setItem('algeria_site_visits', totalVisits);
         }
       })
       .catch(() => {
-        // Fallback already shows localCount
+        // Fallback already shows cachedCount
       });
   })();
 });
