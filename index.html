@@ -602,6 +602,16 @@ footer strong {
 </main>
 
 <footer>
+  <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 18px;">
+    <div id="siteVisitorBadge" style="display: inline-flex; align-items: center; background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-family: 'Cairo', sans-serif; height: 32px; user-select: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'" title="إجمالي عدد زيارات الموقع">
+      <span style="display: flex; align-items: center; gap: 7px; padding: 0 16px; color: #f8fafc; font-size: 13.5px; font-weight: 700; white-space: nowrap;">
+        <span style="font-size: 14px;">👁️</span> عدد الزيارات
+      </span>
+      <span id="siteVisitorCount" style="background: #10b981; color: #ffffff; padding: 0 14px; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; height: 100%; min-width: 38px; direction: ltr; font-family: 'Cairo', sans-serif;">
+        28
+      </span>
+    </div>
+  </div>
   <p style="margin-bottom: 8px;">
     <strong>Algeria’s Memories and Colors</strong>
   </p>
@@ -645,6 +655,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const statNames = document.getElementById('statNames');
   if (statNames) statNames.textContent = (totalNames > 0 ? totalNames.toLocaleString('ar-DZ') : '+1500');
+
+  // Live Visitor Counter
+  (function initVisitorCounter() {
+    const countEl = document.getElementById('siteVisitorCount');
+    if (!countEl) return;
+
+    let localCount = parseInt(localStorage.getItem('algeria_site_visits') || '27', 10);
+    localCount++;
+    localStorage.setItem('algeria_site_visits', localCount);
+    countEl.textContent = localCount;
+
+    fetch('https://countapi.mileshilliard.com/api/v1/hit/algeria-memories-colors')
+      .then(res => res.json())
+      .then(data => {
+        if (data && typeof data.value === 'number') {
+          const totalVisits = data.value + 27;
+          countEl.textContent = totalVisits;
+          localStorage.setItem('algeria_site_visits', totalVisits);
+        }
+      })
+      .catch(() => {
+        // Fallback already shows localCount
+      });
+  })();
 });
 </script>
 
