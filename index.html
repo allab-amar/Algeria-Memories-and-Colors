@@ -1,650 +1,655 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Algeria’s Memories and Colors — الأرشيف</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algeria’s Memories and Colors — ذاكرة وألوان الجزائر | البوابة الرئيسية</title>
+<meta name="description" content="البوابة الرسمية للأرشيف الرقمي لصور ووثائق الجزائر إبان الفترة الاستعمارية - Algeria’s Memories and Colors">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C78NKFY91N"></script>
 <script>
-
-window.currentViewerImages = [];
-window.currentViewerTitle = '';
-window.currentViewerDownloadName = '';
-window.currentViewerIndex = 0;
-
-window.showInViewer = function(imgsStr, title, downloadName, startIndex = 0) {
-    const viewer = document.getElementById('imageViewer');
-    if (!viewer) return;
-    
-    window.currentViewerImages = imgsStr.split('|||');
-    window.currentViewerTitle = title;
-    window.currentViewerDownloadName = downloadName;
-    window.currentViewerIndex = startIndex || 0;
-    
-    window.renderViewerPage();
-    
-    if (window.innerWidth <= 900) {
-        viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-};
-
-window.openLightboxCurrent = function() {
-    if (window.currentViewerImages && window.currentViewerImages.length > window.currentViewerIndex) {
-        window.openLightbox(window.currentViewerImages[window.currentViewerIndex]);
-    }
-};
-
-window.currentRenderedPhotos = [];
-window.showPhotoFromSearch = function(index) {
-    const x = window.currentRenderedPhotos[index];
-    if (!x) return;
-    const dispName = x.name + (x.arabic_name ? ' - ' + x.arabic_name : '');
-    const imgs = (x.images && x.images.length > 0) ? x.images : [x.image];
-    window.showInViewer(imgs.join('|||'), dispName, x.name);
-};
-
-window.currentAllPhotos = [];
-window.showPhotoFromAll = function(index) {
-    const x = window.currentAllPhotos[index];
-    if (!x) return;
-    const dispName = x.name + (x.arabic_name ? ' - ' + x.arabic_name : '');
-    const imgs = (x.images && x.images.length > 0) ? x.images : [x.image];
-    window.showInViewer(imgs.join('|||'), dispName, x.name);
-};
-
-window.renderViewerPage = function() {
-    const viewer = document.getElementById('imageViewer');
-    if (!viewer) return;
-    
-    const imgs = window.currentViewerImages;
-    const idx = window.currentViewerIndex;
-    const img = imgs[idx];
-    const title = window.currentViewerTitle;
-    const ext = img.split('.').pop();
-    const dn = window.currentViewerDownloadName + (imgs.length > 1 ? `_صفحة_${idx+1}` : '') + '.' + ext;
-    
-    let paginationHtml = '';
-    if (imgs.length > 1) {
-        paginationHtml = `
-          <div style="display:flex; justify-content:center; align-items:center; gap: 15px; margin-bottom: 20px;">
-            <button onclick="window.nextPage()" title="الصفحة التالية" style="width:32px; height:32px; border-radius: 50%; border:none; background: #2563eb; color: white; cursor: pointer; font-size:12px; transition:0.3s; display:flex; align-items:center; justify-content:center; ${idx === imgs.length-1 ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${idx === imgs.length-1 ? 'disabled' : ''}>❮</button>
-            <span style="font-weight:bold; font-size: 14px; color:#555; background:#f8f9fa; padding:4px 12px; border-radius:15px; border:1px solid #eee;">${idx+1} / ${imgs.length}</span>
-            <button onclick="window.prevPage()" title="الصفحة السابقة" style="width:32px; height:32px; border-radius: 50%; border:none; background: #2563eb; color: white; cursor: pointer; font-size:12px; transition:0.3s; display:flex; align-items:center; justify-content:center; ${idx === 0 ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${idx === 0 ? 'disabled' : ''}>❯</button>
-          </div>
-        `;
-    }
-    
-    let html = `
-      <img src="${img}" alt="${esc(title)}" onclick="window.openLightboxCurrent()" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة">
-      
-      ${paginationHtml}
-      
-      <div class="actions" style="display:flex; justify-content:center; gap:10px; margin-bottom: 10px;">
-        <button onclick="window.openLightboxCurrent()" class="download-btn" style="background:#1a1a1a; color:white; border:none; padding: 4px 8px; font-size: 11px; font-weight: normal; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo';">👁️ تكبير</button>
-        
-      </div>
-    `;
-    
-    viewer.style.overflowY = 'visible';
-    viewer.style.justifyContent = 'center';
-    viewer.style.paddingTop = '10px';
-    
-    viewer.innerHTML = html;
-};
-
-window.prevPage = function() {
-    if (window.currentViewerIndex > 0) {
-        window.currentViewerIndex--;
-        window.renderViewerPage();
-    }
-};
-
-window.nextPage = function() {
-    if (window.currentViewerIndex < window.currentViewerImages.length - 1) {
-        window.currentViewerIndex++;
-        window.renderViewerPage();
-    }
-};
-
-
-window.toggleAccordion = function(id) {
-    const c = document.getElementById(id);
-    const wasOpen = c.style.display === 'block';
-    
-    // Close all other togglable cards
-    document.querySelectorAll('.card').forEach(card => {
-        if (card.id && (card.id.startsWith('card-') || card.id.startsWith('all-card-') || card.id.startsWith('name-card-'))) {
-            card.style.display = 'none';
-        }
-    });
-    
-    // Open the clicked one if it wasn't already open
-    if (!wasOpen) {
-        c.style.display = 'block';
-    }
-}
-
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-C78NKFY91N');
 </script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-:root { --bg: #f8f9fa; --ink: #1a1a1a; --muted: #6c757d; --card: #ffffff; --accent: #d4af37; --accent-hover: #b5952f; --fb: #1877f2; --fb-hover: #166fe5; }
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Cairo', sans-serif; }
-header { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%); color: #fff; padding: 12px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; transition: all 0.3s ease; }
-header .logo-container { display: flex; align-items: center; gap: 12px; }
-header img { width: 200px; height: 100px; border-radius: 16px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: all 0.3s ease; }
-header h1 { margin: 0; font-size: 26px; font-weight: 700; transition: all 0.3s ease; }
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
 
-/* Small Header Styles */
-header.header-small { padding: 5px 20px; }
-header.header-small img { width: 100px; height: 50px; border-radius: 8px; }
-header.header-small h1 { font-size: 18px; }
-header.header-small .btn-fb { padding: 6px 12px; font-size: 13px; }
-main { max-width: 1200px; margin: auto; padding: 15px 20px; }
-.about-section { background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px; text-align: center; border-top: 4px solid var(--accent); }
-.about-section h2 { margin-top: 0; color: var(--ink); }
-.about-section p { color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 20px; }
-.btn-fb { display: inline-flex; align-items: center; gap: 8px; background: var(--fb); color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 30px; font-weight: 700; transition: all 0.3s; box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4); }
-.btn-fb:hover { background: var(--fb-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(24, 119, 242, 0.6); }
-.panel { background: var(--card); padding: 15px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 15px; }
-.searchline { display: flex; gap: 15px; margin-top: 15px; }
-input { flex: 1; border: 2px solid #e9ecef; border-radius: 12px; padding: 12px 15px; font-size: 15px; font-family: 'Cairo', sans-serif; background: #f8f9fa; transition: all 0.3s; }
-input:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1); }
-#count { margin-top: 15px; color: var(--muted); font-weight: bold; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-.card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.3s; border: 1px solid #f1f3f5; }
-.card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
-.card img { display: block; width: 100%; height: 350px; object-fit: contain; background: #f8f9fa; border-bottom: 1px solid #f1f3f5; }
-.body { padding: 20px; }
-.body h2 { margin: 0 0 10px; font-size: 22px; color: var(--ink); }
-.meta { color: var(--muted); line-height: 1.8; font-size: 15px; margin-bottom: 15px; }
-.actions { display: flex; gap: 10px; }
-.actions a { flex: 1; text-align: center; background: var(--ink); color: #fff; text-decoration: none; padding: 10px 15px; border-radius: 10px; font-weight: bold; transition: all 0.3s; font-size: 15px; }
-.actions a:hover { background: #343a40; }
-.actions a.download-btn { background: var(--accent); color: #fff; }
-.actions a.download-btn:hover { background: var(--accent-hover); }
-.empty { text-align: center; background: var(--card); border-radius: 20px; padding: 60px 20px; color: var(--muted); font-size: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 2px dashed #e9ecef; }
-footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px; border-top: 1px solid #e9ecef; background: var(--card); margin-top: 40px; }
-
-.nav-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-.nav-tabs a { flex: 1; text-align: center; background: #e9ecef; color: var(--ink); text-decoration: none; padding: 10px; border-radius: 12px; font-weight: bold; font-size: 16px; transition: all 0.3s; }
-.nav-tabs a.active { background: var(--accent); color: #fff; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
-.nav-tabs a:hover:not(.active) { background: #dee2e6; }
-
-/* Split View Styles */
-.split-view { 
-  display: grid; 
-  grid-template-columns: 1.5fr 2fr; 
-  grid-template-rows: auto 1fr;
-  grid-template-areas: "header viewer" "list viewer";
-  gap: 15px 30px; 
-  align-items: start;
-}
-.list-header { 
-  grid-area: header; 
-  display: flex; justify-content: space-between; align-items: center; 
-  border-bottom: 2px solid #2563eb; padding-bottom: 10px; 
-  position: sticky; top: -20px; background: #fff; z-index: 10; gap: 5px; 
-}
-.list-header h3 { margin:0; font-size: 18px; }
-.list-header button { background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:5px 10px; cursor:pointer; white-space: nowrap; font-size: 14px; }
-
-.list-pane { 
-  grid-area: list; 
-  max-height: 85vh; overflow-y: auto; background: #fff; 
-  padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; 
-}
-.viewer-pane { 
-  grid-area: viewer; 
-  position: sticky; top: 100px; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-light: #334155;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-gold: #d4af37;
+  --accent-gold-glow: rgba(212, 175, 55, 0.35);
+  --accent-emerald: #10b981;
+  --accent-emerald-glow: rgba(16, 185, 129, 0.35);
+  --accent-blue: #3b82f6;
+  --accent-blue-glow: rgba(59, 130, 246, 0.35);
+  --fb-blue: #1877f2;
 }
 
-@media(max-width: 900px) {
-  header.header-small { display: none !important; }
-  .split-view { 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background-color: var(--bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(30, 41, 59, 0.5) 0px, transparent 100%);
+}
+
+/* Header */
+header {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 28px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-logo {
+  width: 140px;
+  height: 70px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+  transform: scale(1.03);
+}
+
+.brand-text h1 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #ffffff 60%, var(--accent-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-text p {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.btn-fb {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--fb-blue);
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(24, 119, 242, 0.35);
+}
+
+.btn-fb:hover {
+  background: #166fe5;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(24, 119, 242, 0.55);
+}
+
+/* Main Container */
+main {
+  flex: 1;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 10px 0 10px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--accent-gold);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1.35;
+  color: #fff;
+  margin-bottom: 18px;
+}
+
+.hero-title span {
+  color: var(--accent-gold);
+  text-shadow: 0 0 25px var(--accent-gold-glow);
+}
+
+.hero-desc {
+  font-size: 17px;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+
+/* Gateway Cards Grid (The 2 Main Buttons) */
+.gateway-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.gateway-card {
+  position: relative;
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 38px 30px;
+  text-decoration: none;
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.gateway-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  transition: all 0.3s ease;
+}
+
+.gateway-card.photos::before {
+  background: linear-gradient(90deg, var(--accent-gold), #f59e0b);
+}
+
+.gateway-card.documents::before {
+  background: linear-gradient(90deg, var(--accent-emerald), #059669);
+}
+
+.gateway-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.gateway-card.photos:hover {
+  box-shadow: 0 22px 45px rgba(212, 175, 55, 0.22);
+}
+
+.gateway-card.documents:hover {
+  box-shadow: 0 22px 45px rgba(16, 185, 129, 0.22);
+}
+
+.card-icon-wrapper {
+  width: 76px;
+  height: 76px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  margin-bottom: 22px;
+  transition: transform 0.4s ease;
+}
+
+.gateway-card.photos .card-icon-wrapper {
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.15);
+}
+
+.gateway-card.documents .card-icon-wrapper {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.15);
+}
+
+.gateway-card:hover .card-icon-wrapper {
+  transform: scale(1.1) rotate(-3deg);
+}
+
+.card-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 26px;
+  flex: 1;
+}
+
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+
+.gateway-card.photos .card-badge {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.gateway-card.documents .card-badge {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--accent-emerald);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Primary Action Buttons */
+.card-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 15px 24px;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 800;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gateway-card.photos .card-cta-btn {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #b5952f 100%);
+  color: #0f172a;
+}
+
+.gateway-card.documents .card-cta-btn {
+  background: linear-gradient(135deg, var(--accent-emerald) 0%, #059669 100%);
+  color: #ffffff;
+}
+
+.gateway-card:hover .card-cta-btn {
+  letter-spacing: 0.5px;
+}
+
+.gateway-card.photos:hover .card-cta-btn {
+  box-shadow: 0 8px 25px var(--accent-gold-glow);
+}
+
+.gateway-card.documents:hover .card-cta-btn {
+  box-shadow: 0 8px 25px var(--accent-emerald-glow);
+}
+
+/* Stats Counter Section */
+.stats-strip {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 24px 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-item {
+  padding: 10px;
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.stat-number.gold { color: var(--accent-gold); }
+.stat-number.emerald { color: var(--accent-emerald); }
+.stat-number.blue { color: var(--accent-blue); }
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Info Section */
+.info-section {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-section h3 {
+  font-size: 20px;
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-section p {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Footer */
+footer {
+  background: rgba(15, 23, 42, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 25px 20px;
+  text-align: center;
+  margin-top: auto;
+}
+
+footer p {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+footer strong {
+  color: var(--text-main);
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  header {
+    padding: 12px 16px;
+    justify-content: center;
+  }
+  .brand-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  .brand-logo {
+    width: 120px;
+    height: 60px;
+  }
+  .brand-text h1 {
+    font-size: 18px;
+  }
+  .btn-fb {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+  main {
+    padding: 25px 16px 40px;
+    gap: 30px;
+  }
+  .hero-title {
+    font-size: 26px;
+  }
+  .hero-desc {
+    font-size: 15px;
+  }
+  .gateway-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr;
-    grid-template-areas: "header" "viewer" "list";
-    gap: 10px;
+    gap: 20px;
   }
-  .viewer-pane { position: static; min-height: 400px; }
-  .list-pane { max-height: 60vh; }
-  .list-header { position: relative; top: 0; padding: 12px 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; border-bottom: 2px solid #2563eb; background: #fff; }
-}
-
-@media(max-width:600px) {
-  header { justify-content: center; } 
-  .searchline{flex-direction:column} 
-  .card img{height:250px} 
-  header h1 { font-size: 18px; }
-  .list-header { padding: 6px 10px !important; }
-  .list-header h3 { font-size: 13px; margin: 0; }
-  .list-header button { font-size: 11px; padding: 3px 8px; margin: 0; }
-  .nav-tabs { margin-bottom: 10px; }
-  .nav-tabs a { padding: 6px; font-size: 13px; border-radius: 8px; }
-  #searchInput {
-    font-size: 12.5px;
-    padding: 10px 12px;
+  .gateway-card {
+    padding: 26px 20px;
   }
-  #searchInput::placeholder {
-    font-size: 12px;
-    opacity: 0.85;
+  .card-title {
+    font-size: 22px;
+  }
+  .card-cta-btn {
+    font-size: 16px;
+    padding: 13px 20px;
+  }
+  .stats-strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 18px 15px;
+  }
+  .stat-number {
+    font-size: 26px;
   }
 }
 </style>
 </head>
 <body>
 
-<div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; flex-direction:column;" onclick="if(event.target === this) this.style.display='none'">
-    <span onclick="document.getElementById('lightbox').style.display='none'" style="position:absolute; top:20px; right:30px; font-size:40px; color:white; cursor:pointer; font-weight:bold; transition: 0.3s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='white'">&times;</span>
-    <img id="lightboxImg" style="max-width:95%; max-height:85%; object-fit:contain; border-radius:10px; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-</div>
-<script>
-window.openLightbox = function(src) {
-    document.getElementById('lightboxImg').src = src;
-    document.getElementById('lightbox').style.display = 'flex';
-};
-</script>
-
 <header>
-  <div style="flex: 1;">
-    <img src="images/header-image.jpg" alt="أرشيف الصور">
+  <div class="brand-container">
+    <img src="images/header-image.jpg" alt="Algeria’s Memories and Colors" class="brand-logo">
+    <div class="brand-text">
+      <h1>Algeria’s Memories and Colors</h1>
+      <p>ذاكرة وألوان الجزائر — الأرشيف التاريخي الوطني</p>
+    </div>
   </div>
-  <div style="flex: 2; text-align: center;">
-    <h1>Algeria’s Memories and Colors</h1>
-  </div>
-  <div style="flex: 1; display: flex; justify-content: flex-end;">
-    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" style="padding: 8px 16px; font-size: 14px;">
+  <div>
+    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener">
       <svg style="width:18px;height:18px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
-      صفحتنا في الفيسبوك
+      مجموعتنا على الفيسبوك
     </a>
   </div>
 </header>
+
 <main>
-<nav class="nav-tabs">
-  <a href="index.html" class="active">📸 الأرشيف (الصور)</a>
-  <a href="documents.html">📄 أرشيف الوثائق</a>
-</nav>
-</nav>
-<section class="panel" id="searchPanel">
-<strong>🔎 البحث عن صور من ملف «المبحوث عنهم» خلال الفترة الاستعمارية.</strong>
-<p id="langWarning" style="color:#ef4444; font-size:14px; margin: 8px 0; display:none; font-weight:bold;">⚠️ يرجى كتابة الاسم واللقب باللغة الفرنسية فقط (الأرقام واللغة العربية غير مقبولة).</p>
-<div class="searchline">
-  <input id="searchInput" placeholder="اكتب اللقب والاسم معاً (مثال: CHOUCHANE Bachir أو Bachir CHOUCHANE)..." autocomplete="off" autofocus>
-  <button id="showAllBtn" title="عرض جميع الأسماء" style="background:#34d399; color:#111827; border:none; border-radius:10px; padding:10px 20px; font-family:'Cairo', sans-serif; cursor:pointer; font-weight:bold; font-size:15px; transition:0.3s; white-space:nowrap; box-shadow: 0 4px 10px rgba(16,185,129,0.3);">عرض كل الأسماء</button>
-</div>
-<div id="count"></div>
-</section>
-<section id="results" class="grid"></section>
-</main>
-<footer>
-  <div style="margin-bottom:15px;">الأرشيف — يحتوي حاليًا على <span id="footerCount"></span> صورة.</div>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-badge">
+      <span>🇩🇿</span> بوابة الأرشيف الرقمي المفتوح
+    </div>
+    <h2 class="hero-title">
+      مرحباً بكم في <span>ذاكرة وألوان الجزائر</span>
+    </h2>
+    <p class="hero-desc">
+      منصة توثيقية تاريخية لحفظ وتيسير البحث في سجلات وصور الشهداء والمجاهدين وملفات «المبحوث عنهم» خلال الفترة الاستعمارية في الجزائر. اختر نوع الأرشيف للبدء بالبحث الفوري.
+    </p>
+  </section>
 
-</footer>
-<script src="data.js"></script><script>
-
-
-
-
-window.toggleAccordion = function(id) {
-    const c = document.getElementById(id);
-    const wasOpen = c.style.display === 'block';
-    
-    // Close all other togglable cards
-    document.querySelectorAll('.card').forEach(card => {
-        if (card.id && (card.id.startsWith('card-') || card.id.startsWith('all-card-') || card.id.startsWith('name-card-'))) {
-            card.style.display = 'none';
-        }
-    });
-    
-    // Open the clicked one if it wasn't already open
-    if (!wasOpen) {
-        c.style.display = 'block';
-    }
-}
-
-const searchInput = document.getElementById('searchInput');
-const results = document.getElementById('results');
-const count = document.getElementById('count');
-document.getElementById('footerCount').textContent = ARCHIVE.length;
-
-function updateSearchPlaceholder() {
-  if (window.innerWidth <= 600) {
-    searchInput.placeholder = "اكتب اللقب والاسم (مثال: CHOUCHANE Bachir)";
-  } else {
-    searchInput.placeholder = "اكتب اللقب والاسم معاً (مثال: CHOUCHANE Bachir أو Bachir CHOUCHANE)...";
-  }
-}
-updateSearchPlaceholder();
-window.addEventListener('resize', updateSearchPlaceholder);
-
-function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-
-function highlightMatches(text, tokensToHighlight) {
-  let escaped = esc(text);
-  if (!tokensToHighlight || tokensToHighlight.length === 0) return escaped;
-  const sortedTokens = [...new Set(tokensToHighlight)].sort((x, y) => y.length - x.length);
-  for (const tok of sortedTokens) {
-    const regex = new RegExp(`(${tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    escaped = escaped.replace(regex, '<mark style="background:#fef08a; color:#1e293b; padding:1px 3px; border-radius:3px; font-weight:bold;">$1</mark>');
-  }
-  return escaped;
-}
-
-function render(){
-  const rawQuery = searchInput.value.trim();
-  if (!rawQuery) {
-    document.querySelector('header').classList.remove('header-small');
-    count.textContent = '';
-    results.innerHTML = '<div class="empty">الرجاء إدخال كلمة بحث (الاسم واللقب) لعرض الصور.</div>';
-    return;
-  }
-  document.querySelector('header').classList.add('header-small');
-  
-  // Tokenize input by whitespace (case-insensitive, order independent)
-  const tokens = rawQuery.toLowerCase().split(/\s+/).filter(w => w.length > 0);
-  const searchTokens = tokens.filter(w => w.length >= 2);
-  
-  if (searchTokens.length === 0) {
-    count.textContent = '';
-    results.innerHTML = '<div class="empty">الرجاء كتابة حرفين على الأقل للبحث.</div>';
-    return;
-  }
-  
-  // Match records containing AT LEAST ONE token (Condition OR)
-  const matchedList = [];
-  // Clean duplicate numbers / suffixes (e.g. _1, _2, (1), -1) from names for accurate search matching
-  const cleanNameForSearch = str => String(str || '').replace(/[_\-\s]*\d+$/g, '').replace(/\(\d+\)$/g, '');
-  const getWords = str => cleanNameForSearch(str).toLowerCase().split(/[\s\-',._\d]+/).filter(Boolean);
-
-  for (const item of ARCHIVE) {
-    const cleanedName = cleanNameForSearch(item.name);
-    const targetStr = [cleanedName, item.name || '', item.keywords || '', item.arabic_name || ''].join(' ').toLowerCase();
-    const nameWords = getWords(item.name);
-    
-    let matchedTokens = [];
-    let exactCount = 0;
-    let prefixCount = 0;
-    let substringCount = 0;
-
-    for (const tok of searchTokens) {
-      if (nameWords.some(w => w === tok)) {
-        matchedTokens.push(tok);
-        exactCount++;
-      } else if (nameWords.some(w => w.startsWith(tok))) {
-        matchedTokens.push(tok);
-        prefixCount++;
-      } else if (targetStr.includes(tok)) {
-        matchedTokens.push(tok);
-        substringCount++;
-      }
-    }
-
-    const matchCount = matchedTokens.length;
-    if (matchCount > 0) {
-      // Full match (تطابق تام):
-      // Single token: matches a name word directly (exactCount > 0 and substringCount === 0)
-      // Multiple tokens: all tokens matched without internal substring extraction
-      const isFullMatch = (matchCount === searchTokens.length) && 
-                          (searchTokens.length === 1 ? exactCount > 0 : substringCount === 0);
-
-      matchedList.push({
-        item: item,
-        matchCount: matchCount,
-        isFullMatch: isFullMatch,
-        exactCount: exactCount,
-        prefixCount: prefixCount,
-        substringCount: substringCount,
-        matchedTokens: matchedTokens
-      });
-    }
-  }
-  
-  if (matchedList.length === 0) {
-    results.innerHTML = '<div class="empty">نتأسف لعدم وجود الاسم في هاته القائمة.</div>';
-    count.textContent = '';
-    return;
-  }
-  
-  // Sort by Priority:
-  // Priority 1: Full match (records containing ALL tokens as distinct words/prefixes)
-  // Priority 2: Partial match
-  // Tie-breaker within group: higher matchCount, more exact words, more prefixes, fewer internal substrings, then alphabetical
-  matchedList.sort((a, b) => {
-    if (a.isFullMatch !== b.isFullMatch) {
-      return a.isFullMatch ? -1 : 1;
-    }
-    if (a.matchCount !== b.matchCount) {
-      return b.matchCount - a.matchCount;
-    }
-    if (a.exactCount !== b.exactCount) {
-      return b.exactCount - a.exactCount;
-    }
-    if (a.prefixCount !== b.prefixCount) {
-      return b.prefixCount - a.prefixCount;
-    }
-    if (a.substringCount !== b.substringCount) {
-      return a.substringCount - b.substringCount;
-    }
-    return (a.item.name || '').localeCompare(b.item.name || '', 'fr');
-  });
-
-  const fullMatchesCount = matchedList.filter(x => x.isFullMatch).length;
-  const partialMatchesCount = matchedList.length - fullMatchesCount;
-
-  if (fullMatchesCount > 0 && partialMatchesCount > 0) {
-    count.innerHTML = `تم العثور على <b>${matchedList.length}</b> نتيجة (${fullMatchesCount} تطابق تام ⭐ و ${partialMatchesCount} تطابق جزئي) من أصل ${ARCHIVE.length} صورة`;
-  } else if (fullMatchesCount > 0 && partialMatchesCount === 0) {
-    count.innerHTML = `تم العثور على <b>${fullMatchesCount}</b> نتيجة (تطابق تام ⭐) من أصل ${ARCHIVE.length} صورة`;
-  } else {
-    count.innerHTML = `تم العثور على <b>${matchedList.length}</b> نتيجة (تطابق جزئي) من أصل ${ARCHIVE.length} صورة`;
-  }
-  
-  let message = '';
-  if (searchTokens.length > 1 && fullMatchesCount === 0) {
-    message = `
-      <div class="panel" style="background:#fffbeb; color:#92400e; border:1px solid #fde68a; padding:12px 18px; border-radius:12px; margin-bottom:18px; font-size:14px; display:flex; align-items:center; gap:10px; box-shadow: 0 2px 8px rgba(245,158,11,0.08);">
-        <span style="font-size:20px;">💡</span>
-        <span>لم نجد تطابقاً كاملاً لكافة الكلمات، ولكن تم العثور على <b>${matchedList.length}</b> شخص يطابق الاسم أو اللقب (تطابق جزئي):</span>
-      </div>
-    `;
-  }
-  
-  let html = message + `
-  <div class="panel" style="padding:0; background:transparent; box-shadow:none; grid-column: 1 / -1;">
-    <div class="split-view">
-      
-      <div class="list-header">
-        <h3>نتائج البحث (${matchedList.length}):</h3>
-      </div>
-      <div id="listPane" class="list-pane">
-        <ul style="line-height:1.6; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
-  `;
-  
-  window.currentRenderedPhotos = matchedList.map(x => x.item);
-  let hasShownPartialSeparator = false;
-
-  matchedList.forEach((entry, i) => {
-    const x = entry.item;
-    const isFull = entry.isFullMatch;
-    const dispRaw = x.name + (x.arabic_name ? ' - ' + x.arabic_name : '');
-    const highlightedName = highlightMatches(dispRaw, entry.matchedTokens);
-
-    if (fullMatchesCount > 0 && !isFull && !hasShownPartialSeparator) {
-      hasShownPartialSeparator = true;
-      html += `
-        <li style="margin: 14px 0 8px 0; padding: 6px 12px; background: #f8fafc; border-radius: 8px; font-size: 12px; font-weight: bold; color: #64748b; text-align: right; direction: rtl; border: 1px dashed #cbd5e1;">
-          ⬇️ نتائج تطابق جزئي (${partialMatchesCount} تشابه في الاسم أو اللقب):
-        </li>
-      `;
-    }
-
-    let itemStyle = '';
-    let badgeHtml = '';
-
-    if (isFull) {
-      itemStyle = 'background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 5px solid #10b981; border-radius: 8px; padding: 9px 12px; margin-bottom: 6px; box-shadow: 0 2px 5px rgba(16,185,129,0.06); transition: all 0.2s ease;';
-      badgeHtml = `
-        <span style="background: #10b981; color: #ffffff; font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: bold; white-space: nowrap; margin-left: 8px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(16,185,129,0.25);">
-          ⭐ تطابق تام
-        </span>
-      `;
-    } else {
-      itemStyle = 'background: #ffffff; border: 1px solid #f1f5f9; border-left: 4px solid #cbd5e1; border-radius: 8px; padding: 9px 12px; margin-bottom: 6px; transition: all 0.2s ease;';
-      badgeHtml = `
-        <span style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-size: 11px; padding: 2px 7px; border-radius: 12px; white-space: nowrap; margin-left: 8px;">
-          ${searchTokens.length > 1 ? `تطابق جزئي (${entry.matchCount}/${searchTokens.length})` : 'تطابق جزئي'}
-        </span>
-      `;
-    }
-
-    html += `
-      <li style="${itemStyle}">
-        <a href="#" style="color:var(--ink); text-decoration:none; display:flex; justify-content:space-between; align-items:center; width:100%; font-size:14px;" 
-           onclick="event.preventDefault(); window.showPhotoFromSearch(${i});">
-          <span style="display:flex; align-items:center; gap:6px;">
-            👤 <span style="font-weight: 600;" dir="ltr">${highlightedName}</span>
-          </span>
-          ${badgeHtml}
-        </a>
-      </li>`;
-  });
-  
-  html += `</ul></div>
-      <div id="imageViewer" class="viewer-pane">
-        <h3 style="color: #999;">👈 اضغط على اسم من القائمة الجانبية لعرض الصورة هنا</h3>
-      </div>
-  </div></div>`;
-  
-  document.querySelector('main').style.maxWidth = '95%';
-  results.innerHTML = html;
-}
-
-const filterFn=function(){
-  this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); 
-  if (searchInput.value.trim()) {
-    document.getElementById('showAllBtn').style.display = 'none';
-  } else {
-    document.getElementById('showAllBtn').style.display = 'block';
-  }
-  document.querySelector('main').style.maxWidth = '1200px'; 
-  render();
-};
-searchInput.oninput=filterFn;render();
-
-searchInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    searchInput.blur();
-  }
-});
-
-document.getElementById('showAllBtn').onclick = () => {
-  searchInput.value = '';
-  document.getElementById('searchPanel').style.display = 'none'; // Hide search panel
-  document.querySelector('header').classList.add('header-small'); // Shrink header
-  count.textContent = `عرض ${ARCHIVE.length} من ${ARCHIVE.length} صورة`;
-  
-  let html = `
-  <div class="panel" style="padding:0; background:transparent; box-shadow:none; grid-column: 1 / -1;">
-    <div class="split-view">
-      
-      <!-- List Pane (Right in RTL) -->
-      <div class="list-header">
-          <h3>القائمة الكاملة للأسماء:</h3>
-          <button onclick="document.getElementById('searchPanel').style.display='block'; render();">🔙 رجوع للبحث</button>
+  <!-- The Two Gateway Cards -->
+  <section class="gateway-grid">
+    <!-- Card 1: Photos Archive -->
+    <a href="photos.html" class="gateway-card photos" id="photosCard" title="الانتقال إلى أرشيف الصور">
+      <div>
+        <div class="card-icon-wrapper">
+          📸
         </div>
-      <div id="listPane" class="list-pane">
-        <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
-  `;
-  
-  let sortedArchive = [...ARCHIVE].sort((c, d) => c.name.localeCompare(d.name, 'fr'));
-  window.currentAllPhotos = sortedArchive;
-  sortedArchive.forEach((x, i) => {
-    const dispName = esc(x.name) + (x.arabic_name ? ' - ' + esc(x.arabic_name) : '');
-    html += `
-      <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0; transition: 0.2s;">
-        <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
-           onclick="event.preventDefault(); window.showPhotoFromAll(${i});">
-          👤 ${dispName}
-        </a>
-      </li>`;
-  });
-  
-  html += `</ul></div>
-      <!-- Viewer Pane (Left in RTL) -->
-      <div id="imageViewer" class="viewer-pane">
-        <h3 style="color: #999;">👈 اضغط على اسم من القائمة الجانبية لعرض الصورة هنا</h3>
+        <h3 class="card-title">
+          البحث في أرشيف الصور
+          <span style="font-size: 20px; color: var(--accent-gold);">➔</span>
+        </h3>
+        <p class="card-desc">
+          تصفح صور الشخصيات والمبحوث عنهم خلال الفترة الاستعمارية. ابحث بالاسم واللقب، استعرض الصور بدقة عالية مع إمكانية التكبير والتحميل المباشر.
+        </p>
       </div>
-  </div></div>`;
-  
-  document.querySelector('main').style.maxWidth = '95%';
-  results.innerHTML = html;
-};
-</script>
+      <div>
+        <div class="card-badge">
+          <span>📁</span>
+          <span id="photosCountBadge">جاري التحميل...</span>
+        </div>
+        <div class="card-cta-btn">
+          <span>🔍 البحث في أرشيف الصور</span>
+          <span>❮</span>
+        </div>
+      </div>
+    </a>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const sInput = document.getElementById('searchInput');
-    const warning = document.getElementById('langWarning');
-    
-    function validateInput(e) {
-        const input = e.target;
-        // Regex allows French letters, spaces, hyphens, and apostrophes.
-        const invalidRegex = /[^a-zA-ZÀ-ÿ\s\-']/g;
-        
-        if (invalidRegex.test(input.value)) {
-            // Show warning
-            warning.style.display = 'block';
-            // Remove the invalid characters immediately
-            input.value = input.value.replace(invalidRegex, '');
-            
-            // Hide the warning after 3 seconds if they stop typing invalid chars
-            clearTimeout(window.warningTimeout);
-            window.warningTimeout = setTimeout(() => {
-                warning.style.display = 'none';
-            }, 3000);
-        }
-    }
-    if (sInput) sInput.addEventListener('input', validateInput);
-});
-</script>
+    <!-- Card 2: Documents Archive -->
+    <a href="documents.html" class="gateway-card documents" id="docsCard" title="الانتقال إلى أرشيف الوثائق">
+      <div>
+        <div class="card-icon-wrapper">
+          📄
+        </div>
+        <h3 class="card-title">
+          البحث في أرشيف الوثائق
+          <span style="font-size: 20px; color: var(--accent-emerald);">➔</span>
+        </h3>
+        <p class="card-desc">
+          البحث الدقيق عن الأسماء داخل الوثائق وسجلات الأرشيف التاريخية. استعراض الوثائق متعددة الصفحات، تصفح القوائم الكاملة وتكبير الصفحات.
+        </p>
+      </div>
+      <div>
+        <div class="card-badge">
+          <span>📑</span>
+          <span id="docsCountBadge">جاري التحميل...</span>
+        </div>
+        <div class="card-cta-btn">
+          <span>🔎 البحث في أرشيف الوثائق</span>
+          <span>❮</span>
+        </div>
+      </div>
+    </a>
+  </section>
 
+  <!-- Live Statistics Strip -->
+  <section class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-number gold" id="statPhotos">--</div>
+      <div class="stat-label">صورة شخصية مؤرشفة</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number emerald" id="statDocs">--</div>
+      <div class="stat-label">وثيقة وسجل تاريخي</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number blue" id="statNames">--</div>
+      <div class="stat-label">اسم مفهرس في الوثائق</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="color:#f59e0b;">1954 - 1962</div>
+      <div class="stat-label">فترة التوثيق التاريخي</div>
+    </div>
+  </section>
 
+  <!-- Instructions and Guidance -->
+  <section class="info-section">
+    <h3>
+      <span>💡</span> إرشادات وتلميحات البحث
+    </h3>
+    <p>
+      • نظراً لطبيعة الوثائق والسجلات الأرشيفية التي دونت خلال الحقبة الاستعمارية، فإن البحث عن الأسماء والألقاب يتم <strong>بالحروف اللاتينية (الفرنسية)</strong> حصراً (مثال: CHOUCHANE Bachir أو Bachir).
+    </p>
+    <p>
+      • يمكنك كتابة الاسم واللقب معاً، أو جزء منهما، وسيقوم محرك البحث الذكي بإظهار التطابق التام والتطابق الجزئي لضمان عدم تفويت أي اسم.
+    </p>
+    <p>
+      • الموقع متوافق تماماً مع الهواتف الذكية وأجهزة الأندرويد، حيث تم تحسين مساحة الشاشة لتتيح للمستخدم الوصول الفوري والمريح لمربع البحث والنتائج.
+    </p>
+  </section>
+</main>
 
-<script>
-window.forceDownload = function(e, url, filename) {
-    e.preventDefault();
-    fetch(url)
-      .then(response => response.blob())
-      .then(blob => {
-        const blobUrl = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch(err => {
-        // Fallback for file:// protocol
-        alert("يبدو أن متصفحك يمنع التحميل المباشر للملفات المحلية للأمان. الرجاء الضغط بزر الماوس الأيمن على الصورة واختيار 'حفظ الصورة باسم' (Save image as).");
-        window.open(url, '_blank');
-      });
-};
-</script>
-
-
-<footer style="margin-top: 50px; padding: 15px; text-align: center; background: #f8f9fa; border-top: 1px solid #eee; font-family: 'Cairo', sans-serif;">
-  <p style="color: #555; margin: 0; font-size: 16px; font-weight: bold;">
-    الموقع في ايطار التجريب من تطوير علاب عمر ننتضر اقتراحاتكم و مساعدتكم في توطين الموقع ننتضر تعليقاتكم في الفيسبوك
+<footer>
+  <p style="margin-bottom: 8px;">
+    <strong>Algeria’s Memories and Colors</strong> — مشروع حفظ وتوثيق الذاكرة الوطنية للجزائر
+  </p>
+  <p style="color: #64748b; font-size: 13px;">
+    الموقع في إطار التجريب من تطوير <strong>علاب عمر</strong> — ننتظر اقتراحاتكم ومساعدتكم في توطين وتطوير الأرشيف على الفيسبوك.
   </p>
 </footer>
+
+<!-- Load Data and Populate Live Counts -->
+<script src="data.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const photoCount = (typeof ARCHIVE !== 'undefined') ? ARCHIVE.length : 0;
+  const docCount = (typeof DOCUMENTS_ARCHIVE !== 'undefined') ? DOCUMENTS_ARCHIVE.length : 0;
+  
+  // Calculate total names in documents
+  let totalNames = 0;
+  if (typeof DOCUMENTS_ARCHIVE !== 'undefined') {
+    DOCUMENTS_ARCHIVE.forEach(doc => {
+      if (doc.pageNames && doc.pageNames.length > 0) {
+        doc.pageNames.forEach(arr => { totalNames += (arr || []).length; });
+      } else if (doc.names) {
+        totalNames += doc.names.length;
+      }
+    });
+  }
+
+  // Update badges
+  const photosBadge = document.getElementById('photosCountBadge');
+  if (photosBadge) photosBadge.textContent = photoCount.toLocaleString('ar-DZ') + ' صورة متوفرة';
+
+  const docsBadge = document.getElementById('docsCountBadge');
+  if (docsBadge) docsBadge.textContent = docCount.toLocaleString('ar-DZ') + ' وثيقة وسجل';
+
+  // Update stat strip
+  const statPhotos = document.getElementById('statPhotos');
+  if (statPhotos) statPhotos.textContent = photoCount.toLocaleString('ar-DZ');
+
+  const statDocs = document.getElementById('statDocs');
+  if (statDocs) statDocs.textContent = docCount.toLocaleString('ar-DZ');
+
+  const statNames = document.getElementById('statNames');
+  if (statNames) statNames.textContent = (totalNames > 0 ? totalNames.toLocaleString('ar-DZ') : '+1500');
+});
+</script>
+
 </body>
 </html>

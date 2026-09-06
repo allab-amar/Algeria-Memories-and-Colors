@@ -70,8 +70,7 @@ window.renderViewerPage = function() {
     const idx = window.currentViewerIndex;
     const img = imgs[idx];
     const title = window.currentViewerTitle;
-    const ext = img.split('.').pop();
-    const dn = window.currentViewerDownloadName + (imgs.length > 1 ? `_صفحة_${idx+1}` : '') + '.' + ext;
+    const dn = window.currentViewerDownloadName + (imgs.length > 1 ? `_صفحة_${idx+1}` : '');
     
     let paginationHtml = '';
     if (imgs.length > 1) {
@@ -85,13 +84,13 @@ window.renderViewerPage = function() {
     }
     
     let html = `
-      <img src="${img}" alt="${esc(title)}" onclick="window.openLightboxCurrent()" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة">
+      <img src="${img}" alt="${title}" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto;">
       
       ${paginationHtml}
       
       <div class="actions" style="display:flex; justify-content:center; gap:10px; margin-bottom: 10px;">
-        <button onclick="window.openLightboxCurrent()" class="download-btn" style="background:#1a1a1a; color:white; border:none; padding: 4px 8px; font-size: 11px; font-weight: normal; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo';">👁️ تكبير</button>
-        
+        <a href="${img}" target="_blank" rel="noopener" class="download-btn" style="background:#1a1a1a; padding: 6px 15px; font-size: 13px; font-weight: normal; border-radius: 6px; flex: 0 1 auto;">👁️ تكبير الصورة</a>
+        <a href="${img}" download="${dn}" class="download-btn" style="padding: 6px 15px; font-size: 13px; font-weight: normal; border-radius: 6px; flex: 0 1 auto;">⬇️ تحميل</a>
       </div>
     `;
     
@@ -214,6 +213,19 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
   position: sticky; top: 100px; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; 
 }
 
+/* Mobile & Android view: Hide top section directly to give full space to search */
+@media(max-width: 768px) {
+  header { display: none !important; }
+  main { padding: 10px 12px !important; }
+  .panel { padding: 12px; border-radius: 14px; margin-bottom: 12px; }
+  .nav-tabs { margin-bottom: 10px; gap: 6px; }
+  .nav-tabs a { padding: 8px 6px; font-size: 13px; border-radius: 10px; }
+}
+
+header.mobile-hidden {
+  display: none !important;
+}
+
 @media(max-width: 900px) {
   header.header-small { display: none !important; }
   .split-view { 
@@ -228,17 +240,13 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 }
 
 @media(max-width:600px) {
-  header { justify-content: center; } 
   .searchline{flex-direction:column} 
   .card img{height:250px} 
-  header h1 { font-size: 18px; }
   .list-header { padding: 6px 10px !important; }
   .list-header h3 { font-size: 13px; margin: 0; }
   .list-header button { font-size: 11px; padding: 3px 8px; margin: 0; }
-  .nav-tabs { margin-bottom: 10px; }
-  .nav-tabs a { padding: 6px; font-size: 13px; border-radius: 8px; }
   #searchInput {
-    font-size: 12.5px;
+    font-size: 13px;
     padding: 10px 12px;
   }
   #searchInput::placeholder {
@@ -261,7 +269,7 @@ window.openLightbox = function(src) {
 };
 </script>
 
-<header>
+<header id="mainHeader">
   <div style="flex: 1;">
     <img src="images/header-image.jpg" alt="أرشيف الصور">
   </div>
@@ -277,9 +285,9 @@ window.openLightbox = function(src) {
 </header>
 <main>
 <nav class="nav-tabs">
-  <a href="index.html">📸 الأرشيف (الصور)</a>
+  <a href="index.html">🏠 الرئيسية</a>
+  <a href="photos.html">📸 أرشيف الصور</a>
   <a href="documents.html" class="active">📄 أرشيف الوثائق</a>
-</nav>
 </nav>
 <section class="panel" id="searchPanel">
 <strong>🔎 البحث عن الأسماء في الوثائق الارشيفية خلال الفترة الاستعمارية.</strong>
@@ -301,8 +309,11 @@ window.openLightbox = function(src) {
 </footer>
 <script src="data.js"></script><script>
 
-
-
+// Check mobile/Android directly to hide header immediately
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768) {
+  const h = document.getElementById('mainHeader');
+  if (h) h.classList.add('mobile-hidden');
+}
 
 window.toggleAccordion = function(id) {
     const c = document.getElementById(id);
@@ -324,7 +335,9 @@ window.toggleAccordion = function(id) {
 const searchInput = document.getElementById('searchInput');
 const results = document.getElementById('results');
 const count = document.getElementById('count');
-document.getElementById('footerCount').textContent = DOCUMENTS_ARCHIVE.length;
+if (document.getElementById('footerCount')) {
+  document.getElementById('footerCount').textContent = (typeof DOCUMENTS_ARCHIVE !== 'undefined') ? DOCUMENTS_ARCHIVE.length : 0;
+}
 
 function updateSearchPlaceholder() {
   if (window.innerWidth <= 600) {
@@ -351,13 +364,14 @@ function highlightMatches(text, tokensToHighlight) {
 
 function render(){
   const rawQuery = searchInput.value.trim();
+  const headerElem = document.querySelector('header');
   if (!rawQuery) {
-    document.querySelector('header').classList.remove('header-small');
+    if (headerElem && window.innerWidth > 768) headerElem.classList.remove('header-small');
     count.textContent = '';
     results.innerHTML = '<div class="empty">الرجاء إدخال كلمة بحث (الاسم واللقب) لعرض الوثائق.</div>';
     return;
   }
-  document.querySelector('header').classList.add('header-small');
+  if (headerElem) headerElem.classList.add('header-small');
   
   const tokens = rawQuery.toLowerCase().split(/\s+/).filter(w => w.length > 0);
   const searchTokens = tokens.filter(w => w.length >= 2);
@@ -545,7 +559,8 @@ searchInput.addEventListener('keydown', function(e) {
 document.getElementById('showDocsBtn').onclick = () => {
   searchInput.value = '';
   document.getElementById('searchPanel').style.display = 'none';
-  document.querySelector('header').classList.add('header-small');
+  const headerElem = document.querySelector('header');
+  if (headerElem) headerElem.classList.add('header-small');
   count.textContent = `عرض ${DOCUMENTS_ARCHIVE.length} من ${DOCUMENTS_ARCHIVE.length} وثيقة`;
   
   let html = `
@@ -567,7 +582,7 @@ document.getElementById('showDocsBtn').onclick = () => {
     html += `
       <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0;">
         <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
-           onclick="event.preventDefault(); window.showDocFromAll(${i});">
+            onclick="event.preventDefault(); window.showDocFromAll(${i});">
           📄 ${esc(x.document_title)}
         </a>
       </li>`;
@@ -586,7 +601,8 @@ document.getElementById('showDocsBtn').onclick = () => {
 document.getElementById('showNamesBtn').onclick = () => {
   searchInput.value = '';
   document.getElementById('searchPanel').style.display = 'none';
-  document.querySelector('header').classList.add('header-small');
+  const headerElem = document.querySelector('header');
+  if (headerElem) headerElem.classList.add('header-small');
   let allNames = [];
   DOCUMENTS_ARCHIVE.forEach((doc, docIndex) => {
     if (doc.pageNames && doc.pageNames.length > 0) {
