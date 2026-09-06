@@ -84,12 +84,12 @@ window.renderViewerPage = function() {
     }
     
     let html = `
-      <img src="${img}" alt="${title}" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto;">
+      <img src="${img}" alt="${title}" onclick="window.openLightbox('${img}')" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة في نفس الصفحة">
       
       ${paginationHtml}
       
       <div class="actions" style="display:flex; justify-content:center; gap:10px; margin-bottom: 10px;">
-        <a href="${img}" target="_blank" rel="noopener" class="download-btn" style="background:#1a1a1a; padding: 6px 15px; font-size: 13px; font-weight: normal; border-radius: 6px; flex: 0 1 auto;">👁️ تكبير الصورة</a>
+        <button type="button" onclick="window.openLightbox('${img}')" class="download-btn" style="background:#1a1a1a; color:#fff; border:none; padding: 7px 18px; font-size: 13.5px; font-weight: 600; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:6px;">👁️ تكبير الصورة</button>
       </div>
     `;
     
@@ -271,15 +271,38 @@ header.mobile-hidden {
 </head>
 <body>
 
-<div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; flex-direction:column;" onclick="if(event.target === this) this.style.display='none'">
-    <span onclick="document.getElementById('lightbox').style.display='none'" style="position:absolute; top:20px; right:30px; font-size:40px; color:white; cursor:pointer; font-weight:bold; transition: 0.3s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='white'">&times;</span>
-    <img id="lightboxImg" style="max-width:95%; max-height:85%; object-fit:contain; border-radius:10px; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+<div id="lightbox" style="display:none; position:fixed; inset:0; width:100vw; height:100vh; background:rgba(0,0,0,0.92); z-index:999999; justify-content:center; align-items:center; flex-direction:column; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); user-select:none;" onclick="if(event.target === this) window.closeLightbox();">
+    <button type="button" onclick="window.closeLightbox()" title="إغلاق التكبير (ESC)" style="position:absolute; top:20px; right:25px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:15px; font-family:'Cairo', sans-serif; padding:8px 18px; border-radius:30px; cursor:pointer; font-weight:bold; transition:all 0.2s; display:flex; align-items:center; gap:8px; z-index:1000000;" onmouseover="this.style.background='rgba(239,68,68,0.9)'; this.style.borderColor='transparent';" onmouseout="this.style.background='rgba(255,255,255,0.15)'; this.style.borderColor='rgba(255,255,255,0.3)';">
+        <span style="font-size:18px; line-height:1;">&times;</span> إغلاق التكبير
+    </button>
+    <img id="lightboxImg" style="max-width:92vw; max-height:86vh; object-fit:contain; border-radius:10px; box-shadow: 0 0 35px rgba(0,0,0,0.85);" alt="صورة مكبرة">
 </div>
 <script>
 window.openLightbox = function(src) {
-    document.getElementById('lightboxImg').src = src;
-    document.getElementById('lightbox').style.display = 'flex';
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightboxImg');
+    if (!lb || !img) return;
+    img.src = src;
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
 };
+
+window.closeLightbox = function() {
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightboxImg');
+    if (!lb) return;
+    lb.style.display = 'none';
+    if (img) img.src = '';
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+};
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        window.closeLightbox();
+    }
+});
 </script>
 
 <header id="mainHeader">
