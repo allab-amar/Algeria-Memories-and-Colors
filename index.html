@@ -662,7 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (statDocs) statDocs.textContent = docCount.toLocaleString('ar-DZ');
 
   const statNames = document.getElementById('statNames');
-  if (statNames) statNames.textContent = (totalNames > 0 ? totalNames.toLocaleString('ar-DZ') : '+1500');
+  if (statNames) statNames.textContent = totalNames.toLocaleString('ar-DZ');
 
   // Live Visitor Counter (Unique Visits Only - Prevents incrementing on refresh)
   (function initVisitorCounter() {
