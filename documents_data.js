@@ -1,0 +1,1 @@
+const DOCUMENTS_ARCHIVE = [];
