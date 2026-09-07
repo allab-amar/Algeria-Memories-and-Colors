@@ -1525,7 +1525,7 @@ const ARCHIVE = [
   },
   {
     "name": "BELATTAR Bachir",
-    "image": "images/img_1788616772739_56.jpg",
+    "image": "images/img_1788789474319_4.jpg",
     "year": "",
     "place": ""
   },
@@ -2240,6 +2240,12 @@ const ARCHIVE = [
   {
     "name": "BENDALI Mohamed",
     "image": "images/img_1788616781420_175.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BENDI AHMED",
+    "image": "images/img_1788790816016_1.jpg",
     "year": "",
     "place": ""
   },
@@ -4797,7 +4803,7 @@ const ARCHIVE = [
   },
   {
     "name": "CHERIF Hammoud",
-    "image": "images/img_1788640301564_57.jpg",
+    "image": "images/img_1788789474396_12.jpg",
     "year": "",
     "place": ""
   },
@@ -5357,6 +5363,12 @@ const ARCHIVE = [
   {
     "name": "DJEGHDJEGH Ahmed",
     "image": "images/img_1788690244257_56.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "DJELIL ABDELKADER",
+    "image": "images/img_1788790815133_0.jpg",
     "year": "",
     "place": ""
   },
@@ -7365,6 +7377,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "KHORFANE Ahcène",
+    "image": "images/img_1788790816078_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "KHORICI Miloud",
     "image": "images/img_1788719232480_39.jpg",
     "year": "",
@@ -7562,20 +7580,134 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "LABBACI  Messeoud.",
+    "image": "images/img_1788790782275_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LABDI Mohamed",
+    "image": "images/img_1788790782352_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LABED TAYEB",
+    "image": "images/img_1788790782413_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LABGAAH ABDELKADER",
+    "image": "images/img_1788790782474_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LABIDI  ABDELLAH",
+    "image": "images/img_1788790782536_4.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "LABIDI Mohamed. hd",
     "image": "images/LABIDI Mohamed. hd.jpg",
     "keywords": "labidi mohamed. hd"
   },
   {
     "name": "LABIDI Rabah",
-    "image": "images/img_1788530085780_19.jpg",
+    "image": "images/img_1788790782597_6.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LABIDI Salah",
+    "image": "images/img_1788790782658_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LABIOD BouzID",
+    "image": "images/img_1788790782720_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LABION Mahmoud",
+    "image": "images/img_1788790782781_9.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LACHOUARI Messaoud",
+    "image": "images/img_1788790782841_10.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LACHTAR ABDELKHNI",
+    "image": "images/img_1788790782901_11.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LADDAR  ARZKI",
+    "image": "images/img_1788790782964_12.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LADJEMIL Makhlouf",
+    "image": "images/img_1788790783026_13.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAFORGE   Lionel",
+    "image": "images/img_1788790783092_14.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAGAGUINE  BACHIR",
+    "image": "images/img_1788790783157_15.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAHDIRI-MOHAND",
+    "image": "images/img_1788790783224_16.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAHMÀR Abdelmadjid",
+    "image": "images/img_1788790783294_17.jpg",
     "year": "",
     "place": ""
   },
   {
     "name": "LAHMAR-ABBOU Mohamed",
-    "image": "images/LAHMAR-ABBOU Mohamed..jpg",
+    "image": "images/img_1788790783360_18.jpg",
     "keywords": "lahmar-abbou mohamed"
+  },
+  {
+    "name": "LAHMER  Taher",
+    "image": "images/img_1788790783422_19.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAHOUARI",
+    "image": "images/img_1788790783486_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAHOUEL Mohamed",
+    "image": "images/img_1788790783554_21.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "LAHOURI Ali",
@@ -7588,8 +7720,62 @@ const ARCHIVE = [
     "keywords": "laib mohamed"
   },
   {
+    "name": "LAID",
+    "image": "images/img_1788790783619_24.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAIDI",
+    "image": "images/img_1788790783682_25.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAINANI Allel",
+    "image": "images/img_1788790783746_26.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAISSAOUI MOHAMED",
+    "image": "images/img_1788790783807_27.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAKAKSA DjELLOUL",
+    "image": "images/img_1788790783871_28.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "LAKBAL Rabah",
     "image": "images/img_1788530085858_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAKEHAL  AISSA",
+    "image": "images/img_1788790783931_30.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAKHDAR",
+    "image": "images/img_1788790783996_31.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAKHDARI Mohamed",
+    "image": "images/img_1788790784058_32.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAKHDARI Samia",
+    "image": "images/img_1788790784120_33.jpg",
     "year": "",
     "place": ""
   },
@@ -7599,9 +7785,165 @@ const ARCHIVE = [
     "keywords": "lalami mohamed"
   },
   {
+    "name": "LALLAM Mohand",
+    "image": "images/img_1788790784183_35.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAMINE youssefs",
+    "image": "images/img_1788790784245_36.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LANCENE Ahmed",
+    "image": "images/img_1788790784308_37.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAOUAMR Hasnaoui",
+    "image": "images/img_1788790784374_38.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAOUAR Mohaned.",
+    "image": "images/img_1788790784438_39.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAOUDI MessaouD",
+    "image": "images/img_1788790784501_40.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAOUES  HOUSINE",
+    "image": "images/img_1788790784566_41.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAOUIR mahfoud",
+    "image": "images/img_1788790784627_42.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LapgaLy Mériane",
+    "image": "images/img_1788790784688_43.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LARAB MOHAMED",
+    "image": "images/img_1788790784749_44.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LARABi  Mohamed",
+    "image": "images/img_1788790784813_45.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LARABI Abdelkader",
+    "image": "images/img_1788790784875_46.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "LARIANE ALI",
     "image": "images/LARIANE ALI.jpg",
     "keywords": "lariane ali"
+  },
+  {
+    "name": "LARIBI MOHAMED",
+    "image": "images/img_1788790784936_48.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LARIBI Slimane",
+    "image": "images/img_1788790784998_49.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LARIBI Taouinia",
+    "image": "images/img_1788790785058_50.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LATER Mostefa",
+    "image": "images/img_1788790785120_51.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LATRECHE Ahmed",
+    "image": "images/img_1788790785180_52.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LATROUS ZOUAOUI",
+    "image": "images/img_1788790785241_53.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LATTAB Akli",
+    "image": "images/img_1788790785326_54.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAYACHI Akila",
+    "image": "images/img_1788790785388_55.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAYACHI BRAHIM",
+    "image": "images/img_1788790785450_56.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAYAD ALLA SAS",
+    "image": "images/img_1788790785514_57.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAZAZCA  KHEMISSSI",
+    "image": "images/img_1788790785575_58.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LAZIZE GHALEM",
+    "image": "images/img_1788790785636_59.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LECHELACHE MAAMAR",
+    "image": "images/img_1788790785697_60.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LEDOUX MARCEL",
+    "image": "images/img_1788790785757_61.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "LEKOUACI Ali",
@@ -7609,14 +7951,92 @@ const ARCHIVE = [
     "keywords": "lekouaci ali"
   },
   {
+    "name": "LEZGHED  Ramdane",
+    "image": "images/img_1788790785819_63.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "LIBDRI Ali",
     "image": "images/LIBDRI Ali.jpg",
     "keywords": "libdri ali"
   },
   {
+    "name": "Louache Mohamed",
+    "image": "images/img_1788790785883_65.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LOUATI   BENAMMAR",
+    "image": "images/img_1788790785943_66.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LOUCIF MOHAMED",
+    "image": "images/img_1788790786003_67.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LOUCIF Mohamed_1",
+    "image": "images/img_1788790786066_68.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LOUDJANI Mabrouk",
+    "image": "images/img_1788790786128_69.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "LOULHA Mohamed",
     "image": "images/LOULHA Mohamed..jpg",
     "keywords": "loulha mohamed"
+  },
+  {
+    "name": "LOULI Slimane",
+    "image": "images/img_1788790786189_71.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LOUNI Amar",
+    "image": "images/img_1788790786250_72.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LOUNI Amar_1",
+    "image": "images/img_1788790786311_73.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LOUNI Slimane",
+    "image": "images/img_1788790786372_74.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LOUNIS MEKHLAF",
+    "image": "images/img_1788790786436_75.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LOUNIS Mohamed",
+    "image": "images/img_1788790786500_76.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "LouSAFHA MOHAMED",
+    "image": "images/img_1788790786565_77.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "Louss Mohamed",
@@ -7749,6 +8169,12 @@ const ARCHIVE = [
     "name": "Mohamed Ali",
     "image": "images/Mohamed Ali.jpg",
     "keywords": "mohamed ali"
+  },
+  {
+    "name": "MOKADEM MOHAMED",
+    "image": "images/img_1788790816144_3.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "MouHouB Mohamed",
