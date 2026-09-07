@@ -152,14 +152,18 @@ header h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: 0.5px;
 /* Small Header Styles */
 header.header-small { padding: 5px 20px; }
 header.header-small img { width: 100px; height: 50px; border-radius: 8px; }
-header.header-small h1 { font-size: 18px; }
-header.header-small .btn-fb { padding: 6px 12px; font-size: 13px; }
-main { max-width: 1200px; margin: auto; padding: 15px 20px; }
-.about-section { background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px; text-align: center; border-top: 4px solid var(--accent); }
-.about-section h2 { margin-top: 0; color: var(--ink); }
-.about-section p { color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 20px; }
-.btn-fb { display: inline-flex; align-items: center; gap: 8px; background: var(--fb); color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 30px; font-weight: 700; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 15px rgba(24, 119, 242, 0.35); }
-.btn-fb:hover { background: var(--fb-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(24, 119, 242, 0.55); }
+header.header-small .btn-fb { padding: 3px 8px; font-size: 11.5px; }
+.fb-btn-group { flex: 2; display: flex; justify-content: flex-end; align-items: center; gap: 6px; flex-wrap: wrap; }
+.btn-fb { display: inline-flex; align-items: center; gap: 5px; background: rgba(24, 119, 242, 0.35); color: #fff; text-decoration: none; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 12px; border: 1px solid rgba(255, 255, 255, 0.22); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: all 0.25s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); white-space: nowrap; }
+.btn-fb svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.95; }
+.btn-fb:hover { background: rgba(24, 119, 242, 0.85); border-color: rgba(255, 255, 255, 0.45); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4); color: #fff; }
+
+@media (max-width: 768px) {
+  header { padding: 8px 12px; gap: 6px; }
+  .fb-btn-group { flex: 1 1 100% !important; width: 100% !important; justify-content: center !important; flex-wrap: nowrap !important; gap: 4px !important; margin-top: 2px; }
+  .btn-fb { padding: 2.5px 6px !important; font-size: 10px !important; gap: 3px !important; border-radius: 12px !important; font-weight: 600 !important; }
+  .btn-fb svg { width: 11px !important; height: 11px !important; }
+}
 .panel { background: var(--card); padding: 15px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 15px; }
 .searchline { display: flex; gap: 15px; margin-top: 15px; }
 input { flex: 1; border: 2px solid #e9ecef; border-radius: 12px; padding: 12px 15px; font-size: 15px; font-family: 'Cairo', sans-serif; background: #f8f9fa; transition: all 0.3s; }
@@ -312,17 +316,17 @@ document.addEventListener('keydown', function(e) {
   <div style="flex: 1.5; text-align: center;">
     <h1>Algeria’s Memories and Colors</h1>
   </div>
-  <div style="flex: 2; display: flex; justify-content: flex-end; align-items: center; gap: 8px; flex-wrap: wrap;">
-    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" style="padding: 6px 12px; font-size: 13px;" title="مجموعتنا على الفيسبوك">
-      <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+  <div class="fb-btn-group">
+    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" title="مجموعتنا على الفيسبوك">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       المجموعة
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener" style="padding: 6px 12px; font-size: 13px;" title="صفحة Imerzoukene">
-      <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener" title="صفحة Imerzoukene">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Imerzoukene
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener" style="padding: 6px 12px; font-size: 13px;" title="صفحة Mourad Fodhil">
-      <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener" title="صفحة Mourad Fodhil">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Mourad Fodhil
     </a>
   </div>

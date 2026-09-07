@@ -106,25 +106,45 @@ header {
   margin-top: 2px;
 }
 
+.fb-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 .btn-fb {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background: var(--fb-blue);
+  gap: 5px;
+  background: rgba(24, 119, 242, 0.35);
   color: #fff;
   text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 14px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(24, 119, 242, 0.35);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+}
+
+.btn-fb svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.95;
 }
 
 .btn-fb:hover {
-  background: #166fe5;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(24, 119, 242, 0.55);
+  background: rgba(24, 119, 242, 0.85);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+  color: #fff;
 }
 
 /* Main Container */
@@ -442,9 +462,22 @@ footer strong {
   .brand-text h1 {
     font-size: 18px;
   }
+  .fb-btn-group {
+    width: 100% !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+    margin-top: 4px;
+  }
   .btn-fb {
-    padding: 8px 16px;
-    font-size: 13px;
+    padding: 2.5px 6px !important;
+    font-size: 10px !important;
+    gap: 3px !important;
+    border-radius: 12px !important;
+  }
+  .btn-fb svg {
+    width: 11px !important;
+    height: 11px !important;
   }
   main {
     padding: 25px 16px 40px;
@@ -490,17 +523,17 @@ footer strong {
       <h1>Algeria’s Memories and Colors</h1>
     </div>
   </div>
-  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" style="padding: 7px 14px; font-size: 13px;" title="مجموعتنا على الفيسبوك">
-      <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
-      مجموعتنا على الفيسبوك
+  <div class="fb-btn-group">
+    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" title="مجموعتنا على الفيسبوك">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+      المجموعة
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener" style="padding: 7px 14px; font-size: 13px;" title="صفحة Imerzoukene على فيسبوك">
-      <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener" title="صفحة Imerzoukene على فيسبوك">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Imerzoukene
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener" style="padding: 7px 14px; font-size: 13px;" title="صفحة Mourad Fodhil على فيسبوك">
-      <svg style="width:16px;height:16px" viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener" title="صفحة Mourad Fodhil على فيسبوك">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Mourad Fodhil
     </a>
   </div>
