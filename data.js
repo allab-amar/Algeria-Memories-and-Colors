@@ -6315,7 +6315,7 @@ const ARCHIVE = [
   },
   {
     "name": "HADJ-MI HOUB-SIDI-MOUSSA Mohamed",
-    "image": "images/img_1788717984973_42.jpg",
+    "image": "images/img_1788792070135_52.jpg",
     "year": "",
     "place": ""
   },
@@ -8493,9 +8493,105 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "yAcouBI  MOHAMED",
+    "image": "images/img_1788792370890_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "YAGOUB Boudjema",
+    "image": "images/img_1788792371544_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "YAHAOUI YOUCEF",
+    "image": "images/img_1788792371605_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "YAHI Abderrahmane",
+    "image": "images/img_1788792371667_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "YAHI ABDERRAHMANE_1",
+    "image": "images/img_1788792371727_4.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "YAHI Ammar",
+    "image": "images/img_1788792371788_5.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "Yahia Hocine",
+    "image": "images/img_1788792371852_6.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "YAHIAOUI  NOUAR",
+    "image": "images/img_1788792371914_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "YAKHOU Azzouz",
+    "image": "images/img_1788792371979_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "YAMANI YACOUB",
+    "image": "images/img_1788792372044_9.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "YASSA Mohamed",
     "image": "images/YASSA Mohamed..jpg",
     "keywords": "yassa mohamed"
+  },
+  {
+    "name": "YATAGHAME   TAIBE",
+    "image": "images/img_1788792372113_11.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "yousfi  Mohaned",
+    "image": "images/img_1788792372175_12.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZADI Abdelkader",
+    "image": "images/img_1788792067092_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZADI Mohamed",
+    "image": "images/img_1788792067169_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "Zafri Derradji",
+    "image": "images/img_1788792067231_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZAIDI  boukkari",
+    "image": "images/img_1788792067294_3.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "ZAIDI Bachir",
@@ -8503,13 +8599,193 @@ const ARCHIVE = [
     "keywords": "zaidi bachir"
   },
   {
+    "name": "ZAIDI MOLOUD",
+    "image": "images/img_1788792067357_5.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZAIMIA Mahieddine",
+    "image": "images/img_1788792067422_6.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZAITER MOHAMED",
+    "image": "images/img_1788792067487_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZALANI mahmoud",
+    "image": "images/img_1788792067551_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZAOUAK AMmar",
+    "image": "images/img_1788792067613_9.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZAOUALI BOUDJEMA",
+    "image": "images/img_1788792067682_10.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZAOUALI mohamed",
+    "image": "images/img_1788792067746_11.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZAOUI  Mohamed",
+    "image": "images/img_1788792067806_12.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZAOUI Kouider",
+    "image": "images/img_1788792067867_13.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZAROUALI Brahim",
+    "image": "images/img_1788792067928_14.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEDADRA Belkacem",
+    "image": "images/img_1788792067989_15.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEGAGH Hocine",
+    "image": "images/img_1788792068052_16.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ZEGHAD Ali",
     "image": "images/ZEGHAD Ali..jpg",
     "keywords": "zeghad ali"
   },
   {
+    "name": "ZEGHAD Amar",
+    "image": "images/img_1788792068117_18.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEGHADNIA Layachi",
+    "image": "images/img_1788792068182_19.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEHAR Mahmoud",
+    "image": "images/img_1788792068247_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEID Salah",
+    "image": "images/img_1788792068311_21.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZELAGUI Hosine",
+    "image": "images/img_1788792068374_22.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ZEMIRI Rabah",
     "image": "images/img_1788530086635_29.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEMMAR said",
+    "image": "images/img_1788792068437_24.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEMMAR SAID_1",
+    "image": "images/img_1788792068498_25.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEMMOUR Ahmed",
+    "image": "images/img_1788792068560_26.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEMOULI Ahmed",
+    "image": "images/img_1788792068621_27.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZENATI Abed",
+    "image": "images/img_1788792068686_28.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZENIME  Larbi",
+    "image": "images/img_1788792068745_29.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZERDOUDI  AMAR",
+    "image": "images/img_1788792068806_30.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZERDOUDI  LAMRI",
+    "image": "images/img_1788792068867_31.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZERDOUDI Mabrouk",
+    "image": "images/img_1788792068931_32.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZERDOUDI MOHAMED",
+    "image": "images/img_1788792068993_33.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZERDOUDI Mossaoud",
+    "image": "images/img_1788792069053_34.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZERGA Boumediane",
+    "image": "images/img_1788792069114_35.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "Zerguine Abdelkader",
+    "image": "images/img_1788792069177_36.jpg",
     "year": "",
     "place": ""
   },
@@ -8520,9 +8796,183 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "ZEROUAL Yahia",
+    "image": "images/img_1788792069242_38.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEROUALA Kaddour",
+    "image": "images/img_1788792069305_39.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEROUALI  Baroudi",
+    "image": "images/img_1788792069366_40.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEROULOU AISSA",
+    "image": "images/img_1788792069427_41.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZERROUG Mohamed",
+    "image": "images/img_1788792069488_42.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZERROUKI Miloud",
+    "image": "images/img_1788792069553_43.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZIAD EL-Hocines",
+    "image": "images/img_1788792069617_44.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZIADA Sadok",
+    "image": "images/img_1788792069681_45.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZIADI Mohaned",
+    "image": "images/img_1788792069742_46.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZIANE pddelkader",
+    "image": "images/img_1788792069802_47.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZICAR  Khelifa",
+    "image": "images/img_1788792069862_48.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZIENNIR Hocine",
+    "image": "images/img_1788792069924_49.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZIGHED Mohamed",
+    "image": "images/img_1788792069988_50.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZITARI Abdelkader",
+    "image": "images/img_1788792070049_51.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZITOUNI Athimane",
+    "image": "images/img_1788792070197_53.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZoGHMAN BoudkhIL",
+    "image": "images/img_1788792070261_54.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOHRA BEN BRAHIM",
+    "image": "images/img_1788792070325_55.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOrgui  Belaid",
+    "image": "images/img_1788792070387_56.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOUAGHI  Mizoun",
+    "image": "images/img_1788792070447_57.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ZOUAGUI ALI",
     "image": "images/ZOUAGUI ALI.jpg",
     "keywords": "zouagui ali"
+  },
+  {
+    "name": "zouahi Hassen",
+    "image": "images/img_1788792070508_59.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOUANI Laala.",
+    "image": "images/img_1788792070569_60.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOUAOUI  Abderrahmanes",
+    "image": "images/img_1788792070632_61.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOUAOUI  Mohamed",
+    "image": "images/img_1788792070695_62.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "zouarek",
+    "image": "images/img_1788792070755_63.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOUARI  SAID",
+    "image": "images/img_1788792070815_64.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOUBIR Abdallah",
+    "image": "images/img_1788792070876_65.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOUGARI Mohamed",
+    "image": "images/img_1788792070936_66.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOUICHE  el-hadi",
+    "image": "images/img_1788792071001_67.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZOUKAI Brahim",
+    "image": "images/img_1788792071062_68.jpg",
+    "year": "",
+    "place": ""
   }
 ];
 
