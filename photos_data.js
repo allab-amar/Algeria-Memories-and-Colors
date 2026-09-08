@@ -102,6 +102,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "Abdelkader",
+    "image": "images/img_1788887453477_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ABDELKADER Ben Kaddour",
     "image": "images/img_1788605169124_16.jpg",
     "year": "",
@@ -570,6 +576,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "ALI",
+    "image": "images/img_1788888816915_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ALI RACHEDI Mahmoud",
     "image": "images/img_1788605174489_94.jpg",
     "year": "",
@@ -686,6 +698,12 @@ const ARCHIVE = [
   {
     "name": "AMANI KHALIFA",
     "image": "images/img_1788605175737_113.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "AMANI KHELIFA",
+    "image": "images/img_1788888816791_4.jpg",
     "year": "",
     "place": ""
   },
@@ -1464,6 +1482,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "BELABBAS",
+    "image": "images/img_1788887453538_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "BELABBES",
     "image": "images/img_1788616772118_47.jpg",
     "year": "",
@@ -1806,6 +1830,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "BEN ABDELKRIM MOHAMED",
+    "image": "images/img_1788887453356_5.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "BEN ALI Ahmed",
     "image": "images/img_1788616776551_105.jpg",
     "year": "",
@@ -1958,6 +1988,12 @@ const ARCHIVE = [
   {
     "name": "BEN NOUDANE DAOUIA",
     "image": "images/img_1788616778414_130.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BEN OUIBA HOUCINE",
+    "image": "images/img_1788887453295_4.jpg",
     "year": "",
     "place": ""
   },
@@ -2683,6 +2719,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "BENTRAT HADJ",
+    "image": "images/img_1788888816608_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "BENTRIOU Youcef",
     "image": "images/img_1788616787415_243.jpg",
     "year": "",
@@ -3398,6 +3440,12 @@ const ARCHIVE = [
   {
     "name": "BOUFELFEL  MAHMOUD",
     "image": "images/img_1788616794473_350.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BOUFRIT MOSTAFA",
+    "image": "images/img_1788887453171_1.jpg",
     "year": "",
     "place": ""
   },
@@ -6126,6 +6174,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "HACHANA ALI",
+    "image": "images/img_1788887453235_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "HACHANI Boubaker",
     "image": "images/img_1788717982710_6.jpg",
     "year": "",
@@ -6464,6 +6518,12 @@ const ARCHIVE = [
   {
     "name": "HAMADI Mohamed",
     "image": "images/img_1788717985917_57.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "HAMADOU   Torki",
+    "image": "images/img_1788888816853_6.jpg",
     "year": "",
     "place": ""
   },
@@ -7052,6 +7112,12 @@ const ARCHIVE = [
   {
     "name": "HRABENT Mohamed",
     "image": "images/img_1788717991601_144.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "HSASNI ABDELKADER",
+    "image": "images/img_1788887453096_0.jpg",
     "year": "",
     "place": ""
   },
@@ -8192,9 +8258,93 @@ const ARCHIVE = [
     "keywords": "moussadek  mohamed"
   },
   {
+    "name": "NAAR AHmed",
+    "image": "images/img_1788888852813_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NABI  MAHMOUD",
+    "image": "images/img_1788888852889_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NACER amar",
+    "image": "images/img_1788888852953_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NADJI Abdelkader",
+    "image": "images/img_1788888853024_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NAHMANE Messaoud",
+    "image": "images/img_1788888853211_4.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NAIDJA ALI",
+    "image": "images/img_1788888853288_5.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NAIDJA SALAH",
+    "image": "images/img_1788888853413_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NAILI ABDLLAH",
+    "image": "images/img_1788888853478_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NAILI Amar",
+    "image": "images/img_1788888853539_9.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "NALDJA Mohamed",
-    "image": "images/NALDJA Mohamed..jpg",
+    "image": "images/img_1788888853351_6.jpg",
     "keywords": "naldja mohamed"
+  },
+  {
+    "name": "NANSERI MOHAMED",
+    "image": "images/img_1788888853600_10.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NAYOUF ABDERHMEN",
+    "image": "images/img_1788888853666_11.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NECHDOUF Mahfoud",
+    "image": "images/img_1788888853727_12.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NECHI Amar",
+    "image": "images/img_1788888853788_13.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NEFOUSSI othmane",
+    "image": "images/img_1788888853859_14.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "NEGAB Mohamed",
@@ -8212,6 +8362,12 @@ const ARCHIVE = [
     "keywords": "nehab ali"
   },
   {
+    "name": "NEHILI   Mohamed",
+    "image": "images/img_1788888853925_17.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "NEKKACHE Mohamed",
     "image": "images/NEKKACHE Mohamed..jpg",
     "keywords": "nekkache mohamed"
@@ -8220,6 +8376,42 @@ const ARCHIVE = [
     "name": "NEZAR Mohamed",
     "image": "images/NEZAR Mohamed..jpg",
     "keywords": "nezar mohamed"
+  },
+  {
+    "name": "NOUALA KADDOUR",
+    "image": "images/img_1788888853990_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NOUARI Lakrouf",
+    "image": "images/img_1788888854053_21.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NOUARI SAID",
+    "image": "images/img_1788888854123_22.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NOULA KADDOUR",
+    "image": "images/img_1788888854187_23.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "NOURI  LAkhdar",
+    "image": "images/img_1788888854252_24.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "Nouri Lamri",
+    "image": "images/img_1788888854313_25.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "OUDJANI Mohamed",
@@ -8265,8 +8457,74 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "RABIA Mohamed",
+    "image": "images/img_1788887185204_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RACHED Mohamed",
+    "image": "images/img_1788887185348_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RACHEDI   Boubakeur",
+    "image": "images/img_1788887185413_4.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RACHEDI  ATHMANE",
+    "image": "images/img_1788887185474_5.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RACHEDI AMAR",
+    "image": "images/img_1788887185533_6.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RACHEDI AMMAR",
+    "image": "images/img_1788887185595_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RACHEM Mustapha",
+    "image": "images/img_1788887185656_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RACHID Ben MOHAMED",
+    "image": "images/img_1788887185716_9.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "Rachid Rahmine",
     "image": "images/img_1788708463396_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RADJEF mohamed",
+    "image": "images/img_1788887185779_10.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAFFA Abdolmadjid",
+    "image": "images/img_1788887185843_11.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAHAB Keblouti",
+    "image": "images/img_1788887185904_12.jpg",
     "year": "",
     "place": ""
   },
@@ -8276,8 +8534,68 @@ const ARCHIVE = [
     "keywords": "rahal mohamed"
   },
   {
+    "name": "RAHAL Mohamed",
+    "image": "images/img_1788887185965_13.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "RAHAL Rabah",
     "image": "images/img_1788530086182_23.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAHEB  SAIEM",
+    "image": "images/img_1788887186025_16.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAHIM EL AID",
+    "image": "images/img_1788887186087_17.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAHLA Taieb",
+    "image": "images/img_1788887186151_18.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAHMANI  MOHAMED",
+    "image": "images/img_1788887186216_19.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAHMANI Ammar",
+    "image": "images/img_1788887186283_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAHMANI MHamed",
+    "image": "images/img_1788887186347_21.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAHMI DJILLALI",
+    "image": "images/img_1788887186412_22.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAIS AHMED",
+    "image": "images/img_1788887186475_23.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAMDANE-BEY Abdelkader",
+    "image": "images/img_1788887186540_24.jpg",
     "year": "",
     "place": ""
   },
@@ -8288,13 +8606,73 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "RAMDANI Said",
+    "image": "images/img_1788887186604_26.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RAMOUL BACHIR",
+    "image": "images/img_1788887186665_27.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "RAMOUL Mohamed",
-    "image": "images/RAMOUL Mohamed..jpg",
+    "image": "images/img_1788887186726_29.jpg",
     "keywords": "ramoul mohamed"
+  },
+  {
+    "name": "RANDANI Salah",
+    "image": "images/img_1788887186789_30.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RANMANE Mekki",
+    "image": "images/img_1788887186851_31.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REBAHI Mohamed",
+    "image": "images/img_1788887186911_32.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REBAI Djeudi",
+    "image": "images/img_1788887186971_33.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REBILI  BOUDJEMAA",
+    "image": "images/img_1788887187033_34.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REBNAIS Ahmed",
+    "image": "images/img_1788887187094_35.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "Reboujane Rabah",
     "image": "images/img_1788530086329_25.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "Rebzani Yahia",
+    "image": "images/img_1788887187153_36.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REDJDAL Yahia",
+    "image": "images/img_1788887187216_37.jpg",
     "year": "",
     "place": ""
   },
@@ -8305,9 +8683,75 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "REDOUD Amar",
+    "image": "images/img_1788887187276_39.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REDOUD Salah",
+    "image": "images/img_1788887187339_40.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REDRADJ  AMAR",
+    "image": "images/img_1788887187401_41.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REDTRADJ AKLI",
+    "image": "images/img_1788887187461_42.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REEGUIE Abdelkader",
+    "image": "images/img_1788887187524_43.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REFRADJI Belgacen",
+    "image": "images/img_1788887187588_44.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REGAM Abderrahmane",
+    "image": "images/img_1788887187649_45.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REGUIEG Abdelkader",
+    "image": "images/img_1788887187710_46.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REGUIG Djarila",
+    "image": "images/img_1788887187769_47.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "REHIMI Ali",
     "image": "images/REHIMI Ali..jpg",
     "keywords": "rehimi ali"
+  },
+  {
+    "name": "REKIA KADDOUR",
+    "image": "images/img_1788887187830_49.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "rekina abdallah",
+    "image": "images/img_1788887187892_50.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "REMADNA Mohamed",
@@ -8320,9 +8764,99 @@ const ARCHIVE = [
     "keywords": "ressa ali"
   },
   {
+    "name": "RETAL Ahmed.",
+    "image": "images/img_1788887187955_53.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REY Atheros",
+    "image": "images/img_1788887188016_54.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REZGUI Aissa",
+    "image": "images/img_1788887188077_55.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "REZKALLAH Ahmed",
+    "image": "images/img_1788887188138_56.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RHALED mourres nos Gun",
+    "image": "images/img_1788887188201_57.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RHBIREIH Abdelkrim. GIT Da",
+    "image": "images/img_1788887188262_58.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RIDAL Ahmed",
+    "image": "images/img_1788887188325_59.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "RIH Ali",
     "image": "images/RIH Ali.jpg",
     "keywords": "rih ali"
+  },
+  {
+    "name": "ROUABHIA Ahmed",
+    "image": "images/img_1788887188389_61.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ROUAL Miloud",
+    "image": "images/img_1788887188450_62.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ROUBECHE Harkati",
+    "image": "images/img_1788887188512_63.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ROUDRAA  MOHAMED",
+    "image": "images/img_1788887188574_64.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ROUILA Larbi",
+    "image": "images/img_1788887188641_65.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ROULA seddik",
+    "image": "images/img_1788887188704_66.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RUIZ André",
+    "image": "images/img_1788887188764_67.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "RUIZ Andrée",
+    "image": "images/img_1788887188826_68.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "SAA     Mustapha",
@@ -8730,6 +9264,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "SEGHOUALI LAMARI",
+    "image": "images/img_1788888816669_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "SEGOUALI Messaoud",
     "image": "images/img_1788795245934_68.jpg",
     "year": "",
@@ -9102,6 +9642,12 @@ const ARCHIVE = [
     "keywords": "tadjine mohamed"
   },
   {
+    "name": "TAGUELMIMET AHMED",
+    "image": "images/img_1788888816730_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TAHAR Ben Djillali",
     "image": "images/TAHAR Ben Djillali.jpg",
     "keywords": "tahar ben djillali"
@@ -9156,6 +9702,12 @@ const ARCHIVE = [
     "name": "TLEMCANI Ali",
     "image": "images/TLEMÇANI Ali.jpg",
     "keywords": "tlemçani ali",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUILEB MOHAMED",
+    "image": "images/img_1788888816530_0.jpg",
     "year": "",
     "place": ""
   },
@@ -9368,6 +9920,12 @@ const ARCHIVE = [
   {
     "name": "ZEHAR Mahmoud",
     "image": "images/img_1788792068247_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEHAR MOHAMED",
+    "image": "images/img_1788887453415_6.jpg",
     "year": "",
     "place": ""
   },
