@@ -102,6 +102,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "Abdelkader",
+    "image": "images/img_1788887453477_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ABDELKADER Ben Kaddour",
     "image": "images/img_1788605169124_16.jpg",
     "year": "",
@@ -1464,6 +1470,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "BELABBAS",
+    "image": "images/img_1788887453538_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "BELABBES",
     "image": "images/img_1788616772118_47.jpg",
     "year": "",
@@ -1806,6 +1818,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "BEN ABDELKRIM MOHAMED",
+    "image": "images/img_1788887453356_5.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "BEN ALI Ahmed",
     "image": "images/img_1788616776551_105.jpg",
     "year": "",
@@ -1958,6 +1976,12 @@ const ARCHIVE = [
   {
     "name": "BEN NOUDANE DAOUIA",
     "image": "images/img_1788616778414_130.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BEN OUIBA HOUCINE",
+    "image": "images/img_1788887453295_4.jpg",
     "year": "",
     "place": ""
   },
@@ -3398,6 +3422,12 @@ const ARCHIVE = [
   {
     "name": "BOUFELFEL  MAHMOUD",
     "image": "images/img_1788616794473_350.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BOUFRIT MOSTAFA",
+    "image": "images/img_1788887453171_1.jpg",
     "year": "",
     "place": ""
   },
@@ -6126,6 +6156,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "HACHANA ALI",
+    "image": "images/img_1788887453235_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "HACHANI Boubaker",
     "image": "images/img_1788717982710_6.jpg",
     "year": "",
@@ -7052,6 +7088,12 @@ const ARCHIVE = [
   {
     "name": "HRABENT Mohamed",
     "image": "images/img_1788717991601_144.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "HSASNI ABDELKADER",
+    "image": "images/img_1788887453096_0.jpg",
     "year": "",
     "place": ""
   },
@@ -9710,6 +9752,12 @@ const ARCHIVE = [
   {
     "name": "ZEHAR Mahmoud",
     "image": "images/img_1788792068247_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "ZEHAR MOHAMED",
+    "image": "images/img_1788887453415_6.jpg",
     "year": "",
     "place": ""
   },
