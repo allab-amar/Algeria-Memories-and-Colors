@@ -524,15 +524,15 @@ footer strong {
     </div>
   </div>
   <div class="fb-btn-group">
-    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" title="مجموعتنا على الفيسبوك">
+    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener noreferrer" title="مجموعتنا على الفيسبوك">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       المجموعة
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener" title="صفحة Imerzoukene على فيسبوك">
+    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener noreferrer" title="صفحة Imerzoukene على فيسبوك">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Imerzoukene
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener" title="صفحة Mourad Fodhil على فيسبوك">
+    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener noreferrer" title="صفحة Mourad Fodhil على فيسبوك">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Mourad Fodhil
     </a>
@@ -662,7 +662,8 @@ footer strong {
 </footer>
 
 <!-- Load Data and Populate Live Counts -->
-<script src="data.js"></script>
+<script src="photos_data.js"></script>
+<script src="documents_data.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const photoCount = (typeof ARCHIVE !== 'undefined') ? ARCHIVE.length : 0;

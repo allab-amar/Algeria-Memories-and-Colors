@@ -5,14 +5,313 @@
 <title>Algeria’s Memories and Colors — أرشيف الصور</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C78NKFY91N"></script>
+<script src="comments_data.js"></script>
 <script>
+if (typeof COMMENTS_ARCHIVE === 'undefined') window.COMMENTS_ARCHIVE = [];
+
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
 window.currentViewerImages = [];
 window.currentViewerTitle = '';
 window.currentViewerDownloadName = '';
 window.currentViewerIndex = 0;
+window.currentViewerPersonName = '';
+window.currentCaptchaAnswer = 9;
 
-window.showInViewer = function(imgsStr, title, downloadName, startIndex = 0) {
+// Storage key for local synchronization
+const COMMENTS_STORAGE_KEY = 'algeria_comments_db';
+
+window.getAllComments = function() {
+  let fileComments = (typeof window.COMMENTS_ARCHIVE !== 'undefined' && Array.isArray(window.COMMENTS_ARCHIVE)) ? window.COMMENTS_ARCHIVE : [];
+  let localComments = [];
+  try {
+    const raw = localStorage.getItem(COMMENTS_STORAGE_KEY);
+    if (raw) localComments = JSON.parse(raw);
+  } catch(e) {}
+  
+  const map = new Map();
+  fileComments.forEach(c => { if(c && c.id) map.set(String(c.id), c); });
+  localComments.forEach(c => { if(c && c.id) map.set(String(c.id), c); });
+  return Array.from(map.values());
+};
+
+window.getApprovedCommentsForPerson = function(personName) {
+  if (!personName) return [];
+  const target = String(personName).trim().toLowerCase();
+  return window.getAllComments().filter(c => {
+    return c && c.status === 'approved' && String(c.photoName || '').trim().toLowerCase() === target;
+  });
+};
+
+window.getPendingCommentsForPerson = function(personName) {
+  if (!personName) return [];
+  const target = String(personName).trim().toLowerCase();
+  let localComments = [];
+  try {
+    const raw = localStorage.getItem(COMMENTS_STORAGE_KEY);
+    if (raw) localComments = JSON.parse(raw);
+  } catch(e) {}
+  return localComments.filter(c => {
+    return c && c.status === 'pending' && String(c.photoName || '').trim().toLowerCase() === target;
+  });
+};
+
+window.getApprovedCommentNamesSet = function() {
+  const all = window.getAllComments ? window.getAllComments() : [];
+  const set = new Set();
+  all.forEach(c => {
+    if (c && c.status === 'approved' && c.photoName) {
+      set.add(String(c.photoName).trim().toLowerCase());
+    }
+  });
+  return set;
+};
+
+window.refreshCaptcha = function() {
+  const n1 = Math.floor(Math.random() * 5) + 3;
+  const n2 = Math.floor(Math.random() * 5) + 1;
+  window.currentCaptchaAnswer = n1 + n2;
+  const qEl = document.getElementById('captchaQuestionText');
+  if (qEl) qEl.textContent = `${n1} + ${n2}`;
+};
+
+window.submitComment = function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const personName = window.currentViewerPersonName;
+  if (!personName) return;
+  
+  const text = (form.commentText.value || '').trim();
+  const author = (form.authorName.value || '').trim();
+  const email = (form.authorEmail.value || '').trim();
+  const relation = (form.authorRelation ? form.authorRelation.value.trim() : '');
+  const source = (form.authorSource ? form.authorSource.value.trim() : '');
+  const captcha = (form.captchaInput.value || '').trim();
+  const errDiv = document.getElementById('commentFormError');
+  const succDiv = document.getElementById('commentFormSuccess');
+  
+  if (errDiv) errDiv.style.display = 'none';
+  if (succDiv) succDiv.style.display = 'none';
+  
+  if (!text || !author || !email) {
+    if (errDiv) {
+      errDiv.textContent = '⚠️ يرجى ملء الحقول الإجبارية (نص الرسالة، الاسم، والبريد الإلكتروني).';
+      errDiv.style.display = 'block';
+    }
+    return;
+  }
+  
+  if (parseInt(captcha, 10) !== window.currentCaptchaAnswer) {
+    if (errDiv) {
+      errDiv.textContent = '⚠️ إجابة سؤال الأمان غير صحيحة، يرجى إعادة المحاولة.';
+      errDiv.style.display = 'block';
+    }
+    return;
+  }
+  
+  const now = new Date();
+  const monthsFr = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  const formattedDate = `${monthsFr[now.getMonth()]} ${now.getFullYear()}`;
+  
+  const newComment = {
+    id: 'comm_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+    photoName: personName,
+    authorName: author,
+    authorEmail: email,
+    relation: relation,
+    source: source,
+    text: text,
+    status: 'pending', // IMPORTANT: pending until admin approves
+    date: now.toISOString().split('T')[0],
+    formattedDate: formattedDate,
+    createdAt: Date.now()
+  };
+  
+  // Save to localStorage
+  try {
+    let list = [];
+    const raw = localStorage.getItem(COMMENTS_STORAGE_KEY);
+    if (raw) list = JSON.parse(raw);
+    list.push(newComment);
+    localStorage.setItem(COMMENTS_STORAGE_KEY, JSON.stringify(list));
+  } catch(err) {
+    console.error('Error saving comment:', err);
+  }
+  
+  if (succDiv) {
+    succDiv.style.display = 'block';
+  }
+  form.reset();
+  window.refreshCaptcha();
+  
+  // Refresh view after a short delay so the pending notice appears
+  setTimeout(() => {
+    window.renderViewerPage();
+    const succ = document.getElementById('commentFormSuccess');
+    if (succ) {
+      succ.style.display = 'block';
+      succ.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, 900);
+};
+
+window.renderCommentsSectionHtml = function(personName) {
+  if (!personName) return '';
+  
+  const approved = window.getApprovedCommentsForPerson(personName);
+  const pending = window.getPendingCommentsForPerson(personName);
+  
+  let headerText = '0 رسائل';
+  if (approved.length === 1) {
+    headerText = 'رسالة واحدة (شهادة معتمدة)';
+  } else if (approved.length > 1) {
+    headerText = `${approved.length} رسائل وشهادات معتمدة`;
+  }
+  
+  let pendingNoticeHtml = '';
+  if (pending.length > 0) {
+    pendingNoticeHtml = `
+      <div style="background:#fffbeb; border:1.5px solid #fde68a; border-right:5px solid #f59e0b; border-radius:10px; padding:12px 16px; margin-bottom:18px; font-size:13.5px; color:#92400e; text-align:right;">
+        <div style="font-weight:bold; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:17px;">⏳</span> <span>لديك رسالة (${pending.length}) قيد مراجعة وموافقة الإدارة</span>
+        </div>
+        <p style="margin:5px 0 0 0; font-size:12.5px; color:#b45309; line-height:1.6;">
+          شكراً لك على إرسال شهادتك! تم تسجيل الرسالة بنجاح، ولن تظهر لعموم الزوار إلا بعد أن يقوم المشرف (الآدمن) بمراجعتها وقبولها رسمياً.
+        </p>
+      </div>
+    `;
+  }
+  
+  let approvedListHtml = '';
+  if (approved.length > 0) {
+    approvedListHtml = approved.map(c => `
+      <div class="comment-item" style="display:flex; gap:14px; margin-bottom:18px; padding:15px; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.03); text-align:right;">
+        <div style="width:42px; height:42px; border-radius:8px; background:linear-gradient(135deg, #b91c1c, #7f1d1d); color:#fff; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; box-shadow:0 3px 8px rgba(185,28,28,0.25);" title="${esc(c.authorName)}">
+          📖
+        </div>
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:6px;">
+            <div>
+              <strong style="font-size:15px; color:#0f172a; font-weight:700;">${esc(c.authorName)}</strong>
+              ${c.relation ? `<span style="background:#e0f2fe; color:#0369a1; font-size:11.5px; padding:2px 8px; border-radius:10px; margin-right:8px; font-weight:600;">${esc(c.relation)}</span>` : ''}
+            </div>
+            <div style="font-size:12px; color:#64748b; font-family:sans-serif;" dir="ltr">
+              ${esc(c.formattedDate || c.date)}
+            </div>
+          </div>
+          ${c.source ? `<div style="font-size:12px; color:#059669; margin-top:3px; font-weight:600;">📌 المصدر: ${esc(c.source)}</div>` : ''}
+          <div style="font-size:14px; line-height:1.8; color:#334155; margin-top:8px; white-space:pre-line; direction:auto; text-align:start;">
+            ${esc(c.text)}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    approvedListHtml = `
+      <div style="text-align:center; padding:18px; background:#f8fafc; border-radius:10px; border:1px dashed #cbd5e1; color:#64748b; font-size:13.5px; margin-bottom:18px;">
+        لا توجد شهادات منشورة بعد لهذا الشخص. شاركنا بما تملكه من معلومات أو شهادات عبر النموذج أدناه.
+      </div>
+    `;
+  }
+  
+  return `
+    <div id="commentsContainer" style="width:100%; text-align:right; direction:rtl; font-family:'Cairo', sans-serif;">
+      
+      <!-- Comments Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #2a9d8f; padding-bottom:8px; margin-bottom:16px;">
+        <h3 style="margin:0; font-size:19px; font-weight:800; color:#0f172a; display:flex; align-items:center; gap:8px;">
+          <span>💬</span> <span>${headerText}</span>
+        </h3>
+        <span style="font-size:13px; color:#64748b; font-weight:600;" dir="ltr">${esc(personName)}</span>
+      </div>
+
+      <!-- Pending submissions notice if any -->
+      ${pendingNoticeHtml}
+
+      <!-- Approved comments -->
+      ${approvedListHtml}
+
+      <!-- Add Testimony Form Section -->
+      <div style="margin-top:24px; padding-top:18px; border-top:1.5px dashed #cbd5e1;">
+        <h4 style="margin:0 0 10px 0; font-size:16.5px; font-weight:800; color:#0f172a; display:flex; align-items:center; gap:6px;">
+          <span>✍️</span> أضف شهادتك أو رسالتك
+        </h4>
+
+        <!-- Historical Disclaimer Notice (Arabic Only) -->
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 16px; font-size:13px; color:#475569; line-height:1.8; margin-bottom:16px;">
+          <p style="margin:0 0 6px 0; font-weight:700; color:#1e293b;">
+            نلفت انتباه القراء والزوار إلى أن هذا الموقع يوثق الذاكرة وتاريخ المفقودين والشهداء. لن تُنشر أي رسالة أو شهادة إلا بعد مراجعتها والموافقة عليها من طرف الإدارة حفاظاً على دقة ومصداقية الأرشيف.
+          </p>
+          <div style="font-size:12.5px; color:#059669; font-weight:700;">
+            ✓ شكراً لمساهمتكم
+          </div>
+        </div>
+
+        <form id="commentForm" onsubmit="window.submitComment(event)" style="display:flex; flex-direction:column; gap:12px;">
+          <div>
+            <label style="display:block; font-size:13.5px; font-weight:700; color:#334155; margin-bottom:5px;">
+              نص الرسالة * :
+            </label>
+            <textarea name="commentText" required rows="4" placeholder="اكتب نص رسالتك أو شهادتك بخصوص ${esc(personName)}..." style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:10px 12px; font-family:inherit; font-size:13.5px; resize:vertical; background:#fff; box-sizing:border-box;"></textarea>
+          </div>
+
+          <div class="comment-form-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+            <div>
+              <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
+                الاسم واللقب * :
+              </label>
+              <input type="text" name="authorName" required placeholder="مثال: أحمد بن علي" style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+            </div>
+            <div>
+              <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
+                البريد الإلكتروني * (لن يُنشر):
+              </label>
+              <input type="email" name="authorEmail" required placeholder="contact@example.com" style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+            </div>
+          </div>
+
+          <div class="comment-form-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+            <div>
+              <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
+                صفتك أو صلة القرابة (اختياري):
+              </label>
+              <input type="text" name="authorRelation" placeholder="مثال: حفيد، ابن المعني، باحث..." style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+            </div>
+            <div>
+              <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
+                المصدر أو المرجع (اختياري):
+              </label>
+              <input type="text" name="authorSource" placeholder="مثال: شهادة عائلية، وثيقة، كتاب..." style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+            </div>
+          </div>
+
+          <!-- Captcha / Security Question -->
+          <div style="background:#f1f5f9; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <label style="font-size:13px; font-weight:700; color:#334155; margin:0;">
+              سؤال الأمان: <span id="captchaQuestionText" style="color:#2563eb; font-weight:800; font-size:14.5px;">4 + 5</span> = ؟
+            </label>
+            <input type="number" name="captchaInput" required placeholder="النتيجة" style="width:90px; border:1.5px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:14px; text-align:center; background:#fff; box-sizing:border-box;">
+          </div>
+
+          <!-- Alerts -->
+          <div id="commentFormError" style="display:none; background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:700;"></div>
+          <div id="commentFormSuccess" style="display:none; background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:12px 16px; border-radius:8px; font-size:13.5px; font-weight:700; line-height:1.6;">
+            ✅ تم إرسال رسالتك بنجاح! شكراً لك. لن تظهر الرسالة للعموم إلا بعد مراجعتها والموافقة عليها من طرف الإدارة.
+          </div>
+
+          <div>
+            <button type="submit" style="background:#2a9d8f; color:#ffffff; border:none; padding:11px 26px; font-size:14.5px; font-weight:800; border-radius:8px; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:8px; transition:0.2s; box-shadow:0 4px 12px rgba(42,157,143,0.35);">
+              <span>✉️</span> إرسال الرسالة
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  `;
+};
+
+window.showInViewer = function(imgsStr, title, downloadName, startIndex = 0, personName = '') {
     const viewer = document.getElementById('imageViewer');
     if (!viewer) return;
     
@@ -20,6 +319,7 @@ window.showInViewer = function(imgsStr, title, downloadName, startIndex = 0) {
     window.currentViewerTitle = title;
     window.currentViewerDownloadName = downloadName;
     window.currentViewerIndex = startIndex || 0;
+    window.currentViewerPersonName = personName || downloadName || '';
     
     window.renderViewerPage();
     
@@ -40,7 +340,7 @@ window.showPhotoFromSearch = function(index) {
     if (!x) return;
     const dispName = x.name + (x.arabic_name ? ' - ' + x.arabic_name : '');
     const imgs = (x.images && x.images.length > 0) ? x.images : [x.image];
-    window.showInViewer(imgs.join('|||'), dispName, x.name);
+    window.showInViewer(imgs.join('|||'), dispName, x.name, 0, x.name);
 };
 
 window.currentAllPhotos = [];
@@ -49,7 +349,7 @@ window.showPhotoFromAll = function(index) {
     if (!x) return;
     const dispName = x.name + (x.arabic_name ? ' - ' + x.arabic_name : '');
     const imgs = (x.images && x.images.length > 0) ? x.images : [x.image];
-    window.showInViewer(imgs.join('|||'), dispName, x.name);
+    window.showInViewer(imgs.join('|||'), dispName, x.name, 0, x.name);
 };
 
 window.renderViewerPage = function() {
@@ -61,6 +361,7 @@ window.renderViewerPage = function() {
     const img = imgs[idx];
     const title = window.currentViewerTitle;
     const dn = window.currentViewerDownloadName + (imgs.length > 1 ? `_صفحة_${idx+1}` : '');
+    const personName = window.currentViewerPersonName;
     
     let paginationHtml = '';
     if (imgs.length > 1) {
@@ -73,21 +374,32 @@ window.renderViewerPage = function() {
         `;
     }
     
+    const commentsHtml = window.renderCommentsSectionHtml(personName);
+    
     let html = `
-      <img src="${img}" alt="${title}" onclick="window.openLightbox('${img}')" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة في نفس الصفحة">
-      
-      ${paginationHtml}
-      
-      <div class="actions" style="display:flex; justify-content:center; gap:10px; margin-bottom: 10px;">
-        <button type="button" onclick="window.openLightbox('${img}')" class="download-btn" style="background:#1a1a1a; color:#fff; border:none; padding: 7px 18px; font-size: 13.5px; font-weight: 600; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:6px;">👁️ تكبير الصورة</button>
+      <div style="width:100%; text-align:center;">
+        <img src="${esc(img)}" alt="${esc(title)}" loading="lazy" onclick="window.openLightboxCurrent()" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 18px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة في نفس الصفحة">
+        
+        ${paginationHtml}
+        
+        <div class="actions" style="display:flex; justify-content:center; gap:10px; margin-bottom: 14px;">
+          <button type="button" onclick="window.openLightboxCurrent()" class="download-btn" style="background:#1a1a1a; color:#fff; border:none; padding: 7px 18px; font-size: 13.5px; font-weight: 600; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:6px;">👁️ تكبير الصورة</button>
+        </div>
       </div>
+      
+      <hr style="border:0; border-top:1px solid #e2e8f0; margin:14px 0 18px 0; width:100%;">
+      
+      ${commentsHtml}
     `;
     
-    viewer.style.overflowY = 'visible';
-    viewer.style.justifyContent = 'center';
-    viewer.style.paddingTop = '10px';
+    viewer.style.overflowY = 'auto';
+    viewer.style.justifyContent = 'flex-start';
+    viewer.style.alignItems = 'stretch';
+    viewer.style.paddingTop = '16px';
+    viewer.style.textAlign = 'right';
     
     viewer.innerHTML = html;
+    window.refreshCaptcha();
 };
 
 window.prevPage = function() {
@@ -216,7 +528,7 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 }
 .viewer-pane { 
   grid-area: viewer; 
-  position: sticky; top: 100px; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+  position: sticky; top: 80px; background: #fff; padding: 18px 20px; border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #eee; text-align: center; min-height: 500px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; scroll-behavior: smooth;
 }
 
 /* Mobile & Android view: Hide top section directly to give full space to search */
@@ -241,7 +553,7 @@ header.mobile-hidden {
     grid-template-areas: "header" "viewer" "list";
     gap: 10px;
   }
-  .viewer-pane { position: static; min-height: 400px; }
+  .viewer-pane { position: static; min-height: 400px; max-height: none; overflow-y: visible; padding: 15px 12px; }
   .list-pane { max-height: 60vh; }
   .list-header { position: relative; top: 0; padding: 12px 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; border-bottom: 2px solid #2563eb; background: #fff; }
 }
@@ -253,6 +565,7 @@ header.mobile-hidden {
   .list-header { padding: 6px 10px !important; }
   .list-header h3 { font-size: 13px; margin: 0; }
   .list-header button { font-size: 11px; padding: 3px 8px; margin: 0; }
+  .comment-form-grid { grid-template-columns: 1fr !important; }
   #searchInput {
     font-size: 13px;
     padding: 10px 12px;
@@ -308,15 +621,15 @@ document.addEventListener('keydown', function(e) {
     <h1>Algeria’s Memories and Colors</h1>
   </div>
   <div class="fb-btn-group">
-    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" title="مجموعتنا على الفيسبوك">
+    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener noreferrer" title="مجموعتنا على الفيسبوك">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       المجموعة
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener" title="صفحة Imerzoukene">
+    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener noreferrer" title="صفحة Imerzoukene">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Imerzoukene
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener" title="صفحة Mourad Fodhil">
+    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener noreferrer" title="صفحة Mourad Fodhil">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Mourad Fodhil
     </a>
@@ -340,7 +653,9 @@ document.addEventListener('keydown', function(e) {
 </section>
 <section id="results" class="grid"></section>
 </main>
-<script src="data.js"></script><script>
+<script src="photos_data.js"></script>
+<script>
+if (typeof ARCHIVE === 'undefined') window.ARCHIVE = [];
 
 // Check mobile/Android directly to hide header immediately
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768) {
@@ -384,18 +699,47 @@ window.addEventListener('resize', updateSearchPlaceholder);
 
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
+const normalizeText = str => String(str || '')
+  .toLowerCase()
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '');
+
+function initArchiveIndex() {
+  if (typeof ARCHIVE === 'undefined' || !Array.isArray(ARCHIVE)) return;
+  for (const item of ARCHIVE) {
+    if (item._normWords) continue;
+    const clean = String(item.name || '').replace(/[_\-\s]*\d+$/g, '').replace(/\(\d+\)$/g, '');
+    item._cleanName = clean;
+    item._normClean = normalizeText(clean);
+    item._normTarget = [item._normClean, normalizeText(item.name), normalizeText(item.keywords), normalizeText(item.arabic_name)].join(' ');
+    item._normWords = item._normClean.split(/[\s\-',._\d]+/).filter(Boolean);
+  }
+}
+initArchiveIndex();
+
 function highlightMatches(text, tokensToHighlight) {
   let escaped = esc(text);
   if (!tokensToHighlight || tokensToHighlight.length === 0) return escaped;
   const sortedTokens = [...new Set(tokensToHighlight)].sort((x, y) => y.length - x.length);
   for (const tok of sortedTokens) {
-    const regex = new RegExp(`(${tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    escaped = escaped.replace(regex, '<mark style="background:#fef08a; color:#1e293b; padding:1px 3px; border-radius:3px; font-weight:bold;">$1</mark>');
+    const pattern = tok.split('').map(c => {
+      const charMap = {
+        'a': '[aàâäáãå]', 'e': '[eéèêë]', 'i': '[iîïíì]', 'o': '[oôöóòõ]',
+        'u': '[uùûüú]', 'c': '[cç]', 'n': '[nñ]', 'y': '[yÿý]'
+      };
+      const low = c.toLowerCase();
+      return charMap[low] || low.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }).join('');
+    try {
+      const regex = new RegExp(`(${pattern})`, 'gi');
+      escaped = escaped.replace(regex, '<mark style="background:#fef08a; color:#1e293b; padding:1px 3px; border-radius:3px; font-weight:bold;">$1</mark>');
+    } catch(e) {}
   }
   return escaped;
 }
 
 function render(){
+  initArchiveIndex();
   const rawQuery = searchInput.value.trim();
   const headerElem = document.querySelector('header');
   if (!rawQuery) {
@@ -406,9 +750,9 @@ function render(){
   }
   if (headerElem) headerElem.classList.add('header-small');
   
-  // Tokenize input by whitespace (case-insensitive, order independent)
-  const tokens = rawQuery.toLowerCase().split(/\s+/).filter(w => w.length > 0);
-  const searchTokens = tokens.filter(w => w.length >= 2);
+  // Tokenize input by whitespace and normalize
+  const tokens = rawQuery.split(/\s+/).filter(w => w.length > 0);
+  const searchTokens = tokens.map(normalizeText).filter(w => w.length >= 2);
   
   if (searchTokens.length === 0) {
     count.textContent = '';
@@ -416,15 +760,12 @@ function render(){
     return;
   }
   
-  // Match records containing AT LEAST ONE token (Condition OR)
+  // Match records using ultra-fast pre-indexed normalized words
   const matchedList = [];
-  const cleanNameForSearch = str => String(str || '').replace(/[_\-\s]*\d+$/g, '').replace(/\(\d+\)$/g, '');
-  const getWords = str => cleanNameForSearch(str).toLowerCase().split(/[\s\-',._\d]+/).filter(Boolean);
 
   for (const item of ARCHIVE) {
-    const cleanedName = cleanNameForSearch(item.name);
-    const targetStr = [cleanedName, item.name || '', item.keywords || '', item.arabic_name || ''].join(' ').toLowerCase();
-    const nameWords = getWords(item.name);
+    const nameWords = item._normWords || [];
+    const targetStr = item._normTarget || '';
     
     let matchedTokens = [];
     let exactCount = 0;
@@ -520,12 +861,15 @@ function render(){
   
   window.currentRenderedPhotos = matchedList.map(x => x.item);
   let hasShownPartialSeparator = false;
+  const approvedCommentNames = window.getApprovedCommentNamesSet();
 
   matchedList.forEach((entry, i) => {
     const x = entry.item;
     const isFull = entry.isFullMatch;
     const dispRaw = x.name + (x.arabic_name ? ' - ' + x.arabic_name : '');
     const highlightedName = highlightMatches(dispRaw, entry.matchedTokens);
+    const hasComment = approvedCommentNames.has(String(x.name || '').trim().toLowerCase());
+    const starMark = hasComment ? ` <span style="color:#d97706; font-weight:800; font-size:16px; margin-left:3px;" title="توجد رسالة أو شهادة مسجلة لهذا الشخص">*</span>` : '';
 
     if (fullMatchesCount > 0 && !isFull && !hasShownPartialSeparator) {
       hasShownPartialSeparator = true;
@@ -560,7 +904,7 @@ function render(){
         <a href="#" style="color:var(--ink); text-decoration:none; display:flex; justify-content:space-between; align-items:center; width:100%; font-size:14px;" 
            onclick="event.preventDefault(); window.showPhotoFromSearch(${i});">
           <span style="display:flex; align-items:center; gap:6px;">
-            👤 <span style="font-weight: 600;" dir="ltr">${highlightedName}</span>
+            👤 <span style="font-weight: 600;" dir="ltr">${highlightedName}${starMark}</span>
           </span>
           ${badgeHtml}
         </a>
@@ -577,15 +921,17 @@ function render(){
   results.innerHTML = html;
 }
 
-const filterFn=function(){
-  this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); 
+let searchDebounceTimer = null;
+const filterFn = function() {
+  this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s\-']/g, ''); 
   if (searchInput.value.trim()) {
     document.getElementById('showAllBtn').style.display = 'none';
   } else {
     document.getElementById('showAllBtn').style.display = 'block';
   }
   document.querySelector('main').style.maxWidth = '1200px'; 
-  render();
+  clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(render, 80);
 };
 searchInput.oninput=filterFn;render();
 
@@ -616,15 +962,19 @@ document.getElementById('showAllBtn').onclick = () => {
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
-  let sortedArchive = [...ARCHIVE].sort((c, d) => c.name.localeCompare(d.name, 'fr'));
+  let sortedArchive = [...ARCHIVE].sort((c, d) => (c.name || '').localeCompare(d.name || '', 'fr'));
   window.currentAllPhotos = sortedArchive;
+  const approvedCommentNames = window.getApprovedCommentNamesSet();
+
   sortedArchive.forEach((x, i) => {
     const dispName = esc(x.name) + (x.arabic_name ? ' - ' + esc(x.arabic_name) : '');
+    const hasComment = approvedCommentNames.has(String(x.name || '').trim().toLowerCase());
+    const starMark = hasComment ? ` <span style="color:#d97706; font-weight:800; font-size:16px; margin-left:3px;" title="توجد رسالة أو شهادة مسجلة لهذا الشخص">*</span>` : '';
     html += `
       <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0; transition: 0.2s;">
         <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
            onclick="event.preventDefault(); window.showPhotoFromAll(${i});">
-          👤 ${dispName}
+          👤 ${dispName}${starMark}
         </a>
       </li>`;
   });

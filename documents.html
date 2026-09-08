@@ -84,12 +84,12 @@ window.renderViewerPage = function() {
     }
     
     let html = `
-      <img src="${img}" alt="${title}" onclick="window.openLightbox('${img}')" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة في نفس الصفحة">
+      <img src="${esc(img)}" alt="${esc(title)}" loading="lazy" onclick="window.openLightboxCurrent()" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة في نفس الصفحة">
       
       ${paginationHtml}
       
       <div class="actions" style="display:flex; justify-content:center; gap:10px; margin-bottom: 10px;">
-        <button type="button" onclick="window.openLightbox('${img}')" class="download-btn" style="background:#1a1a1a; color:#fff; border:none; padding: 7px 18px; font-size: 13.5px; font-weight: 600; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:6px;">👁️ تكبير الصورة</button>
+        <button type="button" onclick="window.openLightboxCurrent()" class="download-btn" style="background:#1a1a1a; color:#fff; border:none; padding: 7px 18px; font-size: 13.5px; font-weight: 600; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:6px;">👁️ تكبير الصورة</button>
       </div>
     `;
     
@@ -317,15 +317,15 @@ document.addEventListener('keydown', function(e) {
     <h1>Algeria’s Memories and Colors</h1>
   </div>
   <div class="fb-btn-group">
-    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener" title="مجموعتنا على الفيسبوك">
+    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener noreferrer" title="مجموعتنا على الفيسبوك">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       المجموعة
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener" title="صفحة Imerzoukene">
+    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener noreferrer" title="صفحة Imerzoukene">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Imerzoukene
     </a>
-    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener" title="صفحة Mourad Fodhil">
+    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener noreferrer" title="صفحة Mourad Fodhil">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Mourad Fodhil
     </a>
@@ -351,7 +351,9 @@ document.addEventListener('keydown', function(e) {
 </section>
 <section id="results" class="grid"></section>
 </main>
-<script src="data.js"></script><script>
+<script src="documents_data.js"></script>
+<script>
+if (typeof DOCUMENTS_ARCHIVE === 'undefined') window.DOCUMENTS_ARCHIVE = [];
 
 // Check mobile/Android directly to hide header immediately
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768) {
@@ -395,18 +397,58 @@ window.addEventListener('resize', updateSearchPlaceholder);
 
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
+const normalizeText = str => String(str || '')
+  .toLowerCase()
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '');
+
+const cleanNameForSearch = str => String(str || '').replace(/[_\-\s]*\d+$/g, '').replace(/\(\d+\)$/g, '');
+
+function initDocsIndex() {
+  if (typeof DOCUMENTS_ARCHIVE === 'undefined' || !Array.isArray(DOCUMENTS_ARCHIVE)) return;
+  for (const doc of DOCUMENTS_ARCHIVE) {
+    if (doc._indexed) continue;
+    const docNames = doc.names || [];
+    doc._normTitle = normalizeText(doc.document_title);
+    doc._normPersons = docNames.map(personName => {
+      const clean = cleanNameForSearch(personName);
+      const normClean = normalizeText(clean);
+      return {
+        raw: personName,
+        clean: clean,
+        normClean: normClean,
+        normWords: normClean.split(/[\s\-',._\d]+/).filter(Boolean)
+      };
+    });
+    doc._allSearchStr = [doc._normTitle, ...doc._normPersons.map(p => p.normClean)].join(' ');
+    doc._indexed = true;
+  }
+}
+initDocsIndex();
+
 function highlightMatches(text, tokensToHighlight) {
   let escaped = esc(text);
   if (!tokensToHighlight || tokensToHighlight.length === 0) return escaped;
   const sortedTokens = [...new Set(tokensToHighlight)].sort((x, y) => y.length - x.length);
   for (const tok of sortedTokens) {
-    const regex = new RegExp(`(${tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    escaped = escaped.replace(regex, '<mark style="background:#fef08a; color:#1e293b; padding:1px 3px; border-radius:3px; font-weight:bold;">$1</mark>');
+    const pattern = tok.split('').map(c => {
+      const charMap = {
+        'a': '[aàâäáãå]', 'e': '[eéèêë]', 'i': '[iîïíì]', 'o': '[oôöóòõ]',
+        'u': '[uùûüú]', 'c': '[cç]', 'n': '[nñ]', 'y': '[yÿý]'
+      };
+      const low = c.toLowerCase();
+      return charMap[low] || low.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }).join('');
+    try {
+      const regex = new RegExp(`(${pattern})`, 'gi');
+      escaped = escaped.replace(regex, '<mark style="background:#fef08a; color:#1e293b; padding:1px 3px; border-radius:3px; font-weight:bold;">$1</mark>');
+    } catch(e) {}
   }
   return escaped;
 }
 
 function render(){
+  initDocsIndex();
   const rawQuery = searchInput.value.trim();
   const headerElem = document.querySelector('header');
   if (!rawQuery) {
@@ -417,8 +459,8 @@ function render(){
   }
   if (headerElem) headerElem.classList.add('header-small');
   
-  const tokens = rawQuery.toLowerCase().split(/\s+/).filter(w => w.length > 0);
-  const searchTokens = tokens.filter(w => w.length >= 2);
+  const tokens = rawQuery.split(/\s+/).filter(w => w.length > 0);
+  const searchTokens = tokens.map(normalizeText).filter(w => w.length >= 2);
   
   if (searchTokens.length === 0) {
     count.textContent = '';
@@ -427,30 +469,29 @@ function render(){
   }
   
   const matchedDocs = [];
-  // Clean duplicate numbers / suffixes (e.g. _1, _2, (1), -1) from names for accurate search matching
-  const cleanNameForSearch = str => String(str || '').replace(/[_\-\s]*\d+$/g, '').replace(/\(\d+\)$/g, '');
-  const getWords = str => cleanNameForSearch(str).toLowerCase().split(/[\s\-',._\d]+/).filter(Boolean);
 
   for (const doc of DOCUMENTS_ARCHIVE) {
-    const docNames = doc.names || [];
+    const persons = doc._normPersons || [];
     
-    // Check if any single person name in doc.names matches ALL tokens as words/prefixes (not internal substrings)
-    const fullPersonMatches = docNames.filter(personName => {
-      const pWords = getWords(personName);
-      if (searchTokens.length === 1) {
-        return pWords.some(w => w === searchTokens[0]);
-      }
-      return searchTokens.every(tok => pWords.some(w => w === tok || w.startsWith(tok)));
-    });
+    // Check if any single person name in doc matches ALL tokens as words/prefixes
+    const fullPersonMatches = [];
+    const partialPersonMatches = [];
 
-    const partialPersonMatches = docNames.filter(personName => {
-      const pWords = getWords(personName);
-      return searchTokens.some(tok => pWords.some(w => w === tok || w.startsWith(tok)) || cleanNameForSearch(personName).toLowerCase().includes(tok) || personName.toLowerCase().includes(tok));
-    });
+    for (const p of persons) {
+      const pWords = p.normWords;
+      const isFull = searchTokens.length === 1 
+        ? pWords.some(w => w === searchTokens[0])
+        : searchTokens.every(tok => pWords.some(w => w === tok || w.startsWith(tok)));
+      
+      if (isFull) {
+        fullPersonMatches.push(p.raw);
+      } else if (searchTokens.some(tok => pWords.some(w => w === tok || w.startsWith(tok)) || p.normClean.includes(tok))) {
+        partialPersonMatches.push(p.raw);
+      }
+    }
     
     const matchedTokens = searchTokens.filter(t => 
-      docNames.some(n => n.toLowerCase().includes(t)) || 
-      (doc.document_title && doc.document_title.toLowerCase().includes(t))
+      doc._allSearchStr && doc._allSearchStr.includes(t)
     );
     
     const matchCount = matchedTokens.length;
@@ -581,15 +622,17 @@ function render(){
   results.innerHTML = html;
 }
 
-const filterFn=function(){
-  this.value=this.value.replace(/[^a-zA-Z\s\-']/g,''); 
+let docSearchDebounceTimer = null;
+const filterFn = function() {
+  this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s\-']/g, ''); 
   if (searchInput.value.trim()) {
     document.getElementById('btnGroup').style.display = 'none';
   } else {
     document.getElementById('btnGroup').style.display = 'flex';
   }
   document.querySelector('main').style.maxWidth = '1200px'; 
-  render();
+  clearTimeout(docSearchDebounceTimer);
+  docSearchDebounceTimer = setTimeout(render, 80);
 };
 searchInput.oninput=filterFn;render();
 
@@ -620,7 +663,7 @@ document.getElementById('showDocsBtn').onclick = () => {
         <ul style="line-height:2.2; list-style:none; padding:0; margin:0; direction: ltr; text-align: left; font-size:13.5px;">
   `;
   
-  let sortedDocs = [...DOCUMENTS_ARCHIVE].sort((a, b) => a.document_title.localeCompare(b.document_title, 'fr'));
+  let sortedDocs = [...DOCUMENTS_ARCHIVE].sort((a, b) => (a.document_title || '').localeCompare(b.document_title || '', 'fr'));
   window.currentAllDocs = sortedDocs;
   sortedDocs.forEach((x, i) => {
     html += `
@@ -662,7 +705,7 @@ document.getElementById('showNamesBtn').onclick = () => {
     }
   });
   
-  allNames.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+  allNames.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'fr'));
   window.currentAllNames = allNames;
   count.textContent = `تم العثور على ${allNames.length} اسم في الأرشيف`;
   
