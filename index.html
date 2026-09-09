@@ -99,6 +99,40 @@ header {
   -webkit-text-fill-color: transparent;
 }
 
+.brand-title-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  direction: ltr;
+}
+
+.brand-fb-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #1877f2;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(24, 119, 242, 0.45);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  transition: all 0.25s ease;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brand-fb-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.brand-fb-icon:hover {
+  transform: scale(1.15) translateY(-2px);
+  box-shadow: 0 6px 18px rgba(24, 119, 242, 0.7);
+  background: #166fe5;
+}
+
 .brand-text p {
   font-size: 13px;
   color: var(--text-muted);
@@ -462,6 +496,14 @@ footer strong {
   .brand-text h1 {
     font-size: 18px;
   }
+  .brand-fb-icon {
+    width: 27px;
+    height: 27px;
+  }
+  .brand-fb-icon svg {
+    width: 15px;
+    height: 15px;
+  }
   .fb-btn-group {
     width: 100% !important;
     justify-content: center !important;
@@ -520,14 +562,15 @@ footer strong {
   <div class="brand-container">
     <img src="images/header-image.jpg" alt="Algeria’s Memories and Colors" class="brand-logo">
     <div class="brand-text">
-      <h1>Algeria’s Memories and Colors</h1>
+      <div class="brand-title-wrap">
+        <h1>Algeria’s Memories and Colors</h1>
+        <a class="brand-fb-icon" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener noreferrer" title="مجموعتنا على الفيسبوك: Algeria’s Memories and Colors" aria-label="مجموعتنا على الفيسبوك">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+        </a>
+      </div>
     </div>
   </div>
   <div class="fb-btn-group">
-    <a class="btn-fb" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener noreferrer" title="مجموعتنا على الفيسبوك">
-      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
-      المجموعة
-    </a>
     <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener noreferrer" title="صفحة Imerzoukene على فيسبوك">
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
       Imerzoukene
