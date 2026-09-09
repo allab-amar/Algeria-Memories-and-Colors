@@ -531,11 +531,8 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 
 .nav-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
 .nav-tabs a { flex: 1; text-align: center; background: #e9ecef; color: var(--ink); text-decoration: none; padding: 10px; border-radius: 12px; font-weight: bold; font-size: 16px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 6px; }
-.nav-tabs a:hover:not(.active) { background: #dee2e6; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-.nav-tabs a.active { background: var(--accent); color: #fff; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
-.nav-tabs a.active:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.55); }
-.nav-tabs a.external-link-tab { background: #f0fdf4; color: #15803d; border: 1.5px solid #86efac; }
-.nav-tabs a.external-link-tab:hover { background: #dcfce7; border-color: #4ade80; color: #14532d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+.nav-tabs a.home-return-btn { flex: 0 0 auto; background: #1e293b; color: #ffffff; padding: 9px 22px; border-radius: 12px; font-size: 15px; font-weight: 700; border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); }
+.nav-tabs a.home-return-btn:hover { background: var(--accent); color: #0f172a; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(212, 175, 55, 0.35); }
 
 #showAllBtn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important; }
 #showAllBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.5) !important; }
@@ -678,19 +675,16 @@ document.addEventListener('keydown', function(e) {
         <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
         Mourad Fodhil
       </a>
-      <a class="btn-site-link" href="https://1000autres.org/" target="_blank" rel="noopener noreferrer" title="موقع 1000autres.org — أرشيف مفقودي معركة الجزائر 1957">
+      <a class="btn-site-link" href="https://1000autres.org/" target="_blank" rel="noopener noreferrer" title="موقع 1000autres.org — 1000 آخرون (أرشيف مفقودي معركة الجزائر 1957)">
         <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-        1000autres.org
+        1000 آخرون
       </a>
     </div>
   </div>
 </header>
 <main>
 <nav class="nav-tabs">
-  <a href="index.html">🏠 الرئيسية</a>
-  <a href="photos.html" class="active">📸 أرشيف الصور</a>
-  <a href="documents.html">📄 أرشيف الوثائق</a>
-  <a href="https://1000autres.org/" target="_blank" rel="noopener noreferrer" class="external-link-tab" title="موقع 1000autres.org — أرشيف مفقودي معركة الجزائر 1957">🌐 1000autres.org</a>
+  <a href="index.html" class="home-return-btn">🏠 العودة إلى الصفحة الرئيسية</a>
 </nav>
 
 <section class="panel" id="searchPanel">

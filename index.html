@@ -338,6 +338,14 @@ main {
   background: linear-gradient(90deg, var(--accent-emerald), #059669);
 }
 
+.gateway-card.colored-photos::before {
+  background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
+}
+
+.gateway-card.external-archive::before {
+  background: linear-gradient(90deg, #0284c7, #06b6d4, #10b981);
+}
+
 .gateway-card:hover {
   transform: translateY(-8px);
   border-color: rgba(255, 255, 255, 0.2);
@@ -351,16 +359,40 @@ main {
   box-shadow: 0 22px 45px rgba(16, 185, 129, 0.22);
 }
 
+.gateway-card.colored-photos:hover {
+  box-shadow: 0 22px 45px rgba(139, 92, 246, 0.25);
+}
+
+.gateway-card.external-archive:hover {
+  box-shadow: 0 22px 45px rgba(6, 182, 212, 0.25);
+}
+
 .card-icon-wrapper {
   width: 76px;
   height: 76px;
+  min-width: 76px;
+  min-height: 76px;
+  flex-shrink: 0;
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 38px;
   margin-bottom: 22px;
   transition: transform 0.4s ease;
+  overflow: hidden;
+}
+
+.card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  line-height: 1;
+  text-align: center;
+  user-select: none;
+  font-size: 38px;
+  transition: transform 0.3s ease;
 }
 
 .gateway-card.photos .card-icon-wrapper {
@@ -368,11 +400,37 @@ main {
   border: 1px solid rgba(212, 175, 55, 0.25);
   box-shadow: 0 6px 20px rgba(212, 175, 55, 0.15);
 }
+.gateway-card.photos .card-icon {
+  font-size: 38px;
+}
 
 .gateway-card.documents .card-icon-wrapper {
   background: rgba(16, 185, 129, 0.12);
   border: 1px solid rgba(16, 185, 129, 0.25);
   box-shadow: 0 6px 20px rgba(16, 185, 129, 0.15);
+}
+.gateway-card.documents .card-icon {
+  font-size: 42px;
+  transform: scale(1.1);
+}
+
+.gateway-card.colored-photos .card-icon-wrapper {
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.15);
+}
+.gateway-card.colored-photos .card-icon {
+  font-size: 38px;
+}
+
+.gateway-card.external-archive .card-icon-wrapper {
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.15);
+}
+.gateway-card.external-archive .card-icon {
+  font-size: 42px;
+  transform: scale(1.08);
 }
 
 .gateway-card:hover .card-icon-wrapper {
@@ -402,10 +460,14 @@ main {
   gap: 6px;
   font-size: 13px;
   font-weight: 700;
-  padding: 5px 14px;
+  height: 32px;
+  min-height: 32px;
+  padding: 0 14px;
   border-radius: 20px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   width: fit-content;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .gateway-card.photos .card-badge {
@@ -420,19 +482,35 @@ main {
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
+.gateway-card.colored-photos .card-badge {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.gateway-card.external-archive .card-badge {
+  background: rgba(6, 182, 212, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
 /* Primary Action Buttons */
 .card-cta-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 10px;
   width: 100%;
-  padding: 15px 24px;
+  height: 52px;
+  min-height: 52px;
+  padding: 0 20px;
   border-radius: 14px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .gateway-card.photos .card-cta-btn {
@@ -442,6 +520,16 @@ main {
 
 .gateway-card.documents .card-cta-btn {
   background: linear-gradient(135deg, var(--accent-emerald) 0%, #059669 100%);
+  color: #ffffff;
+}
+
+.gateway-card.colored-photos .card-cta-btn {
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  color: #ffffff;
+}
+
+.gateway-card.external-archive .card-cta-btn {
+  background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
   color: #ffffff;
 }
 
@@ -455,6 +543,14 @@ main {
 
 .gateway-card.documents:hover .card-cta-btn {
   box-shadow: 0 8px 25px var(--accent-emerald-glow);
+}
+
+.gateway-card.colored-photos:hover .card-cta-btn {
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+}
+
+.gateway-card.external-archive:hover .card-cta-btn {
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4);
 }
 
 /* Stats Counter Section */
@@ -673,22 +769,15 @@ footer strong {
         <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
         Mourad Fodhil
       </a>
-      <a class="btn-site-link" href="https://1000autres.org/" target="_blank" rel="noopener noreferrer" title="موقع 1000autres.org — أرشيف مفقودي معركة الجزائر 1957">
+      <a class="btn-site-link" href="https://1000autres.org/" target="_blank" rel="noopener noreferrer" title="موقع 1000autres.org — 1000 آخرون (أرشيف مفقودي معركة الجزائر 1957)">
         <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-        1000autres.org
+        1000 آخرون
       </a>
     </div>
   </div>
 </header>
 
 <main>
-  <!-- Navigation Bar -->
-  <nav class="nav-tabs">
-    <a href="index.html" class="active">🏠 الرئيسية</a>
-    <a href="photos.html">📸 أرشيف الصور</a>
-    <a href="documents.html">📄 أرشيف الوثائق</a>
-    <a href="https://1000autres.org/" target="_blank" rel="noopener noreferrer" class="external-link-tab" title="موقع 1000autres.org — أرشيف مفقودي معركة الجزائر 1957">🌐 1000autres.org</a>
-  </nav>
   <!-- Hero Section -->
   <section class="hero-section">
     <h2 class="hero-title">
@@ -705,10 +794,10 @@ footer strong {
     <a href="photos.html" class="gateway-card photos" id="photosCard" title="الانتقال إلى أرشيف الصور">
       <div>
         <div class="card-icon-wrapper">
-          📸
+          <span class="card-icon">📸</span>
         </div>
         <h3 class="card-title">
-          البحث في أرشيف الصور
+          أرشيف الصور
           <span style="font-size: 20px; color: var(--accent-gold);">➔</span>
         </h3>
         <p class="card-desc">
@@ -718,7 +807,7 @@ footer strong {
       <div>
         <div class="card-badge">
           <span>📁</span>
-          <span id="photosCountBadge">جاري التحميل...</span>
+          <span id="photosCountBadge">1.732 صورة متوفرة</span>
         </div>
         <div class="card-cta-btn">
           <span>🔍 البحث في أرشيف الصور</span>
@@ -731,10 +820,10 @@ footer strong {
     <a href="documents.html" class="gateway-card documents" id="docsCard" title="الانتقال إلى أرشيف الوثائق">
       <div>
         <div class="card-icon-wrapper">
-          📄
+          <span class="card-icon">📄</span>
         </div>
         <h3 class="card-title">
-          البحث في أرشيف الوثائق
+          أرشيف الوثائق
           <span style="font-size: 20px; color: var(--accent-emerald);">➔</span>
         </h3>
         <p class="card-desc">
@@ -744,10 +833,62 @@ footer strong {
       <div>
         <div class="card-badge">
           <span>📑</span>
-          <span id="docsCountBadge">جاري التحميل...</span>
+          <span id="docsCountBadge">0 وثيقة وسجل</span>
         </div>
         <div class="card-cta-btn">
           <span>🔎 البحث في أرشيف الوثائق</span>
+          <span>❮</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 3: Colored Photos Archive -->
+    <a href="colored.html" class="gateway-card colored-photos" id="coloredPhotosCard" title="الانتقال إلى أرشيف الصور الملونة">
+      <div>
+        <div class="card-icon-wrapper">
+          <span class="card-icon">🎨</span>
+        </div>
+        <h3 class="card-title">
+          أرشيف الصور الملونة
+          <span style="font-size: 20px; color: #a855f7;">➔</span>
+        </h3>
+        <p class="card-desc">
+          تصفح واستعراض صور وذاكرة الجزائر التاريخية المرممة والمعدلة بالألوان لتجسيد ملامح تلك الحقبة بدقة وحيوية.
+        </p>
+      </div>
+      <div>
+        <div class="card-badge" style="border-color: rgba(168, 85, 247, 0.3); background: rgba(168, 85, 247, 0.1); color: #c084fc;">
+          <span>🎨</span>
+          <span id="coloredCountBadge">0 صورة ملونة متوفرة</span>
+        </div>
+        <div class="card-cta-btn">
+          <span>🎨 البحث في الصور الملونة</span>
+          <span>❮</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 4: SLNA Cards Archive -->
+    <a href="slna.html" class="gateway-card external-archive" id="audinArchiveCard" title="الانتقال إلى أرشيف بطاقات استعلامات (SLNA)">
+      <div>
+        <div class="card-icon-wrapper">
+          <span class="card-icon">📋</span>
+        </div>
+        <h3 class="card-title" style="font-size: 21px; line-height: 1.5;">
+          بطاقات استعلامات مصلحة الاتصال لشمال إفريقيا (SLNA)
+          <span style="font-size: 20px; color: #06b6d4; flex-shrink: 0; margin-right: 8px;">➔</span>
+        </h3>
+        <p class="card-desc">
+          سجل توثيقي لأسماء وبطاقات الأشخاص الذين تعرضوا للاختطاف والاختفاء القسري في العاصمة سنة 1957 إبان معركة الجزائر، مع إمكانية البحث وترك الشهادات والتعليقات.
+        </p>
+      </div>
+      <div>
+        <div class="card-badge">
+          <span>📋</span>
+          <span id="slnaCountBadge">0 بطاقة متوفرة</span>
+        </div>
+        <div class="card-cta-btn">
+          <span>📋 البحث في البطاقات</span>
           <span>❮</span>
         </div>
       </div>
@@ -757,16 +898,24 @@ footer strong {
   <!-- Live Statistics Strip -->
   <section class="stats-strip">
     <div class="stat-item">
-      <div class="stat-number gold" id="statPhotos">--</div>
-      <div class="stat-label">صورة مؤرشفة</div>
+      <div class="stat-number gold" id="statPhotos">1.732</div>
+      <div class="stat-label">صورة أرشيفية</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number emerald" id="statDocs">--</div>
+      <div class="stat-number emerald" id="statDocs">0</div>
       <div class="stat-label">وثائق</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number blue" id="statNames">--</div>
-      <div class="stat-label">اسم مفهرس في الوثائق</div>
+      <div class="stat-number blue" id="statNames">0</div>
+      <div class="stat-label">اسم مفهرس بالوثائق</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="color:#c084fc;" id="statColored">0</div>
+      <div class="stat-label">صورة ملونة</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="color:#38bdf8;" id="statSlna">0</div>
+      <div class="stat-label">بطاقة استعلامات (SLNA)</div>
     </div>
     <div class="stat-item">
       <div class="stat-number" style="color:#f59e0b;" dir="ltr">1954 - 1962</div>
@@ -813,10 +962,14 @@ footer strong {
 <!-- Load Data and Populate Live Counts -->
 <script src="photos_data.js"></script>
 <script src="documents_data.js"></script>
+<script src="colored_photos_data.js"></script>
+<script src="slna_cards_data.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const photoCount = (typeof ARCHIVE !== 'undefined') ? ARCHIVE.length : 0;
+function updateAllLiveCounts() {
+  const photoCount = (typeof ARCHIVE !== 'undefined') ? ARCHIVE.length : 1732;
   const docCount = (typeof DOCUMENTS_ARCHIVE !== 'undefined') ? DOCUMENTS_ARCHIVE.length : 0;
+  const coloredCount = (typeof COLORED_PHOTOS_ARCHIVE !== 'undefined') ? COLORED_PHOTOS_ARCHIVE.length : 0;
+  const slnaCount = (typeof SLNA_CARDS_ARCHIVE !== 'undefined') ? SLNA_CARDS_ARCHIVE.length : 0;
   
   // Calculate total names in documents
   let totalNames = 0;
@@ -830,12 +983,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Update badges
+  // Update badges for all 4 gateway cards
   const photosBadge = document.getElementById('photosCountBadge');
   if (photosBadge) photosBadge.textContent = photoCount.toLocaleString('ar-DZ') + ' صورة متوفرة';
 
   const docsBadge = document.getElementById('docsCountBadge');
   if (docsBadge) docsBadge.textContent = docCount.toLocaleString('ar-DZ') + ' وثيقة وسجل';
+
+  const coloredBadge = document.getElementById('coloredCountBadge');
+  if (coloredBadge) coloredBadge.textContent = coloredCount.toLocaleString('ar-DZ') + ' صورة ملونة متوفرة';
+
+  const slnaBadge = document.getElementById('slnaCountBadge');
+  if (slnaBadge) slnaBadge.textContent = slnaCount.toLocaleString('ar-DZ') + ' بطاقة متوفرة';
 
   // Update stat strip
   const statPhotos = document.getElementById('statPhotos');
@@ -846,6 +1005,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const statNames = document.getElementById('statNames');
   if (statNames) statNames.textContent = totalNames.toLocaleString('ar-DZ');
+
+  const statColored = document.getElementById('statColored');
+  if (statColored) statColored.textContent = coloredCount.toLocaleString('ar-DZ');
+
+  const statSlna = document.getElementById('statSlna');
+  if (statSlna) statSlna.textContent = slnaCount.toLocaleString('ar-DZ');
+}
+
+// Run immediately and upon DOMContentLoaded
+updateAllLiveCounts();
+document.addEventListener('DOMContentLoaded', () => {
+  updateAllLiveCounts();
 
   // Live Visitor Counter (Unique Visits Only - Prevents incrementing on refresh)
   (function initVisitorCounter() {

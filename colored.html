@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algeria’s Memories and Colors — أرشيف الصور الملونة</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C78NKFY91N"></script>
+<script src="colored_photos_data.js"></script>
+<script src="comments_data.js"></script>
+<script>
+if (typeof COLORED_PHOTOS_ARCHIVE === 'undefined') window.COLORED_PHOTOS_ARCHIVE = [];
+if (typeof COMMENTS_ARCHIVE === 'undefined') window.COMMENTS_ARCHIVE = [];
+
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+window.currentViewerPhoto = null;
+window.currentCaptchaAnswer = 9;
+
+// Storage key for local comments
+const COMMENTS_STORAGE_KEY = 'algeria_comments_db';
+
+window.getAllComments = function() {
+  let fileComments = (typeof window.COMMENTS_ARCHIVE !== 'undefined' && Array.isArray(window.COMMENTS_ARCHIVE)) ? window.COMMENTS_ARCHIVE : [];
+  let localComments = [];
+  try {
+    const raw = localStorage.getItem(COMMENTS_STORAGE_KEY);
+    if (raw) localComments = JSON.parse(raw);
+  } catch(e) {}
+  
+  const map = new Map();
+  fileComments.forEach(c => { if(c && c.id) map.set(String(c.id), c); });
+  localComments.forEach(c => { if(c && c.id) map.set(String(c.id), c); });
+  return Array.from(map.values());
+};
+
+window.getApprovedCommentsForPhoto = function(title) {
+  if (!title) return [];
+  const target = String(title).trim().toLowerCase();
+  return window.getAllComments().filter(c => {
+    return c && c.status === 'approved' && String(c.photoName || '').trim().toLowerCase() === target;
+  });
+};
+
+window.getPendingCommentsForPhoto = function(title) {
+  if (!title) return [];
+  const target = String(title).trim().toLowerCase();
+  let localComments = [];
+  try {
+    const raw = localStorage.getItem(COMMENTS_STORAGE_KEY);
+    if (raw) localComments = JSON.parse(raw);
+  } catch(e) {}
+  return localComments.filter(c => {
+    return c && c.status === 'pending' && String(c.photoName || '').trim().toLowerCase() === target;
+  });
+};
+
+window.getApprovedCommentTitlesSet = function() {
+  const all = window.getAllComments ? window.getAllComments() : [];
+  const set = new Set();
+  all.forEach(c => {
+    if (c && c.status === 'approved' && c.photoName) {
+      set.add(String(c.photoName).trim().toLowerCase());
+    }
+  });
+  return set;
+};
+
+window.refreshCaptcha = function() {
+  const n1 = Math.floor(Math.random() * 5) + 3;
+  const n2 = Math.floor(Math.random() * 5) + 1;
+  window.currentCaptchaAnswer = n1 + n2;
+  const qEl = document.getElementById('captchaQuestionText');
+  if (qEl) qEl.textContent = `${n1} + ${n2}`;
+};
+
+window.submitComment = function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const photo = window.currentViewerPhoto;
+  if (!photo || !photo.title) return;
+  
+  const photoTitle = photo.title;
+  const text = (form.commentText.value || '').trim();
+  const author = (form.authorName.value || '').trim();
+  const email = (form.authorEmail.value || '').trim();
+  const relation = (form.authorRelation ? form.authorRelation.value.trim() : '');
+  const source = (form.authorSource ? form.authorSource.value.trim() : '');
+  const captcha = (form.captchaInput.value || '').trim();
+  const errDiv = document.getElementById('commentFormError');
+  const succDiv = document.getElementById('commentFormSuccess');
+  
+  if (errDiv) errDiv.style.display = 'none';
+  if (succDiv) succDiv.style.display = 'none';
+  
+  if (!text || !author || !email) {
+    if (errDiv) {
+      errDiv.textContent = '⚠️ يرجى ملء الحقول الإجبارية (نص التعليق، الاسم، والبريد الإلكتروني).';
+      errDiv.style.display = 'block';
+    }
+    return;
+  }
+  
+  if (parseInt(captcha, 10) !== window.currentCaptchaAnswer) {
+    if (errDiv) {
+      errDiv.textContent = '⚠️ إجابة سؤال الأمان غير صحيحة، يرجى إعادة المحاولة.';
+      errDiv.style.display = 'block';
+    }
+    return;
+  }
+  
+  const now = new Date();
+  const monthsFr = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  const formattedDate = `${monthsFr[now.getMonth()]} ${now.getFullYear()}`;
+  
+  const newComment = {
+    id: 'comm_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+    photoName: photoTitle,
+    targetType: 'colored',
+    authorName: author,
+    authorEmail: email,
+    relation: relation,
+    source: source,
+    text: text,
+    status: 'pending',
+    date: now.toISOString().split('T')[0],
+    formattedDate: formattedDate,
+    createdAt: Date.now()
+  };
+  
+  try {
+    let list = [];
+    const raw = localStorage.getItem(COMMENTS_STORAGE_KEY);
+    if (raw) list = JSON.parse(raw);
+    list.push(newComment);
+    localStorage.setItem(COMMENTS_STORAGE_KEY, JSON.stringify(list));
+  } catch(err) {
+    console.error('Error saving comment:', err);
+  }
+  
+  if (succDiv) succDiv.style.display = 'block';
+  form.reset();
+  window.refreshCaptcha();
+  
+  setTimeout(() => {
+    window.renderPhotoViewer(window.currentViewerPhoto);
+    const succ = document.getElementById('commentFormSuccess');
+    if (succ) {
+      succ.style.display = 'block';
+      succ.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, 900);
+};
+
+window.renderCommentsSectionHtml = function(photoTitle) {
+  if (!photoTitle) return '';
+  
+  const approved = window.getApprovedCommentsForPhoto(photoTitle);
+  const pending = window.getPendingCommentsForPhoto(photoTitle);
+  
+  let headerText = '0 تعليقات';
+  if (approved.length === 1) {
+    headerText = 'تعليق واحد معتمد';
+  } else if (approved.length > 1) {
+    headerText = `${approved.length} تعليقات معتمدة`;
+  }
+  
+  let pendingNoticeHtml = '';
+  if (pending.length > 0) {
+    pendingNoticeHtml = `
+      <div style="background:#fffbeb; border:1.5px solid #fde68a; border-right:5px solid #f59e0b; border-radius:10px; padding:12px 16px; margin-bottom:18px; font-size:13.5px; color:#92400e; text-align:right;">
+        <div style="font-weight:bold; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:17px;">⏳</span> <span>لديك تعليق (${pending.length}) قيد مراجعة وموافقة الإدارة</span>
+        </div>
+        <p style="margin:5px 0 0 0; font-size:12.5px; color:#b45309; line-height:1.6;">
+          شكراً لك! تم تسجيل تعليقك بنجاح، ولن يظهر لعموم الزوار إلا بعد أن يقوم المشرف بمراجعته وقبوله رسمياً.
+        </p>
+      </div>
+    `;
+  }
+  
+  let approvedListHtml = '';
+  if (approved.length > 0) {
+    approvedListHtml = approved.map(c => `
+      <div class="comment-item" style="display:flex; gap:14px; margin-bottom:18px; padding:15px; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.03); text-align:right;">
+        <div style="width:42px; height:42px; border-radius:8px; background:linear-gradient(135deg, #a855f7, #7c3aed); color:#fff; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; box-shadow:0 3px 8px rgba(168,85,247,0.25);" title="${esc(c.authorName)}">
+          💬
+        </div>
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:6px;">
+            <div>
+              <strong style="font-size:15px; color:#0f172a; font-weight:700;">${esc(c.authorName)}</strong>
+              ${c.relation ? `<span style="background:#f3e8ff; color:#7e22ce; font-size:11.5px; padding:2px 8px; border-radius:10px; margin-right:8px; font-weight:600;">${esc(c.relation)}</span>` : ''}
+            </div>
+            <div style="font-size:12px; color:#64748b; font-family:sans-serif;" dir="ltr">
+              ${esc(c.formattedDate || c.date)}
+            </div>
+          </div>
+          ${c.source ? `<div style="font-size:12.5px; color:#d97706; margin-top:2px;">المصدر: <strong>${esc(c.source)}</strong></div>` : ''}
+          <div style="margin-top:10px; color:#1e293b; font-size:14.5px; line-height:1.75; white-space:pre-line; background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #f1f5f9;">
+            ${esc(c.text)}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    approvedListHtml = `
+      <div style="text-align:center; padding:25px; background:#f8fafc; border-radius:12px; color:#64748b; font-size:14px; border:1px dashed #cbd5e1; margin-bottom:20px;">
+        لا توجد تعليقات منشورة حول هذه الصورة حتى الآن. كن أول من يضيف تعليقاً أو معلومات تاريخية.
+      </div>
+    `;
+  }
+  
+  return `
+    <div class="comments-section" style="margin-top:16px; width:100%;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">
+        <h4 style="margin:0; font-size:17px; color:#0f172a; font-weight:800; display:flex; align-items:center; gap:8px;">
+          <span>💬</span> <span>التعليقات والمعلومات التوثيقية</span>
+          <span style="background:#f3e8ff; color:#7e22ce; font-size:12px; padding:2px 8px; border-radius:12px; font-weight:bold;">${headerText}</span>
+        </h4>
+      </div>
+      
+      ${pendingNoticeHtml}
+      ${approvedListHtml}
+      
+      <!-- Comment Form -->
+      <div style="background:#ffffff; border:1.5px solid #a855f7; border-radius:14px; padding:20px; box-shadow:0 4px 15px rgba(168,85,247,0.06); text-align:right;">
+        <h4 style="margin:0 0 8px 0; font-size:16px; color:#7e22ce; font-weight:800; display:flex; align-items:center; gap:8px;">
+          <span>✍️</span> <span>أضف تعليقاً أو تفاصيل حول هذه الصورة التاريخية</span>
+        </h4>
+        <p style="margin:0 0 16px 0; font-size:13px; color:#64748b; line-height:1.6;">
+          شاركنا ما تعرفه عن مكان وتاريخ التقاط هذه الصورة أو الأشخاص الظاهرين فيها.
+        </p>
+        
+        <div id="commentFormError" style="display:none; background:#fee2e2; border:1px solid #f87171; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:bold; margin-bottom:14px;"></div>
+        <div id="commentFormSuccess" style="display:none; background:#dcfce7; border:1px solid #86efac; color:#166534; padding:12px 16px; border-radius:8px; font-size:13.5px; font-weight:bold; margin-bottom:14px;">
+          ✅ تم إرسال تعليقك بنجاح! سيتم فحصها والموافقة على نشرها من قبل الإدارة في أقرب وقت.
+        </div>
+        
+        <form onsubmit="window.submitComment(event)" style="display:flex; flex-direction:column; gap:14px;">
+          <div>
+            <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">نص التعليق أو الملاحظة: <span style="color:#ef4444;">*</span></label>
+            <textarea name="commentText" required placeholder="اكتب هنا تفاصيل عن الصورة (المكان، الأشخاص، الأحداث التاريخية)..." style="width:100%; min-height:100px; padding:12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box; line-height:1.6; resize:vertical;"></textarea>
+          </div>
+          
+          <div class="comment-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div>
+              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">الاسم واللقب: <span style="color:#ef4444;">*</span></label>
+              <input type="text" name="authorName" required placeholder="مثال: يوسف العربي" style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+            </div>
+            <div>
+              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">البريد الإلكتروني (سري): <span style="color:#ef4444;">*</span></label>
+              <input type="email" name="authorEmail" required placeholder="contact@example.com" style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+            </div>
+          </div>
+          
+          <div class="comment-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div>
+              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">الصفة أو الصلة (اختياري):</label>
+              <input type="text" name="authorRelation" placeholder="مثال: باحث، ابن المنطقة..." style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+            </div>
+            <div>
+              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">المصدر أو التوثيق (اختياري):</label>
+              <input type="text" name="authorSource" placeholder="مثال: أرشيف شخصي..." style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+            </div>
+          </div>
+          
+          <div style="background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <span style="font-weight:700; font-size:13.5px; color:#334155;">سؤال الأمان: ما ناتج <span id="captchaQuestionText" style="color:#a855f7; font-weight:800; font-size:15px; direction:ltr; display:inline-block;">9</span> ؟ <span style="color:#ef4444;">*</span></span>
+            <input type="number" name="captchaInput" required placeholder="اكتب الناتج بالأرقام" style="width:130px; padding:7px 10px; border:1.5px solid #cbd5e1; border-radius:6px; font-family:'Cairo', sans-serif; font-size:14px;">
+          </div>
+          
+          <button type="submit" style="background:#a855f7; color:#fff; border:none; padding:12px 20px; font-size:15px; font-weight:800; border-radius:8px; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(168,85,247,0.3); transition:0.2s;">
+            <span>📨</span> <span>إرسال التعليق للمراجعة</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  `;
+};
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+:root {
+  --bg: #f8f9fa;
+  --ink: #1a1a1a;
+  --muted: #6c757d;
+  --card: #ffffff;
+  --accent-purple: #a855f7;
+  --accent-purple-glow: rgba(168, 85, 247, 0.35);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.05) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.05) 0px, transparent 50%);
+  color: var(--ink);
+  font-family: 'Cairo', sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+  color: #fff;
+  padding: 12px 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+header img {
+  width: 180px;
+  height: 90px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.brand-fb-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #1877f2;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(24, 119, 242, 0.45);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.brand-fb-icon svg { width: 18px; height: 18px; }
+
+.header-links-block { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.header-links-title { font-size: 11.5px; font-weight: 700; color: #c084fc; }
+.fb-btn-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn-fb, .btn-site-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(4px);
+}
+.btn-fb { background: rgba(24, 119, 242, 0.35); }
+.btn-site-link { background: rgba(16, 185, 129, 0.35); }
+.btn-fb svg, .btn-site-link svg { width: 14px; height: 14px; }
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.nav-tabs {
+  margin-bottom: 20px;
+}
+
+.home-return-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #a855f7;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+  transition: all 0.25s ease;
+}
+.home-return-btn:hover {
+  background: #9333ea;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(168, 85, 247, 0.4);
+}
+
+.panel {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+.searchline {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+#searchInput {
+  flex: 1;
+  border: 2px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-family: 'Cairo', sans-serif;
+  background: #f8fafc;
+  transition: 0.3s;
+}
+#searchInput:focus {
+  outline: none;
+  border-color: #a855f7;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
+}
+
+#showAllBtn {
+  background: #a855f7;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 22px;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.25);
+  white-space: nowrap;
+  transition: 0.25s;
+}
+#showAllBtn:hover {
+  background: #9333ea;
+  transform: translateY(-1px);
+}
+
+#count {
+  margin-top: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Split View */
+.split-view {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  grid-template-areas: "list viewer";
+  gap: 20px;
+  align-items: start;
+}
+
+.list-pane {
+  grid-area: list;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 14px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.list-header {
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.list-header h3 {
+  margin: 0;
+  font-size: 15px;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.card-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-bottom: 1px solid #f1f5f9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+.card-item-row:hover, .card-item-row.active {
+  background: #f3e8ff;
+  border-color: #d8b4fe;
+}
+
+.card-item-row img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  flex-shrink: 0;
+}
+
+.viewer-pane {
+  grid-area: viewer;
+  position: sticky;
+  top: 80px;
+  background: #fff;
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+  border: 1.5px solid #e2e8f0;
+  min-height: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Lightbox Modal */
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.92);
+  z-index: 999999;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  backdrop-filter: blur(6px);
+}
+
+@media(max-width: 900px) {
+  header { display: none !important; }
+  .split-view {
+    grid-template-columns: 1fr;
+    grid-template-areas: "viewer" "list";
+  }
+  .viewer-pane {
+    position: static;
+    max-height: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" onclick="if(event.target === this) window.closeLightbox();">
+  <button type="button" onclick="window.closeLightbox()" title="إغلاق التكبير (ESC)" style="position:absolute; top:20px; right:25px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:15px; font-family:'Cairo', sans-serif; padding:8px 18px; border-radius:30px; cursor:pointer; font-weight:bold;">
+    ✕ إغلاق التكبير
+  </button>
+  <img id="lightboxImg" style="max-width:92vw; max-height:86vh; object-fit:contain; border-radius:10px; box-shadow:0 0 35px rgba(0,0,0,0.85);" alt="صورة مكبرة">
+</div>
+
+<header id="mainHeader">
+  <div style="display:flex; align-items:center; gap:14px;">
+    <img src="images/header-image.jpg" alt="Algeria’s Memories and Colors">
+    <div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <h1>Algeria’s Memories and Colors</h1>
+        <a class="brand-fb-icon" href="https://www.facebook.com/groups/algerphoto" target="_blank" rel="noopener noreferrer" title="مجموعتنا على فيسبوك">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+        </a>
+      </div>
+      <p style="margin:2px 0 0; font-size:13px; color:#c084fc;">🎨 أرشيف الصور التاريخية المرممة والملونة</p>
+    </div>
+  </div>
+  <div class="header-links-block">
+    <span class="header-links-title">📚 مراجع وروابط تهمكم:</span>
+    <div class="fb-btn-group">
+      <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener noreferrer">Imerzoukene</a>
+      <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener noreferrer">Mourad Fodhil</a>
+      <a class="btn-site-link" href="https://1000autres.org/" target="_blank" rel="noopener noreferrer">1000 autres</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <nav class="nav-tabs">
+    <a href="index.html" class="home-return-btn">🏠 العودة إلى الصفحة الرئيسية</a>
+  </nav>
+
+  <section class="panel" id="searchPanel">
+    <strong style="font-size:16px; color:#0f172a; display:block;">🎨 البحث في أرشيف الصور الملونة</strong>
+    <p style="color:#64748b; font-size:13.5px; margin:6px 0 0;">ابحث بعنوان الصورة أو المكان أو السنة، أو تصفح القائمة الكاملة للصور التاريخية المرممة بالألوان.</p>
+    
+    <div class="searchline">
+      <input id="searchInput" placeholder="اكتب عنوان الصورة أو المكان أو السنة (مثال: القصبة العتيقة أو 1958)..." autocomplete="off" autofocus>
+      <button id="showAllBtn">عرض كل الصور الملونة</button>
+    </div>
+    <div id="count">جاري تجهيز الصور الملونة...</div>
+  </section>
+
+  <div class="split-view">
+    <!-- List Pane -->
+    <div class="list-pane">
+      <div class="list-header">
+        <h3 id="listHeaderTitle">قائمة الصور الملونة:</h3>
+      </div>
+      <div id="cardsListContainer"></div>
+    </div>
+
+    <!-- Viewer Pane -->
+    <div id="cardViewer" class="viewer-pane">
+      <div style="text-align:center; padding:60px 20px; color:#94a3b8;">
+        <span style="font-size:48px; display:block; margin-bottom:12px;">🎨</span>
+        <h3 style="color:#64748b; margin:0 0 8px;">اختر صورة من القائمة الجانبية</h3>
+        <p style="font-size:13.5px; margin:0;">اضغط على أي صورة لاستعراضها بدقة عالية مع تفاصيلها التاريخية والتعليق عليها.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+window.openLightbox = function(src) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  if (!lb || !img) return;
+  img.src = src;
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeLightbox = function() {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  if (!lb) return;
+  lb.style.display = 'none';
+  if (img) img.src = '';
+  document.body.style.overflow = '';
+};
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') window.closeLightbox();
+});
+
+const cardsListContainer = document.getElementById('cardsListContainer');
+const cardViewer = document.getElementById('cardViewer');
+const searchInput = document.getElementById('searchInput');
+const countEl = document.getElementById('count');
+const showAllBtn = document.getElementById('showAllBtn');
+
+let currentResults = [];
+
+function renderCardsList(list) {
+  currentResults = list;
+  const approvedSet = window.getApprovedCommentTitlesSet();
+
+  if (list.length === 0) {
+    cardsListContainer.innerHTML = `
+      <div style="text-align:center; padding:30px 15px; color:#64748b; font-size:14px; background:#f8fafc; border-radius:10px; border:1px dashed #cbd5e1;">
+        لا توجد صور ملونة مسجلة حالياً.<br>
+        <small style="color:#94a3b8; display:block; margin-top:6px;">يمكنك إضافة صور ملونة جديدة عبر لوحة التحكم (الآدمن).</small>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  list.forEach((item, idx) => {
+    const hasComment = approvedSet.has(String(item.title || '').trim().toLowerCase());
+    const star = hasComment ? '<span style="color:#d97706; font-size:15px;" title="توجد تعليقات معتمدة لهذه الصورة">⭐</span>' : '';
+    const activeClass = (window.currentViewerPhoto && window.currentViewerPhoto.id === item.id) ? 'active' : '';
+
+    html += `
+      <div class="card-item-row ${activeClass}" onclick="window.selectPhoto(${idx})" id="photoItemRow_${idx}">
+        <div style="width:50px; height:50px; border-radius:8px; border:1px solid #cbd5e1; background:#f8fafc; display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden;">
+          ${item.image ? `<img src="${item.image}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" style="width:100%; height:100%; object-fit:cover;">` : ''}
+          <span style="font-size:20px; color:#a855f7; ${item.image ? 'display:none;' : ''}">🎨</span>
+        </div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-weight:700; font-size:14px; color:#0f172a; display:flex; align-items:center; gap:6px;">
+            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(item.title || 'صورة ملونة')}</span>
+            ${star}
+          </div>
+          <div style="font-size:12px; color:#64748b; margin-top:2px;">
+            ${item.year ? '📅 ' + esc(item.year) + ' ' : ''}
+            ${item.place ? '📍 ' + esc(item.place) : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  cardsListContainer.innerHTML = html;
+}
+
+window.selectPhoto = function(idx) {
+  const photo = currentResults[idx];
+  if (!photo) return;
+  window.currentViewerPhoto = photo;
+
+  document.querySelectorAll('.card-item-row').forEach(r => r.classList.remove('active'));
+  const row = document.getElementById('photoItemRow_' + idx);
+  if (row) row.classList.add('active');
+
+  window.renderPhotoViewer(photo);
+};
+
+window.renderPhotoViewer = function(photo) {
+  if (!photo) return;
+  window.currentViewerPhoto = photo;
+
+  const commentsHtml = window.renderCommentsSectionHtml(photo.title);
+
+  let imageHtml = '';
+  if (photo.image) {
+    imageHtml = `
+      <div style="text-align:center; margin-bottom:18px;">
+        <img src="${photo.image}" alt="${esc(photo.title)}" onclick="window.openLightbox('${photo.image}')" style="max-width:100%; max-height:50vh; object-fit:contain; border-radius:10px; border:1px solid #e2e8f0; box-shadow:0 4px 15px rgba(0,0,0,0.08); cursor:zoom-in;" title="اضغط لتكبير الصورة">
+        <div style="margin-top:8px;">
+          <button type="button" onclick="window.openLightbox('${photo.image}')" style="background:#0f172a; color:#fff; border:none; padding:6px 16px; border-radius:6px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Cairo', sans-serif;">
+            👁️ تكبير الصورة بالكامل
+          </button>
+        </div>
+      </div>
+    `;
+  } else {
+    imageHtml = `
+      <div style="padding:25px; text-align:center; background:#f8fafc; border-radius:10px; border:1.5px dashed #cbd5e1; margin-bottom:18px; color:#64748b;">
+        <span style="font-size:36px; display:block; margin-bottom:6px;">🎨</span>
+        <strong>لا تتوفر صورة حالياً لهذا السجل</strong>
+      </div>
+    `;
+  }
+
+  cardViewer.innerHTML = `
+    <div>
+      <div style="border-bottom:2px solid #f1f5f9; padding-bottom:14px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+          <h2 style="margin:0; font-size:22px; color:#0f172a; font-weight:800;">
+            🎨 ${esc(photo.title)}
+          </h2>
+          <span style="background:#f3e8ff; color:#7e22ce; border:1px solid #d8b4fe; padding:4px 12px; border-radius:14px; font-size:12.5px; font-weight:bold;">
+            صورة ملونة تاريخية
+          </span>
+        </div>
+        <div style="font-size:13.5px; color:#475569; margin-top:6px; display:flex; gap:16px; flex-wrap:wrap;">
+          ${photo.year ? `<div><strong>السنة:</strong> <span style="color:#7e22ce; font-weight:bold;">${esc(photo.year)}</span></div>` : ''}
+          ${photo.place ? `<div><strong>المكان:</strong> <span style="color:#0f172a; font-weight:bold;">${esc(photo.place)}</span></div>` : ''}
+        </div>
+      </div>
+
+      ${imageHtml}
+
+      <hr style="border:0; border-top:1px solid #e2e8f0; margin:18px 0;">
+
+      ${commentsHtml}
+    </div>
+  `;
+
+  window.refreshCaptcha();
+};
+
+function performFilter() {
+  const query = (searchInput.value || '').trim().toLowerCase();
+  const allPhotos = (typeof COLORED_PHOTOS_ARCHIVE !== 'undefined') ? COLORED_PHOTOS_ARCHIVE : [];
+
+  if (!query) {
+    countEl.innerHTML = `إجمالي الصور الملونة المسجلة: <b>${allPhotos.length}</b> صورة`;
+    renderCardsList(allPhotos);
+    if (allPhotos.length > 0 && !window.currentViewerPhoto) {
+      window.selectPhoto(0);
+    }
+    return;
+  }
+
+  const filtered = allPhotos.filter(p => {
+    if (!p) return false;
+    const title = (p.title || '').toLowerCase();
+    const place = (p.place || '').toLowerCase();
+    const year = (p.year || '').toLowerCase();
+    return title.includes(query) || place.includes(query) || year.includes(query);
+  });
+
+  countEl.innerHTML = `تم العثور على <b>${filtered.length}</b> صورة من أصل ${allPhotos.length}`;
+  renderCardsList(filtered);
+  if (filtered.length > 0) {
+    window.selectPhoto(0);
+  }
+}
+
+searchInput.addEventListener('input', performFilter);
+
+showAllBtn.addEventListener('click', () => {
+  searchInput.value = '';
+  performFilter();
+});
+
+// Initial run
+document.addEventListener('DOMContentLoaded', () => {
+  performFilter();
+});
+performFilter();
+</script>
+
+</body>
+</html>
