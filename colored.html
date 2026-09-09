@@ -7,277 +7,12 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C78NKFY91N"></script>
 <script src="colored_photos_data.js"></script>
-<script src="comments_data.js"></script>
 <script>
 if (typeof COLORED_PHOTOS_ARCHIVE === 'undefined') window.COLORED_PHOTOS_ARCHIVE = [];
-if (typeof COMMENTS_ARCHIVE === 'undefined') window.COMMENTS_ARCHIVE = [];
 
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
 window.currentViewerPhoto = null;
-window.currentCaptchaAnswer = 9;
-
-// Storage key for local comments
-const COMMENTS_STORAGE_KEY = 'algeria_comments_db';
-
-window.getAllComments = function() {
-  let fileComments = (typeof window.COMMENTS_ARCHIVE !== 'undefined' && Array.isArray(window.COMMENTS_ARCHIVE)) ? window.COMMENTS_ARCHIVE : [];
-  let localComments = [];
-  try {
-    const raw = localStorage.getItem(COMMENTS_STORAGE_KEY);
-    if (raw) localComments = JSON.parse(raw);
-  } catch(e) {}
-  
-  const map = new Map();
-  fileComments.forEach(c => { if(c && c.id) map.set(String(c.id), c); });
-  localComments.forEach(c => { if(c && c.id) map.set(String(c.id), c); });
-  return Array.from(map.values());
-};
-
-window.getApprovedCommentsForPhoto = function(title) {
-  if (!title) return [];
-  const target = String(title).trim().toLowerCase();
-  return window.getAllComments().filter(c => {
-    return c && c.status === 'approved' && String(c.photoName || '').trim().toLowerCase() === target;
-  });
-};
-
-window.getPendingCommentsForPhoto = function(title) {
-  if (!title) return [];
-  const target = String(title).trim().toLowerCase();
-  let localComments = [];
-  try {
-    const raw = localStorage.getItem(COMMENTS_STORAGE_KEY);
-    if (raw) localComments = JSON.parse(raw);
-  } catch(e) {}
-  return localComments.filter(c => {
-    return c && c.status === 'pending' && String(c.photoName || '').trim().toLowerCase() === target;
-  });
-};
-
-window.getApprovedCommentTitlesSet = function() {
-  const all = window.getAllComments ? window.getAllComments() : [];
-  const set = new Set();
-  all.forEach(c => {
-    if (c && c.status === 'approved' && c.photoName) {
-      set.add(String(c.photoName).trim().toLowerCase());
-    }
-  });
-  return set;
-};
-
-window.refreshCaptcha = function() {
-  const n1 = Math.floor(Math.random() * 5) + 3;
-  const n2 = Math.floor(Math.random() * 5) + 1;
-  window.currentCaptchaAnswer = n1 + n2;
-  const qEl = document.getElementById('captchaQuestionText');
-  if (qEl) qEl.textContent = `${n1} + ${n2}`;
-};
-
-window.submitComment = function(e) {
-  e.preventDefault();
-  const form = e.target;
-  const photo = window.currentViewerPhoto;
-  if (!photo || !photo.title) return;
-  
-  const photoTitle = photo.title;
-  const text = (form.commentText.value || '').trim();
-  const author = (form.authorName.value || '').trim();
-  const email = (form.authorEmail.value || '').trim();
-  const relation = (form.authorRelation ? form.authorRelation.value.trim() : '');
-  const source = (form.authorSource ? form.authorSource.value.trim() : '');
-  const captcha = (form.captchaInput.value || '').trim();
-  const errDiv = document.getElementById('commentFormError');
-  const succDiv = document.getElementById('commentFormSuccess');
-  
-  if (errDiv) errDiv.style.display = 'none';
-  if (succDiv) succDiv.style.display = 'none';
-  
-  if (!text || !author || !email) {
-    if (errDiv) {
-      errDiv.textContent = '⚠️ يرجى ملء الحقول الإجبارية (نص التعليق، الاسم، والبريد الإلكتروني).';
-      errDiv.style.display = 'block';
-    }
-    return;
-  }
-  
-  if (parseInt(captcha, 10) !== window.currentCaptchaAnswer) {
-    if (errDiv) {
-      errDiv.textContent = '⚠️ إجابة سؤال الأمان غير صحيحة، يرجى إعادة المحاولة.';
-      errDiv.style.display = 'block';
-    }
-    return;
-  }
-  
-  const now = new Date();
-  const monthsFr = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-  const formattedDate = `${monthsFr[now.getMonth()]} ${now.getFullYear()}`;
-  
-  const newComment = {
-    id: 'comm_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
-    photoName: photoTitle,
-    targetType: 'colored',
-    authorName: author,
-    authorEmail: email,
-    relation: relation,
-    source: source,
-    text: text,
-    status: 'pending',
-    date: now.toISOString().split('T')[0],
-    formattedDate: formattedDate,
-    createdAt: Date.now()
-  };
-  
-  try {
-    let list = [];
-    const raw = localStorage.getItem(COMMENTS_STORAGE_KEY);
-    if (raw) list = JSON.parse(raw);
-    list.push(newComment);
-    localStorage.setItem(COMMENTS_STORAGE_KEY, JSON.stringify(list));
-  } catch(err) {
-    console.error('Error saving comment:', err);
-  }
-  
-  if (succDiv) succDiv.style.display = 'block';
-  form.reset();
-  window.refreshCaptcha();
-  
-  setTimeout(() => {
-    window.renderPhotoViewer(window.currentViewerPhoto);
-    const succ = document.getElementById('commentFormSuccess');
-    if (succ) {
-      succ.style.display = 'block';
-      succ.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }, 900);
-};
-
-window.renderCommentsSectionHtml = function(photoTitle) {
-  if (!photoTitle) return '';
-  
-  const approved = window.getApprovedCommentsForPhoto(photoTitle);
-  const pending = window.getPendingCommentsForPhoto(photoTitle);
-  
-  let headerText = '0 تعليقات';
-  if (approved.length === 1) {
-    headerText = 'تعليق واحد معتمد';
-  } else if (approved.length > 1) {
-    headerText = `${approved.length} تعليقات معتمدة`;
-  }
-  
-  let pendingNoticeHtml = '';
-  if (pending.length > 0) {
-    pendingNoticeHtml = `
-      <div style="background:#fffbeb; border:1.5px solid #fde68a; border-right:5px solid #f59e0b; border-radius:10px; padding:12px 16px; margin-bottom:18px; font-size:13.5px; color:#92400e; text-align:right;">
-        <div style="font-weight:bold; display:flex; align-items:center; gap:8px;">
-          <span style="font-size:17px;">⏳</span> <span>لديك تعليق (${pending.length}) قيد مراجعة وموافقة الإدارة</span>
-        </div>
-        <p style="margin:5px 0 0 0; font-size:12.5px; color:#b45309; line-height:1.6;">
-          شكراً لك! تم تسجيل تعليقك بنجاح، ولن يظهر لعموم الزوار إلا بعد أن يقوم المشرف بمراجعته وقبوله رسمياً.
-        </p>
-      </div>
-    `;
-  }
-  
-  let approvedListHtml = '';
-  if (approved.length > 0) {
-    approvedListHtml = approved.map(c => `
-      <div class="comment-item" style="display:flex; gap:14px; margin-bottom:18px; padding:15px; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.03); text-align:right;">
-        <div style="width:42px; height:42px; border-radius:8px; background:linear-gradient(135deg, #a855f7, #7c3aed); color:#fff; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; box-shadow:0 3px 8px rgba(168,85,247,0.25);" title="${esc(c.authorName)}">
-          💬
-        </div>
-        <div style="flex:1; min-width:0;">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:6px;">
-            <div>
-              <strong style="font-size:15px; color:#0f172a; font-weight:700;">${esc(c.authorName)}</strong>
-              ${c.relation ? `<span style="background:#f3e8ff; color:#7e22ce; font-size:11.5px; padding:2px 8px; border-radius:10px; margin-right:8px; font-weight:600;">${esc(c.relation)}</span>` : ''}
-            </div>
-            <div style="font-size:12px; color:#64748b; font-family:sans-serif;" dir="ltr">
-              ${esc(c.formattedDate || c.date)}
-            </div>
-          </div>
-          ${c.source ? `<div style="font-size:12.5px; color:#d97706; margin-top:2px;">المصدر: <strong>${esc(c.source)}</strong></div>` : ''}
-          <div style="margin-top:10px; color:#1e293b; font-size:14.5px; line-height:1.75; white-space:pre-line; background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #f1f5f9;">
-            ${esc(c.text)}
-          </div>
-        </div>
-      </div>
-    `).join('');
-  } else {
-    approvedListHtml = `
-      <div style="text-align:center; padding:25px; background:#f8fafc; border-radius:12px; color:#64748b; font-size:14px; border:1px dashed #cbd5e1; margin-bottom:20px;">
-        لا توجد تعليقات منشورة حول هذه الصورة حتى الآن. كن أول من يضيف تعليقاً أو معلومات تاريخية.
-      </div>
-    `;
-  }
-  
-  return `
-    <div class="comments-section" style="margin-top:16px; width:100%;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">
-        <h4 style="margin:0; font-size:17px; color:#0f172a; font-weight:800; display:flex; align-items:center; gap:8px;">
-          <span>💬</span> <span>التعليقات والمعلومات التوثيقية</span>
-          <span style="background:#f3e8ff; color:#7e22ce; font-size:12px; padding:2px 8px; border-radius:12px; font-weight:bold;">${headerText}</span>
-        </h4>
-      </div>
-      
-      ${pendingNoticeHtml}
-      ${approvedListHtml}
-      
-      <!-- Comment Form -->
-      <div style="background:#ffffff; border:1.5px solid #a855f7; border-radius:14px; padding:20px; box-shadow:0 4px 15px rgba(168,85,247,0.06); text-align:right;">
-        <h4 style="margin:0 0 8px 0; font-size:16px; color:#7e22ce; font-weight:800; display:flex; align-items:center; gap:8px;">
-          <span>✍️</span> <span>أضف تعليقاً أو تفاصيل حول هذه الصورة التاريخية</span>
-        </h4>
-        <p style="margin:0 0 16px 0; font-size:13px; color:#64748b; line-height:1.6;">
-          شاركنا ما تعرفه عن مكان وتاريخ التقاط هذه الصورة أو الأشخاص الظاهرين فيها.
-        </p>
-        
-        <div id="commentFormError" style="display:none; background:#fee2e2; border:1px solid #f87171; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:bold; margin-bottom:14px;"></div>
-        <div id="commentFormSuccess" style="display:none; background:#dcfce7; border:1px solid #86efac; color:#166534; padding:12px 16px; border-radius:8px; font-size:13.5px; font-weight:bold; margin-bottom:14px;">
-          ✅ تم إرسال تعليقك بنجاح! سيتم فحصها والموافقة على نشرها من قبل الإدارة في أقرب وقت.
-        </div>
-        
-        <form onsubmit="window.submitComment(event)" style="display:flex; flex-direction:column; gap:14px;">
-          <div>
-            <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">نص التعليق أو الملاحظة: <span style="color:#ef4444;">*</span></label>
-            <textarea name="commentText" required placeholder="اكتب هنا تفاصيل عن الصورة (المكان، الأشخاص، الأحداث التاريخية)..." style="width:100%; min-height:100px; padding:12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box; line-height:1.6; resize:vertical;"></textarea>
-          </div>
-          
-          <div class="comment-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <div>
-              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">الاسم واللقب: <span style="color:#ef4444;">*</span></label>
-              <input type="text" name="authorName" required placeholder="مثال: يوسف العربي" style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
-            </div>
-            <div>
-              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">البريد الإلكتروني (سري): <span style="color:#ef4444;">*</span></label>
-              <input type="email" name="authorEmail" required placeholder="contact@example.com" style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
-            </div>
-          </div>
-          
-          <div class="comment-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <div>
-              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">الصفة أو الصلة (اختياري):</label>
-              <input type="text" name="authorRelation" placeholder="مثال: باحث، ابن المنطقة..." style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
-            </div>
-            <div>
-              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">المصدر أو التوثيق (اختياري):</label>
-              <input type="text" name="authorSource" placeholder="مثال: أرشيف شخصي..." style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
-            </div>
-          </div>
-          
-          <div style="background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-            <span style="font-weight:700; font-size:13.5px; color:#334155;">سؤال الأمان: ما ناتج <span id="captchaQuestionText" style="color:#a855f7; font-weight:800; font-size:15px; direction:ltr; display:inline-block;">9</span> ؟ <span style="color:#ef4444;">*</span></span>
-            <input type="number" name="captchaInput" required placeholder="اكتب الناتج بالأرقام" style="width:130px; padding:7px 10px; border:1.5px solid #cbd5e1; border-radius:6px; font-family:'Cairo', sans-serif; font-size:14px;">
-          </div>
-          
-          <button type="submit" style="background:#a855f7; color:#fff; border:none; padding:12px 20px; font-size:15px; font-weight:800; border-radius:8px; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(168,85,247,0.3); transition:0.2s;">
-            <span>📨</span> <span>إرسال التعليق للمراجعة</span>
-          </button>
-        </form>
-      </div>
-    </div>
-  `;
-};
 </script>
 
 <style>
@@ -494,27 +229,19 @@ main {
 .card-item-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
+  padding: 12px 14px;
   border-bottom: 1px solid #f1f5f9;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
   color: inherit;
+  border-right: 3px solid transparent;
 }
 .card-item-row:hover, .card-item-row.active {
   background: #f3e8ff;
   border-color: #d8b4fe;
-}
-
-.card-item-row img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid #cbd5e1;
-  flex-shrink: 0;
+  border-right: 3px solid #a855f7;
 }
 
 .viewer-pane {
@@ -661,7 +388,6 @@ let currentResults = [];
 
 function renderCardsList(list) {
   currentResults = list;
-  const approvedSet = window.getApprovedCommentTitlesSet();
 
   if (list.length === 0) {
     cardsListContainer.innerHTML = `
@@ -675,24 +401,13 @@ function renderCardsList(list) {
 
   let html = '';
   list.forEach((item, idx) => {
-    const hasComment = approvedSet.has(String(item.title || '').trim().toLowerCase());
-    const star = hasComment ? '<span style="color:#d97706; font-size:15px;" title="توجد تعليقات معتمدة لهذه الصورة">⭐</span>' : '';
     const activeClass = (window.currentViewerPhoto && window.currentViewerPhoto.id === item.id) ? 'active' : '';
 
     html += `
       <div class="card-item-row ${activeClass}" onclick="window.selectPhoto(${idx})" id="photoItemRow_${idx}">
-        <div style="width:50px; height:50px; border-radius:8px; border:1px solid #cbd5e1; background:#f8fafc; display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden;">
-          ${item.image ? `<img src="${item.image}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" style="width:100%; height:100%; object-fit:cover;">` : ''}
-          <span style="font-size:20px; color:#a855f7; ${item.image ? 'display:none;' : ''}">🎨</span>
-        </div>
         <div style="flex:1; min-width:0;">
-          <div style="font-weight:700; font-size:14px; color:#0f172a; display:flex; align-items:center; gap:6px;">
-            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(item.title || 'صورة ملونة')}</span>
-            ${star}
-          </div>
-          <div style="font-size:12px; color:#64748b; margin-top:2px;">
-            ${item.year ? '📅 ' + esc(item.year) + ' ' : ''}
-            ${item.place ? '📍 ' + esc(item.place) : ''}
+          <div style="font-weight:700; font-size:15px; color:#0f172a; line-height:1.5;">
+            ${esc(item.title || 'صورة ملونة')}
           </div>
         </div>
       </div>
@@ -717,15 +432,13 @@ window.renderPhotoViewer = function(photo) {
   if (!photo) return;
   window.currentViewerPhoto = photo;
 
-  const commentsHtml = window.renderCommentsSectionHtml(photo.title);
-
   let imageHtml = '';
   if (photo.image) {
     imageHtml = `
       <div style="text-align:center; margin-bottom:18px;">
-        <img src="${photo.image}" alt="${esc(photo.title)}" onclick="window.openLightbox('${photo.image}')" style="max-width:100%; max-height:50vh; object-fit:contain; border-radius:10px; border:1px solid #e2e8f0; box-shadow:0 4px 15px rgba(0,0,0,0.08); cursor:zoom-in;" title="اضغط لتكبير الصورة">
-        <div style="margin-top:8px;">
-          <button type="button" onclick="window.openLightbox('${photo.image}')" style="background:#0f172a; color:#fff; border:none; padding:6px 16px; border-radius:6px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Cairo', sans-serif;">
+        <img src="${photo.image}" alt="${esc(photo.title)}" onclick="window.openLightbox('${photo.image}')" style="max-width:100%; max-height:55vh; object-fit:contain; border-radius:10px; border:1px solid #e2e8f0; box-shadow:0 4px 15px rgba(0,0,0,0.08); cursor:zoom-in;" title="اضغط لتكبير الصورة">
+        <div style="margin-top:10px;">
+          <button type="button" onclick="window.openLightbox('${photo.image}')" style="background:#0f172a; color:#fff; border:none; padding:7px 18px; border-radius:8px; font-size:13.5px; font-weight:700; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:6px;">
             👁️ تكبير الصورة بالكامل
           </button>
         </div>
@@ -745,7 +458,7 @@ window.renderPhotoViewer = function(photo) {
       <div style="border-bottom:2px solid #f1f5f9; padding-bottom:14px; margin-bottom:16px;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
           <h2 style="margin:0; font-size:22px; color:#0f172a; font-weight:800;">
-            🎨 ${esc(photo.title)}
+            ${esc(photo.title)}
           </h2>
           <span style="background:#f3e8ff; color:#7e22ce; border:1px solid #d8b4fe; padding:4px 12px; border-radius:14px; font-size:12.5px; font-weight:bold;">
             صورة ملونة تاريخية
@@ -758,14 +471,8 @@ window.renderPhotoViewer = function(photo) {
       </div>
 
       ${imageHtml}
-
-      <hr style="border:0; border-top:1px solid #e2e8f0; margin:18px 0;">
-
-      ${commentsHtml}
     </div>
   `;
-
-  window.refreshCaptcha();
 };
 
 function performFilter() {

@@ -895,34 +895,6 @@ footer strong {
     </a>
   </section>
 
-  <!-- Live Statistics Strip -->
-  <section class="stats-strip">
-    <div class="stat-item">
-      <div class="stat-number gold" id="statPhotos">1.732</div>
-      <div class="stat-label">صورة أرشيفية</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number emerald" id="statDocs">0</div>
-      <div class="stat-label">وثائق</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number blue" id="statNames">0</div>
-      <div class="stat-label">اسم مفهرس بالوثائق</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number" style="color:#c084fc;" id="statColored">0</div>
-      <div class="stat-label">صورة ملونة</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number" style="color:#38bdf8;" id="statSlna">0</div>
-      <div class="stat-label">بطاقة استعلامات (SLNA)</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number" style="color:#f59e0b;" dir="ltr">1954 - 1962</div>
-      <div class="stat-label">فترة التوثيق التاريخي</div>
-    </div>
-  </section>
-
   <!-- Instructions and Guidance -->
   <section class="info-section">
     <h3>
@@ -995,22 +967,6 @@ function updateAllLiveCounts() {
 
   const slnaBadge = document.getElementById('slnaCountBadge');
   if (slnaBadge) slnaBadge.textContent = slnaCount.toLocaleString('ar-DZ') + ' بطاقة متوفرة';
-
-  // Update stat strip
-  const statPhotos = document.getElementById('statPhotos');
-  if (statPhotos) statPhotos.textContent = photoCount.toLocaleString('ar-DZ');
-
-  const statDocs = document.getElementById('statDocs');
-  if (statDocs) statDocs.textContent = docCount.toLocaleString('ar-DZ');
-
-  const statNames = document.getElementById('statNames');
-  if (statNames) statNames.textContent = totalNames.toLocaleString('ar-DZ');
-
-  const statColored = document.getElementById('statColored');
-  if (statColored) statColored.textContent = coloredCount.toLocaleString('ar-DZ');
-
-  const statSlna = document.getElementById('statSlna');
-  if (statSlna) statSlna.textContent = slnaCount.toLocaleString('ar-DZ');
 }
 
 // Run immediately and upon DOMContentLoaded

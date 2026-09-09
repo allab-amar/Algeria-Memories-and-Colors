@@ -949,7 +949,7 @@ function render(){
         <a href="#" style="color:var(--ink); text-decoration:none; display:flex; justify-content:space-between; align-items:center; width:100%; font-size:14px;" 
            onclick="event.preventDefault(); window.showPhotoFromSearch(${i});">
           <span style="display:flex; align-items:center; gap:6px;">
-            👤 <span style="font-weight: 600;" dir="ltr">${highlightedName}${starMark}</span>
+            <span style="font-weight: 600;" dir="ltr">${highlightedName}${starMark}</span>
           </span>
           ${badgeHtml}
         </a>
@@ -1019,7 +1019,7 @@ document.getElementById('showAllBtn').onclick = () => {
       <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0; transition: 0.2s;">
         <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
            onclick="event.preventDefault(); window.showPhotoFromAll(${i});">
-          👤 ${dispName}${starMark}
+          ${dispName}${starMark}
         </a>
       </li>`;
   });
