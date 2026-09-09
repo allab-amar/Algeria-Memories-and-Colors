@@ -460,6 +460,11 @@ header.header-small .btn-fb { padding: 3px 8px; font-size: 11.5px; }
 .btn-fb { display: inline-flex; align-items: center; gap: 5px; background: rgba(24, 119, 242, 0.35); color: #fff; text-decoration: none; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 12px; border: 1px solid rgba(255, 255, 255, 0.22); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: all 0.25s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); white-space: nowrap; }
 .btn-fb svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.95; }
 .btn-fb:hover { background: rgba(24, 119, 242, 0.85); border-color: rgba(255, 255, 255, 0.45); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4); color: #fff; }
+.btn-site-link { display: inline-flex; align-items: center; gap: 5px; background: rgba(16, 185, 129, 0.35); color: #fff; text-decoration: none; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 12px; border: 1px solid rgba(255, 255, 255, 0.25); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: all 0.25s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); white-space: nowrap; }
+.btn-site-link svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.95; }
+.btn-site-link:hover { background: rgba(16, 185, 129, 0.85); border-color: rgba(255, 255, 255, 0.5); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); color: #fff; }
+.header-links-block { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.header-links-title { font-size: 11.5px; font-weight: 700; color: var(--accent); display: inline-flex; align-items: center; gap: 4px; letter-spacing: 0.3px; opacity: 0.95; user-select: none; }
 
 .brand-fb-icon {
   display: inline-flex;
@@ -499,6 +504,10 @@ header.header-small .brand-fb-icon svg {
   .fb-btn-group { flex: 1 1 100% !important; width: 100% !important; justify-content: center !important; flex-wrap: nowrap !important; gap: 4px !important; margin-top: 2px; }
   .btn-fb { padding: 2.5px 6px !important; font-size: 10px !important; gap: 3px !important; border-radius: 12px !important; font-weight: 600 !important; }
   .btn-fb svg { width: 11px !important; height: 11px !important; }
+  .btn-site-link { padding: 2.5px 6px !important; font-size: 10px !important; gap: 3px !important; border-radius: 12px !important; font-weight: 600 !important; }
+  .btn-site-link svg { width: 11px !important; height: 11px !important; }
+  .header-links-block { width: 100% !important; align-items: center !important; margin-top: 3px; gap: 3px; }
+  .header-links-title { font-size: 10.5px !important; }
 }
 .panel { background: var(--card); padding: 15px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 15px; }
 .searchline { display: flex; gap: 15px; margin-top: 15px; }
@@ -525,6 +534,8 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 15px
 .nav-tabs a:hover:not(.active) { background: #dee2e6; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
 .nav-tabs a.active { background: var(--accent); color: #fff; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
 .nav-tabs a.active:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.55); }
+.nav-tabs a.external-link-tab { background: #f0fdf4; color: #15803d; border: 1.5px solid #86efac; }
+.nav-tabs a.external-link-tab:hover { background: #dcfce7; border-color: #4ade80; color: #14532d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
 
 #showAllBtn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important; }
 #showAllBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.5) !important; }
@@ -656,15 +667,22 @@ document.addEventListener('keydown', function(e) {
       <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
     </a>
   </div>
-  <div class="fb-btn-group">
-    <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener noreferrer" title="صفحة Imerzoukene">
-      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
-      Imerzoukene
-    </a>
-    <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener noreferrer" title="صفحة Mourad Fodhil">
-      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
-      Mourad Fodhil
-    </a>
+  <div class="header-links-block">
+    <span class="header-links-title">📚 مراجع وروابط تهمكم:</span>
+    <div class="fb-btn-group">
+      <a class="btn-fb" href="https://www.facebook.com/imerz.g" target="_blank" rel="noopener noreferrer" title="صفحة Imerzoukene">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+        Imerzoukene
+      </a>
+      <a class="btn-fb" href="https://www.facebook.com/d81em" target="_blank" rel="noopener noreferrer" title="صفحة Mourad Fodhil">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22,12C22,6.48 17.52,2 12,2C6.48,2 2,6.48 2,12C2,16.84 5.44,20.87 10,21.8V15H7.54V12H10V9.82C10,7.42 11.43,6.11 13.62,6.11C14.67,6.11 15.77,6.3 15.77,6.3V8.67H14.56C13.37,8.67 13,9.41 13,10.18V12H15.68L15.25,15H13V21.8C17.56,20.87 22,16.84 22,12Z" /></svg>
+        Mourad Fodhil
+      </a>
+      <a class="btn-site-link" href="https://1000autres.org/" target="_blank" rel="noopener noreferrer" title="موقع 1000autres.org — أرشيف مفقودي معركة الجزائر 1957">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        1000autres.org
+      </a>
+    </div>
   </div>
 </header>
 <main>
@@ -672,6 +690,7 @@ document.addEventListener('keydown', function(e) {
   <a href="index.html">🏠 الرئيسية</a>
   <a href="photos.html" class="active">📸 أرشيف الصور</a>
   <a href="documents.html">📄 أرشيف الوثائق</a>
+  <a href="https://1000autres.org/" target="_blank" rel="noopener noreferrer" class="external-link-tab" title="موقع 1000autres.org — أرشيف مفقودي معركة الجزائر 1957">🌐 1000autres.org</a>
 </nav>
 
 <section class="panel" id="searchPanel">
