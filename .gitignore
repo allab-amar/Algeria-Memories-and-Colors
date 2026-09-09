@@ -1,0 +1,9 @@
+# الملفات المحلية التي لا يجب رفعها إلى GitHub
+admin.html
+_scripts_archive/
+
+# ملفات النظام المؤقتة
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
