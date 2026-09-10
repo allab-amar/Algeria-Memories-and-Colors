@@ -79,6 +79,18 @@ window.getApprovedCommentNamesSet = function() {
   return set;
 };
 
+window.getApprovedCommentsCountMap = function() {
+  const all = window.getAllComments ? window.getAllComments() : [];
+  const map = new Map();
+  all.forEach(c => {
+    if (c && c.status === 'approved' && c.photoName) {
+      const key = String(c.photoName).trim().toLowerCase();
+      map.set(key, (map.get(key) || 0) + 1);
+    }
+  });
+  return map;
+};
+
 window.refreshCaptcha = function() {
   const n1 = Math.floor(Math.random() * 5) + 3;
   const n2 = Math.floor(Math.random() * 5) + 1;
@@ -228,70 +240,136 @@ window.renderCommentsSectionHtml = function(personName) {
   
   return `
     <div class="comments-section" style="margin-top:16px; width:100%;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">
-        <h4 style="margin:0; font-size:17px; color:#0f172a; font-weight:800; display:flex; align-items:center; gap:8px;">
-          <span>💬</span> <span>شهادات ومعلومات إضافية</span>
-          <span style="background:#e0f2fe; color:#0369a1; font-size:12px; padding:2px 8px; border-radius:12px; font-weight:bold;">${headerText}</span>
-        </h4>
-      </div>
       
       ${pendingNoticeHtml}
-      ${approvedListHtml}
-      
-      <!-- Comment Form -->
-      <div style="background:#ffffff; border:1.5px solid #0284c7; border-radius:14px; padding:20px; box-shadow:0 4px 15px rgba(2,132,199,0.06); text-align:right;">
-        <h4 style="margin:0 0 8px 0; font-size:16px; color:#0369a1; font-weight:800; display:flex; align-items:center; gap:8px;">
-          <span>✍️</span> <span>أضف شهادة، توثيقاً أو معلومات حول هذا الشخص</span>
-        </h4>
-        <p style="margin:0 0 16px 0; font-size:13px; color:#64748b; line-height:1.6;">
-          إذا كانت لديك أي معلومات موثقة أو صلة قرابة بهذا الشخص أو ظروف اختفائه، يرجى كتابتها هنا لمساعدة الباحثين والعائلات.
-        </p>
-        
-        <div id="commentFormError" style="display:none; background:#fee2e2; border:1px solid #f87171; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:bold; margin-bottom:14px;"></div>
-        <div id="commentFormSuccess" style="display:none; background:#dcfce7; border:1px solid #86efac; color:#166534; padding:12px 16px; border-radius:8px; font-size:13.5px; font-weight:bold; margin-bottom:14px;">
-          ✅ تم إرسال شهادتك بنجاح! سيتم فحصها والموافقة على نشرها من قبل الإدارة في أقرب وقت.
+
+      <!-- Approved Comments Section (Collapsible on mobile) -->
+      <div id="approvedCommentsWrapper" class="comments-collapsible-wrapper">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">
+          <h4 style="margin:0; font-size:17px; color:#0f172a; font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>💬</span> <span>شهادات ومعلومات إضافية</span>
+            <span style="background:#e0f2fe; color:#0369a1; font-size:12px; padding:2px 8px; border-radius:12px; font-weight:bold;">${headerText}</span>
+          </h4>
         </div>
-        
-        <form onsubmit="window.submitComment(event)" style="display:flex; flex-direction:column; gap:14px;">
-          <div>
-            <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">نص الشهادة أو التوثيق: <span style="color:#ef4444;">*</span></label>
-            <textarea name="commentText" required placeholder="اكتب هنا ما لديك من تفاصيل (تاريخ الاختفاء، مكان الاعتقال، شهادة عائلية، إلخ)..." style="width:100%; min-height:110px; padding:12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box; line-height:1.6; resize:vertical;"></textarea>
+        ${approvedListHtml}
+      </div>
+      
+      <!-- Comment Form (Collapsible on mobile) -->
+      <div id="commentFormWrapper" class="comment-form-collapsible-wrapper">
+        <div style="background:#ffffff; border:1.5px solid #0284c7; border-radius:14px; padding:18px; box-shadow:0 4px 15px rgba(2,132,199,0.06); text-align:right; margin-top:10px;">
+          <h4 style="margin:0 0 8px 0; font-size:16px; color:#0369a1; font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>✍️</span> <span>أضف شهادة، توثيقاً أو معلومات حول هذا الشخص</span>
+          </h4>
+          <p style="margin:0 0 14px 0; font-size:13px; color:#64748b; line-height:1.6;">
+            إذا كانت لديك أي معلومات موثقة أو صلة قرابة بهذا الشخص أو ظروف اختفائه، يرجى كتابتها هنا لمساعدة الباحثين والعائلات.
+          </p>
+          
+          <div id="commentFormError" style="display:none; background:#fee2e2; border:1px solid #f87171; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:bold; margin-bottom:14px;"></div>
+          <div id="commentFormSuccess" style="display:none; background:#dcfce7; border:1px solid #86efac; color:#166534; padding:12px 16px; border-radius:8px; font-size:13.5px; font-weight:bold; margin-bottom:14px;">
+            ✅ تم إرسال شهادتك بنجاح! سيتم فحصها والموافقة على نشرها من قبل الإدارة في أقرب وقت.
           </div>
           
-          <div class="comment-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <form onsubmit="window.submitComment(event)" style="display:flex; flex-direction:column; gap:14px;">
             <div>
-              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">اسمك الكامل: <span style="color:#ef4444;">*</span></label>
-              <input type="text" name="authorName" required placeholder="مثال: أحمد بن علي" style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">نص الشهادة أو التوثيق: <span style="color:#ef4444;">*</span></label>
+              <textarea name="commentText" required placeholder="اكتب هنا ما لديك من تفاصيل (تاريخ الاختفاء، مكان الاعتقال، شهادة عائلية، إلخ)..." style="width:100%; min-height:110px; padding:12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box; line-height:1.6; resize:vertical;"></textarea>
             </div>
-            <div>
-              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">البريد الإلكتروني (سري ولن ينشر للعموم): <span style="color:#ef4444;">*</span></label>
-              <input type="email" name="authorEmail" required placeholder="contact@example.com" style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+            
+            <div class="comment-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div>
+                <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">اسمك الكامل: <span style="color:#ef4444;">*</span></label>
+                <input type="text" name="authorName" required placeholder="مثال: أحمد بن علي" style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+              </div>
+              <div>
+                <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">البريد الإلكتروني (سري ولن ينشر للعموم): <span style="color:#ef4444;">*</span></label>
+                <input type="email" name="authorEmail" required placeholder="contact@example.com" style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+              </div>
             </div>
-          </div>
-          
-          <div class="comment-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <div>
-              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">صلتك بالشخص أو صفتك (اختياري):</label>
-              <input type="text" name="authorRelation" placeholder="مثال: ابن، حفيد، جار، باحث تاريخي..." style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+            
+            <div class="comment-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div>
+                <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">صلتك بالشخص أو صفتك (اختياري):</label>
+                <input type="text" name="authorRelation" placeholder="مثال: ابن، حفيد، جار، باحث تاريخي..." style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+              </div>
+              <div>
+                <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">المصدر أو المرجع (اختياري):</label>
+                <input type="text" name="authorSource" placeholder="مثال: أرشيف عائلي، شهادة شفهية..." style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+              </div>
             </div>
-            <div>
-              <label style="display:block; margin-bottom:6px; font-weight:700; font-size:13.5px; color:#334155;">المصدر أو المرجع (اختياري):</label>
-              <input type="text" name="authorSource" placeholder="مثال: أرشيف عائلي، شهادة شفهية..." style="width:100%; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:'Cairo', sans-serif; font-size:14px; box-sizing:border-box;">
+            
+            <div style="background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <span style="font-weight:700; font-size:13.5px; color:#334155;">سؤال الأمان: ما ناتج <span id="captchaQuestionText" style="color:#0284c7; font-weight:800; font-size:15px; direction:ltr; display:inline-block;">9</span> ؟ <span style="color:#ef4444;">*</span></span>
+              <input type="number" name="captchaInput" required placeholder="اكتب الناتج بالأرقام" style="width:130px; padding:7px 10px; border:1.5px solid #cbd5e1; border-radius:6px; font-family:'Cairo', sans-serif; font-size:14px;">
             </div>
-          </div>
-          
-          <div style="background:#f8fafc; padding:12px 16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-            <span style="font-weight:700; font-size:13.5px; color:#334155;">سؤال الأمان: ما ناتج <span id="captchaQuestionText" style="color:#0284c7; font-weight:800; font-size:15px; direction:ltr; display:inline-block;">9</span> ؟ <span style="color:#ef4444;">*</span></span>
-            <input type="number" name="captchaInput" required placeholder="اكتب الناتج بالأرقام" style="width:130px; padding:7px 10px; border:1.5px solid #cbd5e1; border-radius:6px; font-family:'Cairo', sans-serif; font-size:14px;">
-          </div>
-          
-          <button type="submit" style="background:#0284c7; color:#fff; border:none; padding:12px 20px; font-size:15px; font-weight:800; border-radius:8px; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(2,132,199,0.3); transition:0.2s;">
-            <span>📨</span> <span>إرسال الشهادة للمراجعة والاعتماد</span>
-          </button>
-        </form>
+            
+            <button type="submit" style="background:#0284c7; color:#fff; border:none; padding:12px 20px; font-size:15px; font-weight:800; border-radius:8px; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(2,132,199,0.3); transition:0.2s;">
+              <span>📨</span> <span>إرسال الشهادة للمراجعة والاعتماد</span>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   `;
+};
+
+window.toggleViewerComments = function() {
+  const el = document.getElementById('approvedCommentsWrapper');
+  const btn = document.getElementById('viewerCommentsToggleBtn');
+  if (!el) return;
+  const isHidden = window.getComputedStyle(el).display === 'none';
+  if (isHidden) {
+    el.style.display = 'block';
+    if (btn) btn.classList.add('active');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    el.style.display = 'none';
+    if (btn) btn.classList.remove('active');
+  }
+};
+
+window.toggleViewerCommentForm = function() {
+  const el = document.getElementById('commentFormWrapper');
+  const btn = document.getElementById('viewerWriteCommentBtn');
+  if (!el) return;
+  const isHidden = window.getComputedStyle(el).display === 'none';
+  if (isHidden) {
+    el.style.display = 'block';
+    if (btn) btn.classList.add('active');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const ta = el.querySelector('textarea[name="commentText"]');
+    if (ta) ta.focus();
+  } else {
+    el.style.display = 'none';
+    if (btn) btn.classList.remove('active');
+  }
+};
+
+window.selectCardWithComments = function(idx) {
+  window.selectCard(idx);
+  setTimeout(() => {
+    const el = document.getElementById('approvedCommentsWrapper');
+    const btn = document.getElementById('viewerCommentsToggleBtn');
+    if (el) {
+      el.style.display = 'block';
+      if (btn) btn.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 120);
+};
+
+window.selectCardWithWriteForm = function(idx) {
+  window.selectCard(idx);
+  setTimeout(() => {
+    const el = document.getElementById('commentFormWrapper');
+    const btn = document.getElementById('viewerWriteCommentBtn');
+    if (el) {
+      el.style.display = 'block';
+      if (btn) btn.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const ta = el.querySelector('textarea[name="commentText"]');
+      if (ta) ta.focus();
+    }
+  }, 120);
 };
 </script>
 
@@ -554,6 +632,111 @@ main {
   backdrop-filter: blur(6px);
 }
 
+/* Viewer Toolbar Action Buttons */
+.photo-viewer-toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+
+.viewer-btn-action {
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 7px 16px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+
+.btn-zoom-action {
+  background: #0f172a;
+  color: #ffffff;
+}
+.btn-zoom-action:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+
+.btn-comments-indicator {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+.btn-comments-indicator:hover, .btn-comments-indicator.active {
+  background: #fde68a;
+  border-color: #f59e0b;
+  color: #78350f;
+  transform: translateY(-1px);
+}
+
+.btn-write-comment {
+  background: #e0f2fe;
+  color: #0369a1;
+  border-color: #7dd3fc;
+}
+.btn-write-comment:hover, .btn-write-comment.active {
+  background: #bae6fd;
+  border-color: #0284c7;
+  color: #0c4a6e;
+  transform: translateY(-1px);
+}
+
+/* List Item Comment Badges & Action Buttons */
+.list-comment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  padding: 1px 7px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.list-comment-badge:hover {
+  background: #fde68a;
+  transform: scale(1.05);
+}
+
+.list-action-icon-btn {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #475569;
+}
+.list-action-icon-btn:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  transform: scale(1.08);
+}
+
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @media(max-width: 900px) {
   header { display: none !important; }
   .split-view {
@@ -562,7 +745,33 @@ main {
   }
   .viewer-pane {
     position: static;
+    min-height: auto !important;
     max-height: none;
+    overflow-y: visible;
+    padding: 14px 12px !important;
+  }
+  /* On mobile: Collapse comments and comment form by default */
+  .comments-collapsible-wrapper {
+    display: none;
+    margin-top: 14px;
+    animation: fadeInSlide 0.25s ease-out;
+  }
+  .comment-form-collapsible-wrapper {
+    display: none;
+    margin-top: 14px;
+    animation: fadeInSlide 0.25s ease-out;
+  }
+  .comments-separator {
+    display: none !important;
+  }
+  .photo-viewer-toolbar {
+    margin-top: 8px;
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+  .viewer-btn-action {
+    font-size: 12px;
+    padding: 6px 12px;
   }
 }
 </style>
@@ -678,7 +887,7 @@ let currentResults = [];
 
 function renderCardsList(list) {
   currentResults = list;
-  const approvedSet = window.getApprovedCommentNamesSet();
+  const approvedCommentsCountMap = window.getApprovedCommentsCountMap();
 
   if (list.length === 0) {
     cardsListContainer.innerHTML = `
@@ -692,16 +901,28 @@ function renderCardsList(list) {
 
   let html = '';
   list.forEach((item, idx) => {
-    const hasComment = approvedSet.has(String(item.personName || '').trim().toLowerCase());
-    const star = hasComment ? '<span style="color:#d97706; font-size:15px;" title="توجد شهادة معتمدة لهذا الشخص">⭐</span>' : '';
+    const commentCount = approvedCommentsCountMap.get(String(item.personName || '').trim().toLowerCase()) || 0;
+    const commentBadge = commentCount > 0 ? `
+      <span class="list-comment-badge" title="توجد ${commentCount} شهادة معتمدة" onclick="event.preventDefault(); event.stopPropagation(); window.selectCardWithComments(${idx});">
+        💬 ${commentCount}
+      </span>
+    ` : '';
+    const writeBtn = `
+      <button type="button" class="list-action-icon-btn" title="كتابة شهادة بخصوص ${esc(item.personName)}" onclick="event.preventDefault(); event.stopPropagation(); window.selectCardWithWriteForm(${idx});">
+        ✍️
+      </button>
+    `;
     const activeClass = (window.currentViewerCard && window.currentViewerCard.id === item.id) ? 'active' : '';
 
     html += `
       <div class="card-item-row ${activeClass}" onclick="window.selectCard(${idx})" id="cardItemRow_${idx}">
-        <div style="flex:1; min-width:0;">
-          <div style="font-weight:700; font-size:15px; color:#0f172a; display:flex; align-items:center; gap:6px;">
+        <div style="flex:1; min-width:0; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div style="font-weight:700; font-size:15px; color:#0f172a; display:flex; align-items:center; gap:6px; min-width:0;">
             <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(item.personName)}</span>
-            ${star}
+            ${commentBadge}
+          </div>
+          <div style="flex-shrink:0;">
+            ${writeBtn}
           </div>
         </div>
       </div>
@@ -720,61 +941,84 @@ window.selectCard = function(idx) {
   if (row) row.classList.add('active');
 
   window.renderCardViewer(card);
+  if (window.innerWidth <= 900) {
+    cardViewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 };
 
 window.renderCardViewer = function(card) {
   if (!card) return;
   window.currentViewerCard = card;
 
+  const approvedComments = window.getApprovedCommentsForPerson(card.personName);
+  const approvedCount = approvedComments.length;
   const commentsHtml = window.renderCommentsSectionHtml(card.personName);
 
   let imageHtml = '';
   if (card.cardImage) {
     imageHtml = `
-      <div style="text-align:center; margin-bottom:18px;">
+      <div style="text-align:center; margin-bottom:14px;">
         <img src="${card.cardImage}" alt="${esc(card.personName)}" onclick="window.openLightbox('${card.cardImage}')" style="max-width:100%; max-height:48vh; object-fit:contain; border-radius:10px; border:1px solid #e2e8f0; box-shadow:0 4px 15px rgba(0,0,0,0.08); cursor:zoom-in;" title="اضغط للتكبير">
-        <div style="margin-top:8px;">
-          <button type="button" onclick="window.openLightbox('${card.cardImage}')" style="background:#0f172a; color:#fff; border:none; padding:6px 16px; border-radius:6px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Cairo', sans-serif;">
-            👁️ تكبير البطاقة بالكامل
+        <div class="actions photo-viewer-toolbar">
+          <button type="button" onclick="window.openLightbox('${card.cardImage}')" class="viewer-btn-action btn-zoom-action" title="تكبير البطاقة بالكامل">
+            👁️ <span class="action-btn-text">تكبير البطاقة</span>
+          </button>
+          ${approvedCount > 0 ? `
+            <button type="button" onclick="window.toggleViewerComments()" class="viewer-btn-action btn-comments-indicator" id="viewerCommentsToggleBtn" title="عرض الشهادات والمعلومات (${approvedCount})">
+              💬 <span>${approvedCount} ${approvedCount === 1 ? 'تعليق' : 'تعليقات'}</span>
+            </button>
+          ` : ''}
+          <button type="button" onclick="window.toggleViewerCommentForm()" class="viewer-btn-action btn-write-comment" id="viewerWriteCommentBtn" title="كتابة شهادة أو تعليق">
+            ✍️ <span class="action-btn-text">كتابة تعليق</span>
           </button>
         </div>
       </div>
     `;
   } else {
     imageHtml = `
-      <div style="padding:25px; text-align:center; background:#f8fafc; border-radius:10px; border:1.5px dashed #cbd5e1; margin-bottom:18px; color:#64748b;">
+      <div style="padding:20px; text-align:center; background:#f8fafc; border-radius:10px; border:1.5px dashed #cbd5e1; margin-bottom:14px; color:#64748b;">
         <span style="font-size:36px; display:block; margin-bottom:6px;">📋</span>
         <strong>لا تتوفر صورة ممسوحة للبطاقة حالياً</strong>
-        <p style="margin:4px 0 0; font-size:12.5px;">الاسم مسجل في السجل التوثيقي، ويمكنك إرفاق شهادة أو معلومات حوله أدناه.</p>
+        <p style="margin:4px 0 10px; font-size:12.5px;">الاسم مسجل في السجل التوثيقي، ويمكنك إرفاق شهادة أو معلومات حوله أدناه.</p>
+        <div class="actions photo-viewer-toolbar">
+          ${approvedCount > 0 ? `
+            <button type="button" onclick="window.toggleViewerComments()" class="viewer-btn-action btn-comments-indicator" id="viewerCommentsToggleBtn" title="عرض الشهادات والمعلومات (${approvedCount})">
+              💬 <span>${approvedCount} ${approvedCount === 1 ? 'تعليق' : 'تعليقات'}</span>
+            </button>
+          ` : ''}
+          <button type="button" onclick="window.toggleViewerCommentForm()" class="viewer-btn-action btn-write-comment" id="viewerWriteCommentBtn" title="كتابة شهادة أو تعليق">
+            ✍️ <span class="action-btn-text">كتابة تعليق</span>
+          </button>
+        </div>
       </div>
     `;
   }
 
   cardViewer.innerHTML = `
     <div>
-      <div style="border-bottom:2px solid #f1f5f9; padding-bottom:14px; margin-bottom:16px;">
+      <div style="border-bottom:2px solid #f1f5f9; padding-bottom:12px; margin-bottom:14px;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
-          <h2 style="margin:0; font-size:22px; color:#0f172a; font-weight:800;">
+          <h2 style="margin:0; font-size:20px; color:#0f172a; font-weight:800;">
             ${esc(card.personName)}
           </h2>
-          <span style="background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; padding:4px 12px; border-radius:14px; font-size:12.5px; font-weight:bold;">
+          <span style="background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; padding:3px 10px; border-radius:14px; font-size:12px; font-weight:bold;">
             بطاقة استعلامات SLNA
           </span>
         </div>
-        ${card.disappearanceDate ? `<div style="font-size:13.5px; color:#b91c1c; font-weight:700; margin-top:6px;">📅 تاريخ الاختفاء / الاعتقال: ${esc(card.disappearanceDate)}</div>` : ''}
+        ${card.disappearanceDate ? `<div style="font-size:13px; color:#b91c1c; font-weight:700; margin-top:5px;">📅 تاريخ الاختفاء / الاعتقال: ${esc(card.disappearanceDate)}</div>` : ''}
       </div>
 
       ${imageHtml}
 
-      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; margin-bottom:18px;">
-        <h4 style="margin:0 0 6px; font-size:14.5px; color:#334155; font-weight:800;">📝 تفاصيل وسجل الاختفاء:</h4>
-        <p style="margin:0; font-size:14px; color:#1e293b; line-height:1.75; white-space:pre-line;">
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-bottom:14px;">
+        <h4 style="margin:0 0 6px; font-size:14px; color:#334155; font-weight:800;">📝 تفاصيل وسجل الاختفاء:</h4>
+        <p style="margin:0; font-size:13.5px; color:#1e293b; line-height:1.75; white-space:pre-line;">
           ${card.details ? formatTextWithLinks(card.details) : 'لا توجد تفاصيل إضافية مسجلة في هذا السجل حالياً.'}
         </p>
-        ${card.source ? `<div style="margin-top:10px; font-size:13px; color:#64748b;">المصدر: <strong style="color:#0f172a;">${formatTextWithLinks(card.source)}</strong></div>` : ''}
+        ${card.source ? `<div style="margin-top:8px; font-size:12.5px; color:#64748b;">المصدر: <strong style="color:#0f172a;">${formatTextWithLinks(card.source)}</strong></div>` : ''}
       </div>
 
-      <hr style="border:0; border-top:1px solid #e2e8f0; margin:18px 0;">
+      <hr class="comments-separator" style="border:0; border-top:1px solid #e2e8f0; margin:12px 0 16px 0;">
 
       ${commentsHtml}
     </div>

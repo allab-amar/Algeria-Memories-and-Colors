@@ -67,6 +67,18 @@ window.getApprovedCommentNamesSet = function() {
   return set;
 };
 
+window.getApprovedCommentsCountMap = function() {
+  const all = window.getAllComments ? window.getAllComments() : [];
+  const map = new Map();
+  all.forEach(c => {
+    if (c && c.status === 'approved' && c.photoName) {
+      const key = String(c.photoName).trim().toLowerCase();
+      map.set(key, (map.get(key) || 0) + 1);
+    }
+  });
+  return map;
+};
+
 window.refreshCaptcha = function() {
   const n1 = Math.floor(Math.random() * 5) + 3;
   const n2 = Math.floor(Math.random() * 5) + 1;
@@ -185,8 +197,8 @@ window.renderCommentsSectionHtml = function(personName) {
   let approvedListHtml = '';
   if (approved.length > 0) {
     approvedListHtml = approved.map(c => `
-      <div class="comment-item" style="display:flex; gap:14px; margin-bottom:18px; padding:15px; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.03); text-align:right;">
-        <div style="width:42px; height:42px; border-radius:8px; background:linear-gradient(135deg, #b91c1c, #7f1d1d); color:#fff; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; box-shadow:0 3px 8px rgba(185,28,28,0.25);" title="${esc(c.authorName)}">
+      <div class="comment-item" style="display:flex; gap:14px; margin-bottom:14px; padding:14px; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.03); text-align:right;">
+        <div style="width:40px; height:40px; border-radius:8px; background:linear-gradient(135deg, #b91c1c, #7f1d1d); color:#fff; display:flex; align-items:center; justify-content:center; font-size:19px; flex-shrink:0; box-shadow:0 3px 8px rgba(185,28,28,0.25);" title="${esc(c.authorName)}">
           📖
         </div>
         <div style="flex:1; min-width:0;">
@@ -208,7 +220,7 @@ window.renderCommentsSectionHtml = function(personName) {
     `).join('');
   } else {
     approvedListHtml = `
-      <div style="text-align:center; padding:18px; background:#f8fafc; border-radius:10px; border:1px dashed #cbd5e1; color:#64748b; font-size:13.5px; margin-bottom:18px;">
+      <div style="text-align:center; padding:16px; background:#f8fafc; border-radius:10px; border:1px dashed #cbd5e1; color:#64748b; font-size:13.5px; margin-bottom:14px;">
         لا توجد شهادات منشورة بعد لهذا الشخص. شاركنا بما تملكه من معلومات أو شهادات عبر النموذج أدناه.
       </div>
     `;
@@ -217,98 +229,133 @@ window.renderCommentsSectionHtml = function(personName) {
   return `
     <div id="commentsContainer" style="width:100%; text-align:right; direction:rtl; font-family:'Cairo', sans-serif;">
       
-      <!-- Comments Header -->
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #2a9d8f; padding-bottom:8px; margin-bottom:16px;">
-        <h3 style="margin:0; font-size:19px; font-weight:800; color:#0f172a; display:flex; align-items:center; gap:8px;">
-          <span>💬</span> <span>${headerText}</span>
-        </h3>
-        <span style="font-size:13px; color:#64748b; font-weight:600;" dir="ltr">${esc(personName)}</span>
-      </div>
-
       <!-- Pending submissions notice if any -->
       ${pendingNoticeHtml}
 
-      <!-- Approved comments -->
-      ${approvedListHtml}
-
-      <!-- Add Testimony Form Section -->
-      <div style="margin-top:24px; padding-top:18px; border-top:1.5px dashed #cbd5e1;">
-        <h4 style="margin:0 0 10px 0; font-size:16.5px; font-weight:800; color:#0f172a; display:flex; align-items:center; gap:6px;">
-          <span>✍️</span> أضف شهادتك أو رسالتك
-        </h4>
-
-        <!-- Historical Disclaimer Notice (Arabic Only) -->
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 16px; font-size:13px; color:#475569; line-height:1.8; margin-bottom:16px;">
-          <p style="margin:0 0 6px 0; font-weight:700; color:#1e293b;">
-            لن تُنشر أي رسالة أو شهادة إلا بعد مراجعتها والموافقة عليها .
-          </p>
-          <div style="font-size:12.5px; color:#059669; font-weight:700;">
-            ✓ شكراً لمساهمتكم
-          </div>
+      <!-- Approved comments section (Collapsible on mobile) -->
+      <div id="approvedCommentsWrapper" class="comments-collapsible-wrapper">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #2a9d8f; padding-bottom:8px; margin-bottom:14px;">
+          <h3 style="margin:0; font-size:17.5px; font-weight:800; color:#0f172a; display:flex; align-items:center; gap:8px;">
+            <span>💬</span> <span>${headerText}</span>
+          </h3>
+          <span style="font-size:13px; color:#64748b; font-weight:600;" dir="ltr">${esc(personName)}</span>
         </div>
 
-        <form id="commentForm" onsubmit="window.submitComment(event)" style="display:flex; flex-direction:column; gap:12px;">
-          <div>
-            <label style="display:block; font-size:13.5px; font-weight:700; color:#334155; margin-bottom:5px;">
-              نص الرسالة * :
-            </label>
-            <textarea name="commentText" required rows="4" placeholder="اكتب نص رسالتك أو شهادتك بخصوص ${esc(personName)}..." style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:10px 12px; font-family:inherit; font-size:13.5px; resize:vertical; background:#fff; box-sizing:border-box;"></textarea>
-          </div>
+        ${approvedListHtml}
+      </div>
 
-          <div class="comment-form-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-            <div>
-              <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
-                الاسم واللقب * :
-              </label>
-              <input type="text" name="authorName" required placeholder="مثال: أحمد بن علي" style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
-            </div>
-            <div>
-              <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
-                البريد الإلكتروني * (لن يُنشر):
-              </label>
-              <input type="email" name="authorEmail" required placeholder="contact@example.com" style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+      <!-- Add Testimony Form Section (Collapsible on mobile) -->
+      <div id="commentFormWrapper" class="comment-form-collapsible-wrapper">
+        <div style="padding-top:14px; border-top:1.5px dashed #cbd5e1; margin-top:10px;">
+          <h4 style="margin:0 0 10px 0; font-size:16px; font-weight:800; color:#0f172a; display:flex; align-items:center; gap:6px;">
+            <span>✍️</span> أضف شهادتك أو رسالتك
+          </h4>
+
+          <!-- Historical Disclaimer Notice (Arabic Only) -->
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; font-size:13px; color:#475569; line-height:1.7; margin-bottom:14px;">
+            <p style="margin:0 0 4px 0; font-weight:700; color:#1e293b;">
+              لن تُنشر أي رسالة أو شهادة إلا بعد مراجعتها والموافقة عليها .
+            </p>
+            <div style="font-size:12.5px; color:#059669; font-weight:700;">
+              ✓ شكراً لمساهمتكم
             </div>
           </div>
 
-          <div class="comment-form-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+          <form id="commentForm" onsubmit="window.submitComment(event)" style="display:flex; flex-direction:column; gap:12px;">
             <div>
-              <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
-                صفتك أو صلة القرابة (اختياري):
+              <label style="display:block; font-size:13.5px; font-weight:700; color:#334155; margin-bottom:5px;">
+                نص الرسالة * :
               </label>
-              <input type="text" name="authorRelation" placeholder="مثال: حفيد، ابن المعني، باحث..." style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+              <textarea name="commentText" required rows="4" placeholder="اكتب نص رسالتك أو شهادتك بخصوص ${esc(personName)}..." style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:10px 12px; font-family:inherit; font-size:13.5px; resize:vertical; background:#fff; box-sizing:border-box;"></textarea>
             </div>
+
+            <div class="comment-form-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+              <div>
+                <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
+                  الاسم واللقب * :
+                </label>
+                <input type="text" name="authorName" required placeholder="مثال: أحمد بن علي" style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+              </div>
+              <div>
+                <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
+                  البريد الإلكتروني * (لن يُنشر):
+                </label>
+                <input type="email" name="authorEmail" required placeholder="contact@example.com" style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+              </div>
+            </div>
+
+            <div class="comment-form-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+              <div>
+                <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
+                  صفتك أو صلة القرابة (اختياري):
+                </label>
+                <input type="text" name="authorRelation" placeholder="مثال: حفيد، ابن المعني، باحث..." style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+              </div>
+              <div>
+                <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
+                  المصدر أو المرجع (اختياري):
+                </label>
+                <input type="text" name="authorSource" placeholder="مثال: شهادة عائلية، وثيقة، كتاب..." style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+              </div>
+            </div>
+
+            <!-- Captcha / Security Question -->
+            <div style="background:#f1f5f9; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+              <label style="font-size:13px; font-weight:700; color:#334155; margin:0;">
+                سؤال الأمان: <span id="captchaQuestionText" style="color:#2563eb; font-weight:800; font-size:14.5px;">4 + 5</span> = ؟
+              </label>
+              <input type="number" name="captchaInput" required placeholder="النتيجة" style="width:90px; border:1.5px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:14px; text-align:center; background:#fff; box-sizing:border-box;">
+            </div>
+
+            <!-- Alerts -->
+            <div id="commentFormError" style="display:none; background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:700;"></div>
+            <div id="commentFormSuccess" style="display:none; background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:12px 16px; border-radius:8px; font-size:13.5px; font-weight:700; line-height:1.6;">
+              ✅ تم إرسال رسالتك بنجاح! شكراً لك. لن تظهر الرسالة للعموم إلا بعد مراجعتها والموافقة عليها من طرف الإدارة.
+            </div>
+
             <div>
-              <label style="display:block; font-size:13px; font-weight:700; color:#334155; margin-bottom:5px;">
-                المصدر أو المرجع (اختياري):
-              </label>
-              <input type="text" name="authorSource" placeholder="مثال: شهادة عائلية، وثيقة، كتاب..." style="width:100%; border:1.5px solid #cbd5e1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13.5px; background:#fff; box-sizing:border-box;">
+              <button type="submit" style="background:#2a9d8f; color:#ffffff; border:none; padding:10px 24px; font-size:14px; font-weight:800; border-radius:8px; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:8px; transition:0.2s; box-shadow:0 4px 12px rgba(42,157,143,0.35);">
+                <span>✉️</span> إرسال الرسالة
+              </button>
             </div>
-          </div>
-
-          <!-- Captcha / Security Question -->
-          <div style="background:#f1f5f9; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-            <label style="font-size:13px; font-weight:700; color:#334155; margin:0;">
-              سؤال الأمان: <span id="captchaQuestionText" style="color:#2563eb; font-weight:800; font-size:14.5px;">4 + 5</span> = ؟
-            </label>
-            <input type="number" name="captchaInput" required placeholder="النتيجة" style="width:90px; border:1.5px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:14px; text-align:center; background:#fff; box-sizing:border-box;">
-          </div>
-
-          <!-- Alerts -->
-          <div id="commentFormError" style="display:none; background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:700;"></div>
-          <div id="commentFormSuccess" style="display:none; background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:12px 16px; border-radius:8px; font-size:13.5px; font-weight:700; line-height:1.6;">
-            ✅ تم إرسال رسالتك بنجاح! شكراً لك. لن تظهر الرسالة للعموم إلا بعد مراجعتها والموافقة عليها من طرف الإدارة.
-          </div>
-
-          <div>
-            <button type="submit" style="background:#2a9d8f; color:#ffffff; border:none; padding:11px 26px; font-size:14.5px; font-weight:800; border-radius:8px; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:8px; transition:0.2s; box-shadow:0 4px 12px rgba(42,157,143,0.35);">
-              <span>✉️</span> إرسال الرسالة
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
     </div>
   `;
+};
+
+window.toggleViewerComments = function() {
+  const el = document.getElementById('approvedCommentsWrapper');
+  const btn = document.getElementById('viewerCommentsToggleBtn');
+  if (!el) return;
+  const isHidden = window.getComputedStyle(el).display === 'none';
+  if (isHidden) {
+    el.style.display = 'block';
+    if (btn) btn.classList.add('active');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    el.style.display = 'none';
+    if (btn) btn.classList.remove('active');
+  }
+};
+
+window.toggleViewerCommentForm = function() {
+  const el = document.getElementById('commentFormWrapper');
+  const btn = document.getElementById('viewerWriteCommentBtn');
+  if (!el) return;
+  const isHidden = window.getComputedStyle(el).display === 'none';
+  if (isHidden) {
+    el.style.display = 'block';
+    if (btn) btn.classList.add('active');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const ta = el.querySelector('textarea[name="commentText"]');
+    if (ta) ta.focus();
+  } else {
+    el.style.display = 'none';
+    if (btn) btn.classList.remove('active');
+  }
 };
 
 window.showInViewer = function(imgsStr, title, downloadName, startIndex = 0, personName = '') {
@@ -343,6 +390,42 @@ window.showPhotoFromSearch = function(index) {
     window.showInViewer(imgs.join('|||'), dispName, x.name, 0, x.name);
 };
 
+window.showPhotoWithComments = function(index, isAll = false) {
+    if (isAll) {
+      window.showPhotoFromAll(index);
+    } else {
+      window.showPhotoFromSearch(index);
+    }
+    setTimeout(() => {
+      const el = document.getElementById('approvedCommentsWrapper');
+      const btn = document.getElementById('viewerCommentsToggleBtn');
+      if (el) {
+        el.style.display = 'block';
+        if (btn) btn.classList.add('active');
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 120);
+};
+
+window.showPhotoWithWriteForm = function(index, isAll = false) {
+    if (isAll) {
+      window.showPhotoFromAll(index);
+    } else {
+      window.showPhotoFromSearch(index);
+    }
+    setTimeout(() => {
+      const el = document.getElementById('commentFormWrapper');
+      const btn = document.getElementById('viewerWriteCommentBtn');
+      if (el) {
+        el.style.display = 'block';
+        if (btn) btn.classList.add('active');
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const ta = el.querySelector('textarea[name="commentText"]');
+        if (ta) ta.focus();
+      }
+    }, 120);
+};
+
 window.currentAllPhotos = [];
 window.showPhotoFromAll = function(index) {
     const x = window.currentAllPhotos[index];
@@ -366,7 +449,7 @@ window.renderViewerPage = function() {
     let paginationHtml = '';
     if (imgs.length > 1) {
         paginationHtml = `
-          <div style="display:flex; justify-content:center; align-items:center; gap: 15px; margin-bottom: 20px;">
+          <div style="display:flex; justify-content:center; align-items:center; gap: 15px; margin-bottom: 14px;">
             <button onclick="window.nextPage()" title="الصفحة التالية" style="width:32px; height:32px; border-radius: 50%; border:none; background: #2563eb; color: white; cursor: pointer; font-size:12px; transition:0.3s; display:flex; align-items:center; justify-content:center; ${idx === imgs.length-1 ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${idx === imgs.length-1 ? 'disabled' : ''}>❮</button>
             <span style="font-weight:bold; font-size: 14px; color:#555; background:#f8f9fa; padding:4px 12px; border-radius:15px; border:1px solid #eee;">${idx+1} / ${imgs.length}</span>
             <button onclick="window.prevPage()" title="الصفحة السابقة" style="width:32px; height:32px; border-radius: 50%; border:none; background: #2563eb; color: white; cursor: pointer; font-size:12px; transition:0.3s; display:flex; align-items:center; justify-content:center; ${idx === 0 ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${idx === 0 ? 'disabled' : ''}>❯</button>
@@ -374,20 +457,32 @@ window.renderViewerPage = function() {
         `;
     }
     
+    const approvedComments = window.getApprovedCommentsForPerson(personName);
+    const approvedCount = approvedComments.length;
     const commentsHtml = window.renderCommentsSectionHtml(personName);
     
     let html = `
       <div style="width:100%; text-align:center;">
-        <img src="${esc(img)}" alt="${esc(title)}" loading="lazy" onclick="window.openLightboxCurrent()" style="max-width: 60%; max-height: 45vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 18px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة في نفس الصفحة">
+        <img src="${esc(img)}" alt="${esc(title)}" loading="lazy" onclick="window.openLightboxCurrent()" style="max-width: 65%; max-height: 44vh; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 12px; object-fit: contain; display: block; margin-left: auto; margin-right: auto; cursor: zoom-in;" title="اضغط لتكبير الصورة في نفس الصفحة">
         
         ${paginationHtml}
         
-        <div class="actions" style="display:flex; justify-content:center; gap:10px; margin-bottom: 14px;">
-          <button type="button" onclick="window.openLightboxCurrent()" class="download-btn" style="background:#1a1a1a; color:#fff; border:none; padding: 7px 18px; font-size: 13.5px; font-weight: 600; border-radius: 6px; flex: 0 1 auto; cursor:pointer; font-family:'Cairo', sans-serif; display:inline-flex; align-items:center; gap:6px;">👁️ تكبير الصورة</button>
+        <div class="actions photo-viewer-toolbar">
+          <button type="button" onclick="window.openLightboxCurrent()" class="viewer-btn-action btn-zoom-action" title="تكبير الصورة">
+            👁️ <span class="action-btn-text">تكبير الصورة</span>
+          </button>
+          ${approvedCount > 0 ? `
+            <button type="button" onclick="window.toggleViewerComments()" class="viewer-btn-action btn-comments-indicator" id="viewerCommentsToggleBtn" title="عرض التعليقات والشهادات (${approvedCount})">
+              💬 <span>${approvedCount} ${approvedCount === 1 ? 'تعليق' : 'تعليقات'}</span>
+            </button>
+          ` : ''}
+          <button type="button" onclick="window.toggleViewerCommentForm()" class="viewer-btn-action btn-write-comment" id="viewerWriteCommentBtn" title="كتابة تعليق أو شهادة">
+            ✍️ <span class="action-btn-text">كتابة تعليق</span>
+          </button>
         </div>
       </div>
       
-      <hr style="border:0; border-top:1px solid #e2e8f0; margin:14px 0 18px 0; width:100%;">
+      <hr class="comments-separator" style="border:0; border-top:1px solid #e2e8f0; margin:10px 0 14px 0; width:100%;">
       
       ${commentsHtml}
     `;
@@ -395,7 +490,7 @@ window.renderViewerPage = function() {
     viewer.style.overflowY = 'auto';
     viewer.style.justifyContent = 'flex-start';
     viewer.style.alignItems = 'stretch';
-    viewer.style.paddingTop = '16px';
+    viewer.style.paddingTop = '14px';
     viewer.style.textAlign = 'right';
     
     viewer.innerHTML = html;
@@ -586,6 +681,111 @@ header.mobile-hidden {
   display: none !important;
 }
 
+/* Viewer Toolbar Action Buttons */
+.photo-viewer-toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+
+.viewer-btn-action {
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 7px 16px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+
+.btn-zoom-action {
+  background: #0f172a;
+  color: #ffffff;
+}
+.btn-zoom-action:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+
+.btn-comments-indicator {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+.btn-comments-indicator:hover, .btn-comments-indicator.active {
+  background: #fde68a;
+  border-color: #f59e0b;
+  color: #78350f;
+  transform: translateY(-1px);
+}
+
+.btn-write-comment {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+.btn-write-comment:hover, .btn-write-comment.active {
+  background: #d1fae5;
+  border-color: #10b981;
+  color: #064e3b;
+  transform: translateY(-1px);
+}
+
+/* List Item Comment Badges & Action Buttons */
+.list-comment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  padding: 1px 7px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.list-comment-badge:hover {
+  background: #fde68a;
+  transform: scale(1.05);
+}
+
+.list-action-icon-btn {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #475569;
+}
+.list-action-icon-btn:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  transform: scale(1.08);
+}
+
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @media(max-width: 900px) {
   header.header-small { display: none !important; }
   .split-view { 
@@ -594,9 +794,33 @@ header.mobile-hidden {
     grid-template-areas: "header" "viewer" "list";
     gap: 10px;
   }
-  .viewer-pane { position: static; min-height: 400px; max-height: none; overflow-y: visible; padding: 15px 12px; }
+  .viewer-pane { position: static; min-height: auto !important; max-height: none; overflow-y: visible; padding: 12px 10px !important; }
   .list-pane { max-height: 60vh; }
   .list-header { position: relative; top: 0; padding: 12px 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; border-bottom: 2px solid #2563eb; background: #fff; }
+  
+  /* On mobile: Collapse comments and comment form by default to prioritize photo visibility */
+  .comments-collapsible-wrapper {
+    display: none;
+    margin-top: 14px;
+    animation: fadeInSlide 0.25s ease-out;
+  }
+  .comment-form-collapsible-wrapper {
+    display: none;
+    margin-top: 14px;
+    animation: fadeInSlide 0.25s ease-out;
+  }
+  .comments-separator {
+    display: none !important;
+  }
+  .photo-viewer-toolbar {
+    margin-top: 8px;
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+  .viewer-btn-action {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
 }
 
 @media(max-width:600px) {
@@ -906,15 +1130,24 @@ function render(){
   
   window.currentRenderedPhotos = matchedList.map(x => x.item);
   let hasShownPartialSeparator = false;
-  const approvedCommentNames = window.getApprovedCommentNamesSet();
+  const approvedCommentsCountMap = window.getApprovedCommentsCountMap();
 
   matchedList.forEach((entry, i) => {
     const x = entry.item;
     const isFull = entry.isFullMatch;
     const dispRaw = x.name + (x.arabic_name ? ' - ' + x.arabic_name : '');
     const highlightedName = highlightMatches(dispRaw, entry.matchedTokens);
-    const hasComment = approvedCommentNames.has(String(x.name || '').trim().toLowerCase());
-    const starMark = hasComment ? ` <span style="color:#d97706; font-weight:800; font-size:16px; margin-left:3px;" title="توجد رسالة أو شهادة مسجلة لهذا الشخص">*</span>` : '';
+    const commentCount = approvedCommentsCountMap.get(String(x.name || '').trim().toLowerCase()) || 0;
+    const commentBadge = commentCount > 0 ? `
+      <span class="list-comment-badge" title="توجد ${commentCount} تعليق/شهادة مسجلة" onclick="event.preventDefault(); event.stopPropagation(); window.showPhotoWithComments(${i}, false);">
+        💬 ${commentCount}
+      </span>
+    ` : '';
+    const writeBtn = `
+      <button type="button" class="list-action-icon-btn" title="كتابة تعليق أو شهادة بخصوص ${esc(x.name)}" onclick="event.preventDefault(); event.stopPropagation(); window.showPhotoWithWriteForm(${i}, false);">
+        ✍️
+      </button>
+    `;
 
     if (fullMatchesCount > 0 && !isFull && !hasShownPartialSeparator) {
       hasShownPartialSeparator = true;
@@ -946,13 +1179,17 @@ function render(){
 
     html += `
       <li style="${itemStyle}">
-        <a href="#" style="color:var(--ink); text-decoration:none; display:flex; justify-content:space-between; align-items:center; width:100%; font-size:14px;" 
-           onclick="event.preventDefault(); window.showPhotoFromSearch(${i});">
-          <span style="display:flex; align-items:center; gap:6px;">
-            <span style="font-weight: 600;" dir="ltr">${highlightedName}${starMark}</span>
-          </span>
-          ${badgeHtml}
-        </a>
+        <div style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:8px;">
+          <a href="#" style="color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:6px; flex:1; min-width:0; font-size:14px;" 
+             onclick="event.preventDefault(); window.showPhotoFromSearch(${i});">
+            <span style="font-weight: 600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" dir="ltr">${highlightedName}</span>
+            ${commentBadge}
+          </a>
+          <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+            ${badgeHtml}
+            ${writeBtn}
+          </div>
+        </div>
       </li>`;
   });
   
@@ -1009,18 +1246,33 @@ document.getElementById('showAllBtn').onclick = () => {
   
   let sortedArchive = [...ARCHIVE].sort((c, d) => (c.name || '').localeCompare(d.name || '', 'fr'));
   window.currentAllPhotos = sortedArchive;
-  const approvedCommentNames = window.getApprovedCommentNamesSet();
+  const approvedCommentsCountMap = window.getApprovedCommentsCountMap();
 
   sortedArchive.forEach((x, i) => {
     const dispName = esc(x.name) + (x.arabic_name ? ' - ' + esc(x.arabic_name) : '');
-    const hasComment = approvedCommentNames.has(String(x.name || '').trim().toLowerCase());
-    const starMark = hasComment ? ` <span style="color:#d97706; font-weight:800; font-size:16px; margin-left:3px;" title="توجد رسالة أو شهادة مسجلة لهذا الشخص">*</span>` : '';
+    const commentCount = approvedCommentsCountMap.get(String(x.name || '').trim().toLowerCase()) || 0;
+    const commentBadge = commentCount > 0 ? `
+      <span class="list-comment-badge" title="توجد ${commentCount} تعليق/شهادة مسجلة" onclick="event.preventDefault(); event.stopPropagation(); window.showPhotoWithComments(${i}, true);">
+        💬 ${commentCount}
+      </span>
+    ` : '';
+    const writeBtn = `
+      <button type="button" class="list-action-icon-btn" title="كتابة تعليق أو شهادة بخصوص ${esc(x.name)}" onclick="event.preventDefault(); event.stopPropagation(); window.showPhotoWithWriteForm(${i}, true);">
+        ✍️
+      </button>
+    `;
     html += `
-      <li style="border-bottom: 1px solid #f1f3f5; padding: 8px 0; transition: 0.2s;">
-        <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:block;" 
-           onclick="event.preventDefault(); window.showPhotoFromAll(${i});">
-          ${dispName}${starMark}
-        </a>
+      <li style="border-bottom: 1px solid #f1f3f5; padding: 7px 0; transition: 0.2s;">
+        <div style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:8px;">
+          <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:flex; align-items:center; gap:6px; flex:1; min-width:0;" 
+             onclick="event.preventDefault(); window.showPhotoFromAll(${i});">
+            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" dir="ltr">${dispName}</span>
+            ${commentBadge}
+          </a>
+          <div style="flex-shrink:0;">
+            ${writeBtn}
+          </div>
+        </div>
       </li>`;
   });
   
