@@ -51,14 +51,10 @@ window.COLORED_PHOTOS_ARCHIVE = [
     "id": "col_1789065213027",
     "title": "جامع سيدي بن علي",
     "image": "colored_images/col_1789065212954.jpg",
-    "year": "",
-    "place": "",
-    "dateAdded": "2026-09-10"
-  },
-  {
-    "id": "col_1789065229176",
-    "title": "جامع سيدي بن علي",
-    "image": "colored_images/col_1789065229035.jpg",
+    "images": [
+      "colored_images/col_1789065212954.jpg",
+      "colored_images/col_1789065229035.jpg"
+    ],
     "year": "",
     "place": "",
     "dateAdded": "2026-09-10"

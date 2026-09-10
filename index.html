@@ -346,6 +346,10 @@ main {
   background: linear-gradient(90deg, #0284c7, #06b6d4, #10b981);
 }
 
+.gateway-card.links-archive::before {
+  background: linear-gradient(90deg, #f59e0b, #ef4444, #f43f5e);
+}
+
 .gateway-card:hover {
   transform: translateY(-8px);
   border-color: rgba(255, 255, 255, 0.2);
@@ -365,6 +369,10 @@ main {
 
 .gateway-card.external-archive:hover {
   box-shadow: 0 22px 45px rgba(6, 182, 212, 0.25);
+}
+
+.gateway-card.links-archive:hover {
+  box-shadow: 0 22px 45px rgba(245, 158, 11, 0.25);
 }
 
 .card-icon-wrapper {
@@ -433,6 +441,15 @@ main {
   transform: scale(1.08);
 }
 
+.gateway-card.links-archive .card-icon-wrapper {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
+}
+.gateway-card.links-archive .card-icon {
+  font-size: 40px;
+}
+
 .gateway-card:hover .card-icon-wrapper {
   transform: scale(1.1) rotate(-3deg);
 }
@@ -494,6 +511,12 @@ main {
   border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
+.gateway-card.links-archive .card-badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
 /* Primary Action Buttons */
 .card-cta-btn {
   display: flex;
@@ -533,6 +556,11 @@ main {
   color: #ffffff;
 }
 
+.gateway-card.links-archive .card-cta-btn {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  color: #ffffff;
+}
+
 .gateway-card:hover .card-cta-btn {
   letter-spacing: 0.5px;
 }
@@ -551,6 +579,10 @@ main {
 
 .gateway-card.external-archive:hover .card-cta-btn {
   box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4);
+}
+
+.gateway-card.links-archive:hover .card-cta-btn {
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
 }
 
 /* Stats Counter Section */
@@ -589,6 +621,8 @@ main {
   font-size: 14px;
   color: var(--text-muted);
   font-weight: 600;
+}
+
 }
 
 /* Info Section */
@@ -889,6 +923,32 @@ footer strong {
         </div>
         <div class="card-cta-btn">
           <span>📋 البحث في البطاقات</span>
+          <span>❮</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 5: Important Links (روابط تهمكم) -->
+    <a href="links.html" class="gateway-card links-archive" id="linksCard" title="الانتقال إلى صفحة مراجع وروابط تهمكم">
+      <div>
+        <div class="card-icon-wrapper">
+          <span class="card-icon">📚</span>
+        </div>
+        <h3 class="card-title">
+          روابط تهمكم
+          <span style="font-size: 20px; color: #f59e0b;">➔</span>
+        </h3>
+        <p class="card-desc">
+          مجموعة من المنصات والصفحات والمراجع التوثيقية الهامة المخصصة لحفظ وتخليد ذاكرة الثورة التحريرية وتاريخ الجزائر.
+        </p>
+      </div>
+      <div>
+        <div class="card-badge">
+          <span>🔗</span>
+          <span>مراجع وروابط تاريخية</span>
+        </div>
+        <div class="card-cta-btn">
+          <span>📚 استعراض الروابط والمراجع</span>
           <span>❮</span>
         </div>
       </div>

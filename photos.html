@@ -244,8 +244,8 @@ window.renderCommentsSectionHtml = function(personName) {
         ${approvedListHtml}
       </div>
 
-      <!-- Add Testimony Form Section (Collapsible on mobile) -->
-      <div id="commentFormWrapper" class="comment-form-collapsible-wrapper">
+      <!-- Add Testimony Form Section (Collapsible) -->
+      <div id="commentFormWrapper" class="comment-form-collapsible-wrapper" style="display:none;">
         <div style="padding-top:14px; border-top:1.5px dashed #cbd5e1; margin-top:10px;">
           <h4 style="margin:0 0 10px 0; font-size:16px; font-weight:800; color:#0f172a; display:flex; align-items:center; gap:6px;">
             <span>✍️</span> أضف شهادتك أو رسالتك
@@ -786,6 +786,12 @@ header.mobile-hidden {
   to { opacity: 1; transform: translateY(0); }
 }
 
+.comment-form-collapsible-wrapper {
+  display: none;
+  margin-top: 14px;
+  animation: fadeInSlide 0.25s ease-out;
+}
+
 @media(max-width: 900px) {
   header.header-small { display: none !important; }
   .split-view { 
@@ -1137,17 +1143,7 @@ function render(){
     const isFull = entry.isFullMatch;
     const dispRaw = x.name + (x.arabic_name ? ' - ' + x.arabic_name : '');
     const highlightedName = highlightMatches(dispRaw, entry.matchedTokens);
-    const commentCount = approvedCommentsCountMap.get(String(x.name || '').trim().toLowerCase()) || 0;
-    const commentBadge = commentCount > 0 ? `
-      <span class="list-comment-badge" title="توجد ${commentCount} تعليق/شهادة مسجلة" onclick="event.preventDefault(); event.stopPropagation(); window.showPhotoWithComments(${i}, false);">
-        💬 ${commentCount}
-      </span>
-    ` : '';
-    const writeBtn = `
-      <button type="button" class="list-action-icon-btn" title="كتابة تعليق أو شهادة بخصوص ${esc(x.name)}" onclick="event.preventDefault(); event.stopPropagation(); window.showPhotoWithWriteForm(${i}, false);">
-        ✍️
-      </button>
-    `;
+
 
     if (fullMatchesCount > 0 && !isFull && !hasShownPartialSeparator) {
       hasShownPartialSeparator = true;
@@ -1183,11 +1179,9 @@ function render(){
           <a href="#" style="color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:6px; flex:1; min-width:0; font-size:14px;" 
              onclick="event.preventDefault(); window.showPhotoFromSearch(${i});">
             <span style="font-weight: 600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" dir="ltr">${highlightedName}</span>
-            ${commentBadge}
           </a>
           <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
             ${badgeHtml}
-            ${writeBtn}
           </div>
         </div>
       </li>`;
@@ -1250,28 +1244,13 @@ document.getElementById('showAllBtn').onclick = () => {
 
   sortedArchive.forEach((x, i) => {
     const dispName = esc(x.name) + (x.arabic_name ? ' - ' + esc(x.arabic_name) : '');
-    const commentCount = approvedCommentsCountMap.get(String(x.name || '').trim().toLowerCase()) || 0;
-    const commentBadge = commentCount > 0 ? `
-      <span class="list-comment-badge" title="توجد ${commentCount} تعليق/شهادة مسجلة" onclick="event.preventDefault(); event.stopPropagation(); window.showPhotoWithComments(${i}, true);">
-        💬 ${commentCount}
-      </span>
-    ` : '';
-    const writeBtn = `
-      <button type="button" class="list-action-icon-btn" title="كتابة تعليق أو شهادة بخصوص ${esc(x.name)}" onclick="event.preventDefault(); event.stopPropagation(); window.showPhotoWithWriteForm(${i}, true);">
-        ✍️
-      </button>
-    `;
     html += `
       <li style="border-bottom: 1px solid #f1f3f5; padding: 7px 0; transition: 0.2s;">
         <div style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:8px;">
           <a href="#" style="color:var(--ink); text-decoration:none; font-weight:600; font-size:14px; display:flex; align-items:center; gap:6px; flex:1; min-width:0;" 
              onclick="event.preventDefault(); window.showPhotoFromAll(${i});">
             <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" dir="ltr">${dispName}</span>
-            ${commentBadge}
           </a>
-          <div style="flex-shrink:0;">
-            ${writeBtn}
-          </div>
         </div>
       </li>`;
   });
