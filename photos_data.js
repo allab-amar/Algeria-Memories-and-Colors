@@ -6,6 +6,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "ABAINIA Lakhdare",
+    "image": "",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ABANE Abdelkader",
     "image": "images/img_1788605168161_1.jpg",
     "year": "",
@@ -596,12 +602,6 @@ const ARCHIVE = [
   {
     "name": "Allagui Kaddour",
     "image": "images/img_1788605174628_96.jpg",
-    "year": "",
-    "place": ""
-  },
-  {
-    "name": "ALLAL",
-    "image": "images/img_1788605174819_99.jpg",
     "year": "",
     "place": ""
   },
@@ -1826,6 +1826,12 @@ const ARCHIVE = [
   {
     "name": "ben   Mohamed",
     "image": "images/img_1788616776480_104.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BEN ABDELKRIM BOUAZIZ",
+    "image": "images/img_1789230558137_0.jpg",
     "year": "",
     "place": ""
   },
