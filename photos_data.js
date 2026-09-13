@@ -12,6 +12,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "ABAINIA Lakhdare",
+    "image": "",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ABANE Abdelkader",
     "image": "images/img_1788605168161_1.jpg",
     "year": "",
@@ -2473,6 +2479,12 @@ const ARCHIVE = [
   {
     "name": "BENMAIZA Mohamed",
     "image": "images/img_1788616783481_204.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BENMAIZA Mohamed",
+    "image": "",
     "year": "",
     "place": ""
   },
@@ -6102,9 +6114,75 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "GAA Aissa",
+    "image": "images/img_1789321096385_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "GACEM Ali",
     "image": "images/GACEM Ali.jpg",
     "keywords": "gacem ali"
+  },
+  {
+    "name": "GACEM Tayeb",
+    "image": "images/img_1789321096540_2.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GACHI Messaoud",
+    "image": "images/img_1789321096633_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GAHAL MHAMED",
+    "image": "images/img_1789321096725_4.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GALFOUT Abdelkader",
+    "image": "images/img_1789321096818_5.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GAOUAOUI  chérif",
+    "image": "images/img_1789321096910_6.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GAOUTIER CLAUDE",
+    "image": "images/img_1789321097007_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GATT Ferhat",
+    "image": "images/img_1789321097103_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHALMI Mohamed",
+    "image": "images/img_1789321097197_9.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHANEM Fatma",
+    "image": "images/img_1789321097292_10.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHARBI Hamel",
+    "image": "images/img_1789321097387_11.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "GHARBI Mohamed",
@@ -6112,13 +6190,151 @@ const ARCHIVE = [
     "keywords": "gharbi mohamed"
   },
   {
+    "name": "GHAZALI Mohamed",
+    "image": "images/img_1789321097485_13.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "GHEBBI Ali",
     "image": "images/GHEBBI Ali.jpg",
     "keywords": "ghebbi ali"
   },
   {
+    "name": "Ghellal Mahi",
+    "image": "images/img_1789321097575_15.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHEMMIT   Belkacen",
+    "image": "images/img_1789321097665_16.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHEMRI Mansour",
+    "image": "images/img_1789321097757_17.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHERBI Septi",
+    "image": "images/img_1789321097852_18.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHERIB SAID",
+    "image": "images/img_1789321097942_19.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHERNAGUT Boualem",
+    "image": "images/img_1789321098035_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHERUDLI Messaoud",
+    "image": "images/img_1789321098129_21.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHEZAILI  AMAR",
+    "image": "images/img_1789321098225_22.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHEZALI AbdelkadeR",
+    "image": "images/img_1789321098318_23.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHIAT Amar",
+    "image": "images/img_1789321098413_24.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHIMOUZ Ahmed",
+    "image": "images/img_1789321098511_25.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHLABI MOHAMED",
+    "image": "images/img_1789321098606_26.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHMRI  MANSOUR",
+    "image": "images/img_1789321098697_27.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHOBRINI MOHAMED",
+    "image": "images/img_1789321098790_28.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHOTI AHMED",
+    "image": "images/img_1789321098884_29.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHOUTI Abdelghani",
+    "image": "images/img_1789321098984_30.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHOZLANI  ATHMEN",
+    "image": "images/img_1789321099081_31.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHOZLANI Rachid",
+    "image": "images/img_1789321099177_32.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "GHRAIRIA Rabah",
-    "image": "images/img_1788530084948_8.jpg",
+    "image": "images/img_1789321099270_33.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GHROUD MohameD",
+    "image": "images/img_1789321099362_34.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GOUASMI Abdelkader",
+    "image": "images/img_1789321099457_35.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GOUASMI AHMED",
+    "image": "images/img_1789321099550_36.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GOUMRI Mohamod",
+    "image": "images/img_1789321099641_37.jpg",
     "year": "",
     "place": ""
   },
@@ -6128,14 +6344,194 @@ const ARCHIVE = [
     "keywords": "gousmi ali"
   },
   {
+    "name": "GOUTTA LAKHDAR",
+    "image": "images/img_1789321099735_39.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GOUTTA Lakhdar_1",
+    "image": "images/img_1789321099827_40.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GRAIRI snani",
+    "image": "images/img_1789321099921_41.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "GRINE Mohamed",
     "image": "images/GRINE Mohamed..jpg",
     "keywords": "grine mohamed"
   },
   {
+    "name": "GUARGAZI Guargazi",
+    "image": "images/img_1789321100015_43.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUDJET MOHAMED",
+    "image": "images/img_1789321100108_44.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUEBAILIA Abdelkader",
+    "image": "images/img_1789321100198_45.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUECHI Abdallah",
+    "image": "images/img_1789321100288_46.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUECHI Amar.",
+    "image": "images/img_1789321100374_47.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUECHI Larbi.",
+    "image": "images/img_1789321100480_48.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "GUECHI Mohamed",
     "image": "images/GUECHI Mohamed..jpg",
     "keywords": "guechi mohamed"
+  },
+  {
+    "name": "GUECRi  MOHAMED",
+    "image": "images/img_1789321100573_50.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUEDIRI Ahmed",
+    "image": "images/img_1789321100665_51.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUEDOUAR Hocine",
+    "image": "images/img_1789321100756_52.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUEFFAL Ahmed",
+    "image": "images/img_1789321100845_53.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUELLAL Chérif",
+    "image": "images/img_1789321100938_54.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUELLATI Mohamed",
+    "image": "images/img_1789321101026_55.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUEMER ABDELHAMID",
+    "image": "images/img_1789321101120_56.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUEMMOUD Saci",
+    "image": "images/img_1789321101215_57.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUENDOUZ said",
+    "image": "images/img_1789321101310_58.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUENIFI Abdallah",
+    "image": "images/img_1789321101401_59.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUERCHA  Mohammed",
+    "image": "images/img_1789321101493_60.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUERCUMENE  AHMED",
+    "image": "images/img_1789321101584_61.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUERMAT Mohamed",
+    "image": "images/img_1789321101673_62.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUERNINE Ahmed",
+    "image": "images/img_1789321101765_63.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUERRAICHE Hacène",
+    "image": "images/img_1789321101856_64.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUERROUMI   Abdelkader",
+    "image": "images/img_1789321101946_65.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUESSAB AHMED",
+    "image": "images/img_1789321102033_66.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUETTAF MOHAMED",
+    "image": "images/img_1789321102121_67.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUILANE Ammar",
+    "image": "images/img_1789321102214_68.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GUNIS  MOHAMED",
+    "image": "images/img_1789321102305_69.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "GURMOUCHE ABDESSEELEM",
+    "image": "images/img_1789321102397_70.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "GURRICHE RABAH",
