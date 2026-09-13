@@ -678,6 +678,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "alloui saad",
+    "image": "images/img_1789322620650_21.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ALouI Laid.",
     "image": "images/img_1788605175476_109.jpg",
     "year": "",
@@ -1538,6 +1544,12 @@ const ARCHIVE = [
   {
     "name": "BELALIA Khaled",
     "image": "images/img_1788616772546_53.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BELALMI  AHMED",
+    "image": "images/img_1789322619596_7.jpg",
     "year": "",
     "place": ""
   },
@@ -2822,6 +2834,12 @@ const ARCHIVE = [
   {
     "name": "BERARMA Said",
     "image": "images/img_1788616788221_255.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BERARMA SEGHIR",
+    "image": "images/img_1789322620374_16.jpg",
     "year": "",
     "place": ""
   },
@@ -4971,6 +4989,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "CHIBANE MOHAMED",
+    "image": "images/img_1789322619693_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "CHIBANI  Idir",
     "image": "images/img_1788640302368_70.jpg",
     "year": "",
@@ -6085,6 +6109,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "FRATHIA ABDALLAH",
+    "image": "images/img_1789322620278_15.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "FRATIL Mohamed",
     "image": "images/FRATIL Mohamed..jpg",
     "keywords": "fratil mohamed"
@@ -7095,6 +7125,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "HAMZA  MOHAMED",
+    "image": "images/img_1789322619108_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "HAMZA Ali",
     "image": "images/HAMZA Ali..jpg",
     "keywords": "hamza ali"
@@ -7180,6 +7216,12 @@ const ARCHIVE = [
   {
     "name": "HAOUCH Mahfoud",
     "image": "images/img_1788717988423_94.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "HAOUES  MOHAMED",
+    "image": "images/img_1789322619203_3.jpg",
     "year": "",
     "place": ""
   },
@@ -7537,6 +7579,12 @@ const ARCHIVE = [
     "name": "KADDOUR Mohamed",
     "image": "images/KADDOUR Mohamed..jpg",
     "keywords": "kaddour mohamed"
+  },
+  {
+    "name": "KADI",
+    "image": "images/img_1789322619888_10.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "KADRI Mohamed",
@@ -8212,6 +8260,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "LAISSOUI  MOHAMED",
+    "image": "images/img_1789322619499_6.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "LAKAKSA DjELLOUL",
     "image": "images/img_1788790783871_28.jpg",
     "year": "",
@@ -8532,6 +8586,12 @@ const ARCHIVE = [
     "keywords": "mahmoudi mohamed"
   },
   {
+    "name": "MAHROUZ SLIMANE",
+    "image": "images/img_1789322620086_12.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "MAIACRE Ali",
     "image": "images/MAIACRE Ali.jpg",
     "keywords": "maiacre ali"
@@ -8560,6 +8620,12 @@ const ARCHIVE = [
   {
     "name": "Marsali Abdelghani",
     "image": "images/img_1788708020770_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "MASMOUDI YAMINE",
+    "image": "images/img_1789322619792_9.jpg",
     "year": "",
     "place": ""
   },
@@ -8632,6 +8698,12 @@ const ARCHIVE = [
     "name": "MOHAMED",
     "image": "images/MOHAMED..jpg",
     "keywords": "mohamed"
+  },
+  {
+    "name": "MOHAMED",
+    "image": "images/img_1789322619402_5.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "Mohamed Ali",
@@ -8812,6 +8884,12 @@ const ARCHIVE = [
   {
     "name": "Nouri Lamri",
     "image": "images/img_1788888854313_25.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "OUADAH AHMED",
+    "image": "images/img_1789322619985_11.jpg",
     "year": "",
     "place": ""
   },
@@ -9297,9 +9375,21 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "saadi mohand",
+    "image": "images/img_1789322620838_23.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "SAADI Tahar",
     "image": "images/SAADI Tahar.jpg",
     "keywords": "saadi tahar"
+  },
+  {
+    "name": "SAADNA SAAD",
+    "image": "images/img_1789322620559_20.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "SAADOUN MOHAMED",
@@ -9315,6 +9405,12 @@ const ARCHIVE = [
   {
     "name": "SABET Amar",
     "image": "images/img_1788795242585_8.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "sabri mohamed",
+    "image": "images/img_1789322620741_22.jpg",
     "year": "",
     "place": ""
   },
@@ -10080,6 +10176,12 @@ const ARCHIVE = [
     "keywords": "tazir mohamed"
   },
   {
+    "name": "TEFFANI BEN AZOUZ",
+    "image": "images/img_1789322618888_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TEMMAR Rabah",
     "image": "images/img_1788530086565_28.jpg",
     "year": "",
@@ -10091,9 +10193,21 @@ const ARCHIVE = [
     "keywords": "terkmane mohamed"
   },
   {
+    "name": "TERRAS  ALI",
+    "image": "images/img_1789322619306_4.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TIBA ALI",
     "image": "images/TIBA ALI.jpg",
     "keywords": "tiba ali"
+  },
+  {
+    "name": "TIOUR TURQUI",
+    "image": "images/img_1789322620183_13.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "TiRROU Tahar",
@@ -10104,6 +10218,12 @@ const ARCHIVE = [
     "name": "TLEMCANI Ali",
     "image": "images/TLEMÇANI Ali.jpg",
     "keywords": "tlemçani ali",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUHAMI RAMDANE",
+    "image": "images/img_1789322620467_18.jpg",
     "year": "",
     "place": ""
   },
