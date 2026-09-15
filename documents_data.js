@@ -108,5 +108,83 @@ const DOCUMENTS_ARCHIVE = [
     ],
     "year": "",
     "place": ""
+  },
+  {
+    "document_title": "رابح بيطاط رحـــمـه الله",
+    "image": "documents_images/doc_1789326152203_0.jpg",
+    "images": [
+      "documents_images/doc_1789326152203_0.jpg",
+      "documents_images/doc_1789326152296_1.jpg"
+    ],
+    "names": [
+      "رابح بيطاط رحـــمـه الله"
+    ],
+    "pageNames": [
+      [],
+      []
+    ],
+    "year": "",
+    "place": ""
+  },
+  {
+    "document_title": "قائمة بأسماء قادة الثورة والكوادر السياسية المبحوث عنهم",
+    "image": "documents_images/doc_1789500210667_0.jpg",
+    "images": [
+      "documents_images/doc_1789500210667_0.jpg",
+      "documents_images/doc_1789500210805_1.jpg",
+      "documents_images/doc_1789500210897_2.jpg",
+      "documents_images/doc_1789500210990_3.jpg",
+      "documents_images/doc_1789500211083_4.jpg",
+      "documents_images/doc_1789500211175_5.jpg",
+      "documents_images/doc_1789500211266_6.jpg",
+      "documents_images/doc_1789500211356_7.jpg",
+      "documents_images/doc_1789500211451_8.jpg",
+      "documents_images/doc_1789500211547_9.jpg",
+      "documents_images/doc_1789500211646_10.jpg",
+      "documents_images/doc_1789500211743_11.jpg",
+      "documents_images/doc_1789500211836_12.jpg",
+      "documents_images/doc_1789500211929_13.jpg",
+      "documents_images/doc_1789500212024_14.jpg",
+      "documents_images/doc_1789500212117_15.jpg",
+      "documents_images/doc_1789500212211_16.jpg",
+      "documents_images/doc_1789500212307_17.jpg",
+      "documents_images/doc_1789500212404_18.jpg",
+      "documents_images/doc_1789500212498_19.jpg",
+      "documents_images/doc_1789500212592_20.jpg",
+      "documents_images/doc_1789500212687_21.jpg",
+      "documents_images/doc_1789500212785_22.jpg",
+      "documents_images/doc_1789500212884_23.jpg"
+    ],
+    "names": [
+      "قائمة بأسماء قادة الثورة والكوادر السياسية المبحوث عنهم"
+    ],
+    "pageNames": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "year": "جويلية 1956",
+    "place": "مقاطعة الجزائر"
   }
 ];
