@@ -594,6 +594,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "Ali Rabia",
+    "image": "images/img_1789501305006_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "ALI RACHEDI Mahmoud",
     "image": "images/img_1788605174489_94.jpg",
     "year": "",
@@ -1514,6 +1520,12 @@ const ARCHIVE = [
   {
     "name": "BELAID ben Mimoun",
     "image": "images/img_1788616772290_49.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BELAID Benyahia",
+    "image": "images/img_1789501353731_0.jpg",
     "year": "",
     "place": ""
   },
@@ -3256,6 +3268,12 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "BOUCHAREB   Abdellaziz",
+    "image": "images/img_1789501195121_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "BOUCHAREB Ammar",
     "image": "images/img_1788616792381_318.jpg",
     "year": "",
@@ -3476,6 +3494,12 @@ const ARCHIVE = [
   {
     "name": "BOUFELFEL  MAHMOUD",
     "image": "images/img_1788616794473_350.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "BOUFETAH Arezki",
+    "image": "images/img_1789501235635_0.jpg",
     "year": "",
     "place": ""
   },
