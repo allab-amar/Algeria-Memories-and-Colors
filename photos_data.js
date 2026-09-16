@@ -3086,7 +3086,7 @@ const ARCHIVE = [
   },
   {
     "name": "BOUADILA Tlidjanee",
-    "image": "images/img_1788616790533_290.jpg",
+    "image": "images/img_1789580820620_68.jpg",
     "year": "",
     "place": ""
   },
@@ -7221,7 +7221,7 @@ const ARCHIVE = [
   },
   {
     "name": "HAOUACHA said.",
-    "image": "images/img_1788717988227_91.jpg",
+    "image": "images/img_1789580819144_44.jpg",
     "year": "",
     "place": ""
   },
@@ -10120,7 +10120,7 @@ const ARCHIVE = [
   },
   {
     "name": "RABAH",
-    "image": "images/img_1788530085961_21.jpg",
+    "image": "images/img_1789580818796_36.jpg",
     "year": "",
     "place": ""
   },
@@ -11324,14 +11324,56 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "TABERKOKT Djelloul",
+    "image": "images/img_1789580816303_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TABET Mahmoud",
+    "image": "images/img_1789580816805_1.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TABET Mohamed",
     "image": "images/TABET Mohamed..jpg",
     "keywords": "tabet mohamed"
   },
   {
+    "name": "TABET SACI",
+    "image": "images/img_1789580816880_3.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TABOUCHE Salah",
+    "image": "images/img_1789580816951_4.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TADJINE Mohamed",
     "image": "images/TADJINE Mohamed. -.jpg",
     "keywords": "tadjine mohamed"
+  },
+  {
+    "name": "TADJINE SALAH",
+    "image": "images/img_1789580817019_6.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TAFER BACHIR",
+    "image": "images/img_1789580817089_7.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TAFHA  Tayeb",
+    "image": "images/img_1789580817159_8.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "TAGUELMIMET AHMED",
@@ -11345,19 +11387,79 @@ const ARCHIVE = [
     "keywords": "tahar ben djillali"
   },
   {
+    "name": "TAHEUR  BOUDJAMA",
+    "image": "images/img_1789580817230_11.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TAHRI Hadj",
+    "image": "images/img_1789580817301_12.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TAIBI ABDELAZIZE",
+    "image": "images/img_1789580817372_13.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TAIF Ahmed",
+    "image": "images/img_1789580817444_14.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TAKBOU Ali",
     "image": "images/TAKBOU Ali.jpg",
     "keywords": "takbou ali"
   },
   {
+    "name": "TAKOUK   MOHAMED",
+    "image": "images/img_1789580817518_16.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TAKOUK liocine",
+    "image": "images/img_1789580817593_17.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TALAH Mabrouk",
+    "image": "images/img_1789580817664_18.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TALHA Ali",
-    "image": "images/TALHA Ali..jpg",
+    "image": "images/img_1789580817735_19.jpg",
     "keywords": "talha ali"
   },
   {
+    "name": "TALIA BOUDALI",
+    "image": "images/img_1789580817804_20.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TALMAT Mohamed",
-    "image": "images/TALMAT Mohamed..jpg",
+    "image": "images/img_1789580817874_21.jpg",
     "keywords": "talmat mohamed"
+  },
+  {
+    "name": "TAMERIOUT  HOUCINE",
+    "image": "images/img_1789580817945_22.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TAREB  Khélifa",
+    "image": "images/img_1789580818018_23.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "TAZELMATI Ali",
@@ -11365,9 +11467,45 @@ const ARCHIVE = [
     "keywords": "tazelmati ali"
   },
   {
+    "name": "TAZEROUTI  BOUALEM",
+    "image": "images/img_1789580818090_25.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TAZIR Mohamed",
-    "image": "images/TAZIR Mohamed..jpg",
+    "image": "images/img_1789580818161_26.jpg",
     "keywords": "tazir mohamed"
+  },
+  {
+    "name": "TEBESSI Said",
+    "image": "images/img_1789580818231_27.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TEBIB KHALIFA",
+    "image": "images/img_1789580818301_28.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TEFAHI EIAID",
+    "image": "images/img_1789580818372_29.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TEFAHI KADDA",
+    "image": "images/img_1789580818441_30.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TEFFAHI AISSA",
+    "image": "images/img_1789580818512_31.jpg",
+    "year": "",
+    "place": ""
   },
   {
     "name": "TEFFANI BEN AZOUZ",
@@ -11376,8 +11514,32 @@ const ARCHIVE = [
     "place": ""
   },
   {
+    "name": "TEKFA Mammar",
+    "image": "images/img_1789580818583_33.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TELAIDJIA Brahim",
+    "image": "images/img_1789580818656_34.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TELBA  Mohamed",
+    "image": "images/img_1789580818726_35.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TEMMAR Rabah",
-    "image": "images/img_1788530086565_28.jpg",
+    "image": "images/img_1789580818862_37.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TENAZET Abdelkader",
+    "image": "images/img_1789580818937_38.jpg",
     "year": "",
     "place": ""
   },
@@ -11388,7 +11550,13 @@ const ARCHIVE = [
   },
   {
     "name": "TERRAS  ALI",
-    "image": "images/img_1789322619306_4.jpg",
+    "image": "images/img_1789580819006_41.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TERRRA HOUCINE",
+    "image": "images/img_1789580819075_42.jpg",
     "year": "",
     "place": ""
   },
@@ -11398,8 +11566,20 @@ const ARCHIVE = [
     "keywords": "tiba ali"
   },
   {
+    "name": "TINKELINE Ahmed",
+    "image": "images/img_1789580819214_45.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TIOUR TURQUI",
     "image": "images/img_1789322620183_13.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TIOUR Turquie",
+    "image": "images/img_1789580819288_47.jpg",
     "year": "",
     "place": ""
   },
@@ -11409,15 +11589,117 @@ const ARCHIVE = [
     "keywords": "tirrou tahar"
   },
   {
+    "name": "TISSERNI Mohamed",
+    "image": "images/img_1789580819357_49.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TIZDAGH Amar",
+    "image": "images/img_1789580819427_50.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TLEMCANI Ali",
-    "image": "images/TLEMÇANI Ali.jpg",
+    "image": "images/img_1789580819497_51.jpg",
     "keywords": "tlemçani ali",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOBBA Abdelhamid",
+    "image": "images/img_1789580819567_52.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOBBA Mekki",
+    "image": "images/img_1789580819637_53.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOBBAL ABDELHAFID",
+    "image": "images/img_1789580819705_54.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOLBA houcine",
+    "image": "images/img_1789580819777_55.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOLBA MOHAMED",
+    "image": "images/img_1789580819848_56.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUAHRIA Hoses",
+    "image": "images/img_1789580819918_57.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUAL Lakdar",
+    "image": "images/img_1789580819990_58.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUAREF NOUAR",
+    "image": "images/img_1789580820060_59.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUAREG Mohamed",
+    "image": "images/img_1789580820130_60.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUAZZi  Mohamed",
+    "image": "images/img_1789580820198_61.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUBAL  Saleh",
+    "image": "images/img_1789580820266_62.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUBAL Chérif",
+    "image": "images/img_1789580820336_63.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUHAMI ABDELLAH",
+    "image": "images/img_1789580820409_64.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUHAMI AMar",
+    "image": "images/img_1789580820480_65.jpg",
     "year": "",
     "place": ""
   },
   {
     "name": "TOUHAMI RAMDANE",
     "image": "images/img_1789322620467_18.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUHARIA Amor",
+    "image": "images/img_1789580820550_67.jpg",
     "year": "",
     "place": ""
   },
@@ -11433,8 +11715,56 @@ const ARCHIVE = [
     "keywords": "touleb ali"
   },
   {
+    "name": "TOUMI    ABDALLAH",
+    "image": "images/img_1789580820690_70.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUMI Abbes",
+    "image": "images/img_1789580820758_71.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOUMI ABDLLAH",
+    "image": "images/img_1789580820827_72.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
     "name": "TOUMI Mahieddine",
     "image": "images/img_1788708920564_0.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "Touzi El-Hadj",
+    "image": "images/img_1789580820899_73.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TOWAREF Caib",
+    "image": "images/img_1789580820967_74.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TRAOUDI Guemre",
+    "image": "images/img_1789580821039_75.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TREA Amara",
+    "image": "images/img_1789580821109_76.jpg",
+    "year": "",
+    "place": ""
+  },
+  {
+    "name": "TRIA LAKHDAR",
+    "image": "images/img_1789580821178_77.jpg",
     "year": "",
     "place": ""
   },
